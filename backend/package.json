@@ -1,0 +1,20 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend for film-app",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon src/index.js",
+    "build": "node src/index.js"
+  },
+  "author": "shofyan",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "latest"
+  },
+  "dependencies": {
+    "express": "latest",
+    "cors": "latest",
+    "dotenv": "latest"
+  }
+}
