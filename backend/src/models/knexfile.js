@@ -4,18 +4,17 @@
  * @type { Object.<string, import("knex").Knex.Config> }
  */
 module.exports = {
-
   development: {
-    client: 'mysql2',
+    client: "mysql2",
     connection: {
-      host : '127.0.0.1',
-      port : 3306,
-      user : 'root',
-      password : '',
-      database : 'film_app'
+      host: "127.0.0.1",
+      port: 3306,
+      user: "root",
+      password: "",
+      database: "film_app",
     },
-    migrations : {
-      tableName : 'film-app-migrations'
+    migrations: {
+      tableName: "film_app_migrations",
     },
   },
 
@@ -50,5 +49,4 @@ module.exports = {
   //     tableName: 'knex_migrations'
   //   }
   // }
-
 };
