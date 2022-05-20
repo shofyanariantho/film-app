@@ -6,7 +6,7 @@ exports.up = function (knex) {
   return knex.schema.createTable("genres", (table) => {
     table.increments("id").primary();
     table.string("genre_name", 255);
-    table.timestamps();
+    table.timestamps(true, true);
   });
 };
 

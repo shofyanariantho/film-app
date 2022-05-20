@@ -11,7 +11,7 @@ exports.up = function (knex) {
     table.integer("actor_id").unsigned().references("id").inTable("actors");
     table.integer("review_id").unsigned().references("id").inTable("reviews");
     table.integer("genre_id").unsigned().references("id").inTable("genres");
-    table.timestamps();
+    table.timestamps(true, true);
   });
 };
 

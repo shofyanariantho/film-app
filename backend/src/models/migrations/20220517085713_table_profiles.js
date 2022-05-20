@@ -7,7 +7,7 @@ exports.up = function (knex) {
     table.increments("profile_id").primary();
     table.integer("mobile");
     table.integer("user_id").unsigned().references("id").inTable("users");
-    table.timestamps();
+    table.timestamps(true, true);
   });
 };
 

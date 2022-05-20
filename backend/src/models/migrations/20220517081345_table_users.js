@@ -8,7 +8,7 @@ exports.up = function (knex) {
     table.string("user_name", 255);
     table.string("user_email", 50);
     table.string("user_password", 8);
-    table.timestamps();
+    table.timestamps(true, true);
   });
 };
 

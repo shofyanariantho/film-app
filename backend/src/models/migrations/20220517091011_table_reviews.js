@@ -7,7 +7,7 @@ exports.up = function (knex) {
     table.increments("id").primary();
     table.string("comment");
     table.integer("user_id").unsigned().references("id").inTable("users");
-    table.timestamps();
+    table.timestamps(true, true);
   });
 };
 
