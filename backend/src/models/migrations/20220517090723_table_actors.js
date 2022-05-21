@@ -5,7 +5,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable("actors", (table) => {
     table.increments("id").primary();
-    table.string("actor_name", 255);
+    table.string("actor_name", 255).notNullable();
     table.timestamps(true, true);
   });
 };

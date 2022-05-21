@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.post(
   "/",
-  actorController.validate("createActor"),
+  actorController.validate("createActor"), // validator
   actorController.create
 );
 

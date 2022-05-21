@@ -1,4 +1,5 @@
 // Update with your config settings.
+const { knexSnakeCaseMappers } = require("objection");
 
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
@@ -16,6 +17,7 @@ module.exports = {
     migrations: {
       tableName: "film_app_migrations",
     },
+    ...knexSnakeCaseMappers(),
   },
 
   // staging: {
