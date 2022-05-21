@@ -1,20 +1,32 @@
-const knex = require('../models/knex')
+const setuDb = require('../models/knex')
+const { body } = require("express-validator");
+const { validationResult } = require("express-validator");
+const Genre = require("../models/genreModel")
+
+setuDb();
+
+exports.validate = (method) => {
+    switch (method) {
+        case "createGenre": {
+            return [body('genre_name').notEmpty()]
+        }
+    }
+}
 
 exports.create = async(req, res) => {
     try {
-        const {genre_name} = req.body
+        const errors = validationResult(req)
         
-        if (genre_name == "") {
-            return res.status(400).send({
-                message: 'Tidak boleh kosong'
-            })
+        if (!errors.isEmpty()) {
+            res.status(422).json({ errors: errors.array() });
+            return;
         }
 
-        let insertData = await knex('genres').insert({
+        const { genre_name } = req.body;
+
+        let insertData = await Genre.query().insert({
             genre_name: genre_name,
-        }).then(insertedId =>{
-            return insertedId
-        })
+        });
 
         return res.status(201).send({
             message: 'Data berhasil disimpan',

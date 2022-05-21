@@ -13,6 +13,7 @@ const actorRouter = require("./routes/actorRouter");
 const reviewRouter = require("./routes/reviewRouter");
 const profileRouter = require("./routes/profileRouter");
 const filmRouter = require("./routes/filmRouter");
+const directorRouter = require("./routes/directorRouter");
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use("/actor", actorRouter);
 app.use("/review", reviewRouter);
 app.use("/profile", profileRouter);
 app.use("/film", filmRouter);
+app.use("/director", directorRouter);
 
 app.listen(port, () => {
   console.log("Server Running");

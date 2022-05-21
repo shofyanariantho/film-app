@@ -8,7 +8,7 @@ setupDb(); // run function setuDb
 exports.validate = (method) => {
   switch (method) {
     case "createActor": {
-      return [body("actor_name").notEmpty()];
+      return [body("actor_name", "actor_image").notEmpty()];
     }
   }
 };
@@ -22,10 +22,11 @@ exports.create = async (req, res) => {
       return;
     }
 
-    const { actor_name } = req.body;
+    const { actor_name, actor_image } = req.body;
 
     let insertData = await Actor.query().insert({
       actor_name: actor_name,
+      actor_image: actor_image
     });
 
     return res.status(201).json({
