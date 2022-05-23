@@ -66,11 +66,11 @@ exports.index = async (req, res) => {
 exports.show = async (req, res) => {
   try {
     let id = req.params.id;
-
     const actor = await Actor.query().findById(id);
 
     if (!actor) {
-      res.status(404).json({ message: "Data tidak tersedia!" });
+      res.status(404).send({ status: false, message: "Data tidak tersedia!" });
+      return;
     }
 
     return res.status(200).json({
