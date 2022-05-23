@@ -7,7 +7,8 @@
     "start": "nodemon src/index.js",
     "build": "node src/index.js",
     "migrate": "knex migrate:latest --knexfile ./src/models/knexfile.js",
-    "migrate:down": "knex migrate:down --knexfile ./src/models/knexfile.js"
+    "migrate:down": "knex migrate:down --knexfile ./src/models/knexfile.js",
+    "migrate:rollback": "knex migrate:rollback --knexfile ./src/models/knexfile.js"
   },
   "author": "shofyan",
   "license": "MIT",

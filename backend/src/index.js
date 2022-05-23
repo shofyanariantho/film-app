@@ -9,7 +9,10 @@ require("dotenv").config();
 const router = require("./routes/router");
 const userRouter = require("./routes/userRouter");
 const genreRouter = require("./routes/genreRouter");
+
+//Actor
 const actorRouter = require("./routes/actorRouter");
+
 const reviewRouter = require("./routes/reviewRouter");
 const profileRouter = require("./routes/profileRouter");
 const filmRouter = require("./routes/filmRouter");

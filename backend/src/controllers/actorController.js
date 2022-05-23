@@ -5,14 +5,18 @@ const Actor = require("../models/actor"); // model
 
 setupDb(); // run function setuDb
 
+// Validator
 exports.validate = (method) => {
   switch (method) {
     case "createActor": {
-      return [body("actor_name", "actor_image").notEmpty()];
+      return [
+        body("actor_name").notEmpty(), // validate name
+      ];
     }
   }
 };
 
+// Create
 exports.create = async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -26,7 +30,7 @@ exports.create = async (req, res) => {
 
     let insertData = await Actor.query().insert({
       actor_name: actor_name,
-      actor_image: actor_image
+      actor_image: actor_image,
     });
 
     return res.status(201).json({
@@ -37,7 +41,47 @@ exports.create = async (req, res) => {
     res.status(500).send({
       code: 500,
       status: false,
-      message: "error!",
+      message: "connection error!",
+    });
+  }
+};
+
+// Read
+exports.index = async (req, res) => {
+  try {
+    let dataActor = await Actor.query();
+
+    return res.status(200).json({
+      data: dataActor,
+    });
+  } catch (error) {
+    res.status(500).send({
+      code: 500,
+      status: false,
+      message: "connection error!",
+    });
+  }
+};
+
+exports.show = async (req, res) => {
+  try {
+    let id = req.params.id;
+
+    const actor = await Actor.query().findById(id);
+
+    if (!actor) {
+      res.status(404).json({ message: "Data tidak tersedia!" });
+    }
+
+    return res.status(200).json({
+      message: "Data Actor tersedia!",
+      data: actor,
+    });
+  } catch (error) {
+    res.status(500).send({
+      code: 500,
+      status: false,
+      message: "connection error!",
     });
   }
 };
