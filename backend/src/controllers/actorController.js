@@ -1,5 +1,5 @@
 const setupDb = require("../models/knex"); // setupDb
-const { body } = require("express-validator"); // body validator
+const { body, param } = require("express-validator"); // body validator
 const { validationResult } = require("express-validator"); // result validation
 const Actor = require("../models/actor"); // model
 
@@ -10,6 +10,12 @@ exports.validate = (method) => {
   switch (method) {
     case "createActor": {
       return [
+        body("actor_name").notEmpty(), // validate name
+      ];
+    }
+    case "updateActor": {
+      return [
+        param("id").notEmpty(),
         body("actor_name").notEmpty(), // validate name
       ];
     }
@@ -26,11 +32,10 @@ exports.create = async (req, res) => {
       return;
     }
 
-    const { actor_name, actor_image } = req.body;
+    let { actor_name } = req.body;
 
-    let insertData = await Actor.query().insert({
+    const insertData = await Actor.query().insert({
       actor_name: actor_name,
-      actor_image: actor_image,
     });
 
     return res.status(201).json({
@@ -49,7 +54,7 @@ exports.create = async (req, res) => {
 // Read
 exports.index = async (req, res) => {
   try {
-    let dataActor = await Actor.query();
+    const dataActor = await Actor.query();
 
     return res.status(200).json({
       data: dataActor,
@@ -63,18 +68,75 @@ exports.index = async (req, res) => {
   }
 };
 
+// Show
 exports.show = async (req, res) => {
   try {
     let id = req.params.id;
+
     const actor = await Actor.query().findById(id);
 
     if (!actor) {
-      res.status(404).send({ status: false, message: "Data tidak tersedia!" });
+      res.status(200).send({ status: false, message: "Data tidak tersedia!" });
       return;
     }
 
     return res.status(200).json({
-      message: "Data Actor tersedia!",
+      message: "success",
+      data: actor,
+    });
+  } catch (error) {
+    res.status(500).send({
+      code: 500,
+      status: false,
+      message: "connection error!",
+    });
+  }
+};
+
+// Update
+exports.update = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(422).json({ errors: errors.array() });
+      return;
+    }
+
+    let id = req.params.id;
+    let { actor_name } = req.body;
+
+    const actor = await Actor.query().patchAndFetchById(id, {
+      actor_name: actor_name,
+    });
+
+    if (!actor) {
+      res.status(200).json({ status: false, message: "Data tidak tersedia!" });
+      return;
+    }
+
+    return res.status(200).json({
+      message: "Data diperbarui!",
+      data: actor,
+    });
+  } catch (error) {
+    res.status(500).send({
+      code: 500,
+      status: false,
+      message: "connection error!",
+    });
+  }
+};
+
+// Delete
+exports.destroy = async (req, res) => {
+  try {
+    let id = req.params.id;
+
+    const actor = await Actor.query().deleteById(id);
+
+    return res.status(200).json({
+      message: "Data berhasil dihapus!",
       data: actor,
     });
   } catch (error) {
