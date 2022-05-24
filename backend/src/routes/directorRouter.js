@@ -8,4 +8,15 @@ router.post(
     directorController.create
 );
 
+router.get("/director", directorController.index);
+router.get("/show/:id", directorController.show);
+
+router.put(
+    "/update/:id",
+    directorController.validate("updateDirector"),
+    directorController.update
+);
+
+router.delete("/delete/:id", directorController.destroy);
+
 module.exports = router;

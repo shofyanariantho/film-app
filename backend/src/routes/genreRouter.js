@@ -8,4 +8,15 @@ router.post(
     genreController.create
 );
 
+router.get("/genre", genreController.index);
+router.get("/show/:id", genreController.show);
+
+router.put(
+    "/update/:id",
+    genreController.validate("updateGenre"),
+    genreController.update
+);
+
+router.delete("/delete/:id", genreController.destroy);
+
 module.exports = router
