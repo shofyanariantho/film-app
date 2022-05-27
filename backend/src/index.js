@@ -1,18 +1,13 @@
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 const port = process.env.PORT || 3000;
+const fileUpload = require("express-fileupload");
 
-require("express-validator");
 require("dotenv").config();
 
-const router = require("./routes/router");
 const userRouter = require("./routes/userRouter");
 const genreRouter = require("./routes/genreRouter");
-
-//Actor
 const actorRouter = require("./routes/actorRouter");
-
 const reviewRouter = require("./routes/reviewRouter");
 const profileRouter = require("./routes/profileRouter");
 const filmRouter = require("./routes/filmRouter");
@@ -20,14 +15,13 @@ const directorRouter = require("./routes/directorRouter");
 
 const app = express();
 
-app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
-app.use(bodyParser.json());
-// app.use(expressValidator());
-
 app.use(cors({ origin: true, credentials: true }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(fileUpload());
 
-app.use("/", router);
+app.use("/images", express.static("images"));
+
 app.use("/user", userRouter);
 app.use("/genre", genreRouter);
 app.use("/actor", actorRouter);

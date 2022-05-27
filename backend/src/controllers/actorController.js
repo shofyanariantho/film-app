@@ -1,53 +1,20 @@
-const setupDb = require("../models/knex"); // setupDb
-const { body, param } = require("express-validator"); // body validator
-const { validationResult } = require("express-validator"); // result validation
-const Actor = require("../models/actor"); // model
+const setupDb = require("../db/knex"); // setupDb
+const Actor = require("../models/actorModel"); // Model
+const path = require("path"); // Path
+const fs = require("fs"); // Fs
 
-setupDb(); // run function setuDb
-
-// Validator
-exports.validate = (method) => {
-  switch (method) {
-    case "createActor": {
-      return [
-        body("actor_name").notEmpty(), // validate name
-      ];
-    }
-    case "updateActor": {
-      return [
-        param("id").notEmpty(),
-        body("actor_name").notEmpty(), // validate name
-      ];
-    }
-  }
-};
+setupDb();
 
 // Create
 exports.create = async (req, res) => {
   try {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      res.status(422).json({ errors: errors.array() });
-      return;
-    }
-
-    let { actor_name } = req.body;
-
+    let actor_name = req.body.actor_name;
     const insertData = await Actor.query().insert({
       actor_name: actor_name,
     });
-
-    return res.status(201).json({
-      message: "Data berhasil disimpan",
-      data: insertData,
-    });
-  } catch (error) {
-    res.status(500).send({
-      code: 500,
-      status: false,
-      message: "connection error!",
-    });
+    return res.json(insertData);
+  } catch (err) {
+    return res.json(err.data);
   }
 };
 
@@ -55,16 +22,9 @@ exports.create = async (req, res) => {
 exports.index = async (req, res) => {
   try {
     const dataActor = await Actor.query();
-
-    return res.status(200).json({
-      data: dataActor,
-    });
-  } catch (error) {
-    res.status(500).send({
-      code: 500,
-      status: false,
-      message: "connection error!",
-    });
+    return res.json({ actors: dataActor });
+  } catch (err) {
+    res.json(err);
   }
 };
 
@@ -72,78 +32,109 @@ exports.index = async (req, res) => {
 exports.show = async (req, res) => {
   try {
     let id = req.params.id;
-
     const actor = await Actor.query().findById(id);
 
     if (!actor) {
-      res.status(200).send({ status: false, message: "Data tidak tersedia!" });
+      res.status(404).send({ message: "Id not Found!" });
       return;
     }
 
-    return res.status(200).json({
-      message: "success",
+    return res.json({
       data: actor,
     });
-  } catch (error) {
-    res.status(500).send({
-      code: 500,
-      status: false,
-      message: "connection error!",
-    });
+  } catch (err) {
+    res.json(err);
   }
 };
 
 // Update
 exports.update = async (req, res) => {
+  const actor = await Actor.query().findById(req.params.id);
+  if (!actor) return res.status(404).json({ message: "Id not found!" });
+
   try {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      res.status(422).json({ errors: errors.array() });
-      return;
-    }
-
     let id = req.params.id;
-    let { actor_name } = req.body;
+    let actor_name = req.body.actor_name;
 
     const actor = await Actor.query().patchAndFetchById(id, {
       actor_name: actor_name,
     });
 
-    if (!actor) {
-      res.status(200).json({ status: false, message: "Data tidak tersedia!" });
-      return;
-    }
-
-    return res.status(200).json({
+    return res.json({
       message: "Data diperbarui!",
-      data: actor,
+      data: { actor },
     });
-  } catch (error) {
-    res.status(500).send({
-      code: 500,
-      status: false,
-      message: "connection error!",
-    });
+  } catch (err) {
+    res.json(err);
   }
 };
 
 // Delete
 exports.destroy = async (req, res) => {
+  const actor = await Actor.query().findById(req.params.id);
+  if (!actor) return res.status(404).json({ message: "Id not found!" });
+
+  const { actorImage } = await Actor.query().findById(req.params.id);
+
+  if (actorImage !== null) {
+    const filePath = "././images/actor/" + actorImage;
+    fs.unlinkSync(filePath);
+  }
+
   try {
     let id = req.params.id;
-
     const actor = await Actor.query().deleteById(id);
 
-    return res.status(200).json({
+    return res.json({
       message: "Data berhasil dihapus!",
-      data: actor,
+      deleted: { id },
     });
-  } catch (error) {
-    res.status(500).send({
-      code: 500,
-      status: false,
-      message: "connection error!",
+  } catch (err) {
+    res.json(err);
+  }
+};
+
+// Upload Image
+exports.upload = async (req, res) => {
+  const actor = await Actor.query().findById(req.params.id);
+  if (!actor) return res.status(404).json({ message: "Id not found!" });
+
+  if (req.files == null) {
+    return res.status(400).json({ message: "No File Uploaded!" });
+  } else {
+    const file = req.files.actor_image;
+    const fileSize = file.data.length;
+    const ext = path.extname(file.name);
+    const fileName = Date.now() + "-" + file.name;
+    const allowedType = [".png", ".jpg", ".jpeg"];
+
+    if (!allowedType.includes(ext.toLocaleLowerCase()))
+      return res.status(422).json({ message: "Invalid file!" });
+    if (fileSize > 5000000)
+      return res.status(422).json({ message: "Image must less than 5 MB!" });
+
+    const { actorImage } = await Actor.query().findById(req.params.id);
+
+    if (actorImage !== null) {
+      const filePath = "././images/actor/" + actorImage;
+      fs.unlinkSync(filePath);
+    }
+
+    file.mv(`././images/actor/${fileName}`, async (err) => {
+      if (err) return res.status(500).json({ message: err.message });
+      try {
+        const updatedActor = await Actor.query().patchAndFetchById(
+          req.params.id,
+          {
+            actor_image: fileName,
+          }
+        );
+        res
+          .status(200)
+          .json({ message: "Image Succesfully Uploaded", updatedActor });
+      } catch (err) {
+        console.log(err);
+      }
     });
   }
 };

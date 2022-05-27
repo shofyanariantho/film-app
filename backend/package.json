@@ -6,9 +6,9 @@
   "scripts": {
     "start": "nodemon src/index.js",
     "build": "node src/index.js",
-    "migrate": "knex migrate:latest --knexfile ./src/models/knexfile.js",
-    "migrate:down": "knex migrate:down --knexfile ./src/models/knexfile.js",
-    "migrate:rollback": "knex migrate:rollback --knexfile ./src/models/knexfile.js"
+    "migrate": "knex migrate:latest --knexfile ./src/db/knexfile.js",
+    "migrate:down": "knex migrate:down --knexfile ./src/db/knexfile.js",
+    "migrate:rollback": "knex migrate:rollback --knexfile ./src/db/knexfile.js"
   },
   "author": "shofyan",
   "license": "MIT",
@@ -18,10 +18,10 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "body-parser": "^1.20.0",
     "cors": "latest",
     "dotenv": "latest",
     "express": "latest",
+    "express-fileupload": "^1.4.0",
     "express-validator": "^6.14.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^2.0.0",

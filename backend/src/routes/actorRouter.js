@@ -2,25 +2,11 @@ const express = require("express");
 const actorController = require("../controllers/actorController");
 const router = express.Router();
 
-// Router Create
-router.post(
-  "/create",
-  actorController.validate("createActor"), // Validator
-  actorController.create
-);
-
-// Router Read
-router.get("/", actorController.index); // All Actor List
-router.get("/:id", actorController.show); // Find Actor by Id
-
-// Router Update
-router.put(
-  "/:id",
-  actorController.validate("updateActor"),
-  actorController.update
-);
-
-// Router Delete
-router.delete("/:id", actorController.destroy);
+router.post("/create", actorController.create); // Create
+router.get("/", actorController.index); // Index
+router.get("/:id", actorController.show); // Show
+router.put("/:id", actorController.update); // Update
+router.delete("/:id", actorController.destroy); // Delete
+router.post("/image/:id", actorController.upload); // Upload Image
 
 module.exports = router;
