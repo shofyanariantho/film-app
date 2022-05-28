@@ -2,21 +2,11 @@ const express = require("express");
 const directorController = require("../controllers/directorController");
 const router = express.Router();
 
-router.post(
-    "/create",
-    directorController.validate("createDirector"),
-    directorController.create
-);
-
-router.get("/director", directorController.index);
-router.get("/show/:id", directorController.show);
-
-router.put(
-    "/update/:id",
-    directorController.validate("updateDirector"),
-    directorController.update
-);
-
-router.delete("/delete/:id", directorController.destroy);
+router.post("/create", directorController.create); // create
+router.get("/", directorController.index); // index
+router.get("/:id", directorController.show); // show
+router.put("/:id", directorController.update); // update
+router.delete("/:id", directorController.destroy); // delete
+router.post("/image/:id", directorController.upload); // upload
 
 module.exports = router;

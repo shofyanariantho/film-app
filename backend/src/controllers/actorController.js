@@ -53,9 +53,10 @@ exports.update = async (req, res) => {
   if (!actor) return res.status(404).json({ message: "Id not found!" });
 
   try {
-    let id = req.params.id;
     let actor_name = req.body.actor_name;
+    if (!actor_name) return res.json({ message: "Actor name required!" });
 
+    let id = req.params.id;
     const actor = await Actor.query().patchAndFetchById(id, {
       actor_name: actor_name,
     });
@@ -103,6 +104,8 @@ exports.upload = async (req, res) => {
     return res.status(400).json({ message: "No File Uploaded!" });
   } else {
     const file = req.files.actor_image;
+    if (!file) return res.status(404).json({ message: "Actor image required" });
+
     const fileSize = file.data.length;
     const ext = path.extname(file.name);
     const fileName = Date.now() + "-" + file.name;
