@@ -1,22 +1,11 @@
-const express = require('express')
-const genreController = require('../controllers/genreController')
-const router = express.Router()
+const express = require("express");
+const genreController = require("../controllers/genreController");
+const router = express.Router();
 
-router.post(
-    '/create', 
-    genreController.validate("createGenre"),
-    genreController.create
-);
+router.post("/create", genreController.create); // create
+router.get("/", genreController.index); // index
+router.get("/:id", genreController.show); // show
+router.put("/:id", genreController.update); // update
+router.delete("/:id", genreController.destroy); // delete
 
-router.get("/genre", genreController.index);
-router.get("/show/:id", genreController.show);
-
-router.put(
-    "/update/:id",
-    genreController.validate("updateGenre"),
-    genreController.update
-);
-
-router.delete("/delete/:id", genreController.destroy);
-
-module.exports = router
+module.exports = router;
