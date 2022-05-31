@@ -5,6 +5,26 @@ class Profile extends Model {
         return "profiles"
     }
 
+    $beforeInsert() {
+        this.created_at = new Date();
+    }
+    
+    $beforeUpdate() {
+        this.updated_at = new Date();
+    }
+
+    static get jsonSchema() {
+        return {
+            type: "object",
+            required: ["mobile"],
+    
+            properties: {
+                id: { type: "integer" },
+                mobile: { type: "string", minLength: 2 },
+            },
+        };
+    }
+
     static get relationMappings() {
         const User = require('./usersModel')
 

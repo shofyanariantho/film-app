@@ -1,49 +1,10 @@
 const setuDb = require("../db/knex");
-const { body, param } = require("express-validator");
-const { validationResult } = require("express-validator");
 const Film = require("../models/filmModel");
 
 setuDb();
 
-exports.validate = (method) => {
-  switch (method) {
-    case "createFilm": {
-      return [
-        body(
-          "description",
-          "rating_film",
-          "user_id",
-          "actor_id",
-          "review_id",
-          "genre_id"
-        ).notEmpty(),
-      ];
-    }
-    case "updateFilm": {
-      return [
-        param("id").notEmpty(),
-        body(
-          "description",
-          "rating_film",
-          "user_id",
-          "actor_id",
-          "review_id",
-          "genre_id",
-          "director_id"
-        ).notEmpty(),
-      ];
-    }
-  }
-};
-
 exports.create = async (req, res) => {
   try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(422).json({ errors: errors.array() });
-      return;
-    }
-
     let {
       description,
       rating_film,
@@ -67,12 +28,8 @@ exports.create = async (req, res) => {
       message: "Data berhasil disimpan",
       data: insertData,
     });
-  } catch (error) {
-    res.status(500).send({
-      code: 500,
-      status: false,
-      message: "connection error!",
-    });
+  } catch (err) {
+    res.json(err);
   }
 };
 
@@ -83,11 +40,7 @@ exports.index = async (req, res) => {
       data: dataFilm,
     });
   } catch (error) {
-    res.status(500).send({
-      code: 500,
-      status: false,
-      message: "connection error!",
-    });
+    res.json(err);
   }
 };
 
@@ -96,7 +49,7 @@ exports.show = async (req, res) => {
     let id = req.params.id;
     const film = await Film.query().findById(id);
     if (!film) {
-      res.status(200).send({ status: false, message: "Data tidak tersedia!" });
+      res.status(404).send({ status: false, message: "Data tidak tersedia!" });
       return;
     }
 
@@ -105,23 +58,12 @@ exports.show = async (req, res) => {
       data: film,
     });
   } catch (error) {
-    res.status(500).send({
-      code: 500,
-      status: false,
-      message: "connection error!",
-    });
+    res.json(err);
   }
 };
 
 exports.update = async (req, res) => {
   try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(422).json({ errors: errors.array() });
-      return;
-    }
-
-    let id = req.params.id;
     let {
       description,
       rating_film,
@@ -131,6 +73,9 @@ exports.update = async (req, res) => {
       genre_id,
       director_id,
     } = req.body;
+    if (!description) return res.json({ message: "Description name required!" });
+
+    let id = req.params.id;
     const film = await Film.query().patchAndFetchById(id, {
       description: description,
       rating_film: rating_film,
@@ -142,7 +87,7 @@ exports.update = async (req, res) => {
     });
 
     if (!film) {
-      res.status(200).json({ status: false, message: "Data tidak tersedia!" });
+      res.status(404).json({ status: false, message: "Data tidak tersedia!" });
       return;
     }
     return res.status(200).json({
@@ -150,11 +95,7 @@ exports.update = async (req, res) => {
       data: film,
     });
   } catch (error) {
-    res.status(500).send({
-      code: 500,
-      status: false,
-      message: "connection error!",
-    });
+    res.json(err);
   }
 };
 
@@ -162,15 +103,13 @@ exports.destroy = async (req, res) => {
   try {
     let id = req.params.id;
     const film = await Film.query().deleteById(id);
+    if (!film) return res.status(404).json({ message: "Id not found!" });
+
     return res.status(200).json({
       message: "Data berhasil dihapus!",
       data: film,
     });
   } catch (error) {
-    res.status(500).send({
-      code: 500,
-      status: false,
-      message: "connection error!",
-    });
+    res.json(err);
   }
 };
