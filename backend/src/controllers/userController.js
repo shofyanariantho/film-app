@@ -2,12 +2,23 @@ const setupDb = require("../db/knex");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/usersModel");
+const { json } = require("express/lib/response");
+const { verifiy, verifyToken } = require("../middleware/verifyToken");
+// const cookieParser = require("cookie-parser");
 
+// cookieParser();
 setupDb();
 
+// Register
 exports.create = async (req, res) => {
   try {
-    let { user_name, user_email, user_password } = req.body;
+    let { user_name, user_email, user_password, confirm_password } = req.body;
+    if (!confirm_password)
+      return res.status(404).json({ message: "confirm_password required!" });
+
+    if (user_password !== confirm_password)
+      return res.status(400).json({ message: "Password tidak sama!" });
+
     const hashPassword = bcrypt.hashSync(user_password, 8);
     const insertData = await User.query().insert({
       user_name: user_name,
@@ -19,59 +30,48 @@ exports.create = async (req, res) => {
       message: "Data berhasil disimpan",
       data: insertData,
     });
-  } catch (error) {
+  } catch (err) {
     res.json(err);
   }
 };
 
+// Index
 exports.index = async (req, res) => {
   try {
-    let dataUser = await User.query();
+    const { userId } = req.user;
+    const dataUser = await User.query().findById(userId);
+
     return res.status(200).json({
       data: dataUser,
     });
-  } catch (error) {
+  } catch (err) {
     res.json(err);
   }
 };
 
-exports.show = async (req, res) => {
-  try {
-    let id = req.params.id;
-    const user = await User.query().findById(id);
-    if (!user) {
-      res.status(404).send({ status: false, message: "Data tidak tersedia!" });
-      return;
-    }
-
-    return res.status(200).json({
-      message: "Data User tersedia!",
-      data: user,
-    });
-  } catch (error) {
-    res.json(err);
-  }
-};
-
+// Update Password
 exports.update = async (req, res) => {
   try {
-    let { user_name, user_email, user_password } = req.body;
-    const hashPassword = bcrypt.hashSync(user_password, 8);
-    if (!user_password) return res.json({ message: "Password name required!" });
+    let { user_password, confirm_password } = req.body;
+    if (!user_password || !confirm_password)
+      return res.status(400).json({ message: "Password required!" });
 
-    let id = req.params.id;
-    const user = await User.query().patchAndFetchById(id, {
-      user_name: user_name,
-      user_email: user_email,
+    if (user_password !== confirm_password)
+      return res.status(400).json({ message: "Password does not match!" });
+
+    const hashPassword = bcrypt.hashSync(user_password, 8);
+
+    let { userId } = req.user;
+    const user = await User.query().patchAndFetchById(userId, {
       user_password: hashPassword,
     });
 
     if (!user) {
-      res.status(404).json({ status: false, message: "Data tidak tersedia!" });
+      res.status(404).json({ status: false, message: "Auth Invalid!" });
       return;
     }
     return res.status(200).json({
-      message: "Data diperbarui!",
+      message: "Password berhasil diubah!",
       data: user,
     });
   } catch (error) {
@@ -79,15 +79,70 @@ exports.update = async (req, res) => {
   }
 };
 
-exports.destroy = async (req, res) => {
+// Login
+exports.login = async (req, res) => {
   try {
-    let id = req.params.id;
-    const user = await User.query().deleteById(id);
-    return res.status(200).json({
-      message: "Data berhasil dihapus!",
-      data: user,
+    const user = await User.query().findOne("user_email", req.body.user_email);
+
+    const match = await bcrypt.compare(
+      req.body.user_password,
+      user.userPassword
+    );
+
+    if (!match) return res.status(400).json({ message: "Wrong Password!" });
+
+    const userId = user.id;
+    const name = user.userName;
+    const email = user.userEmail;
+
+    const accessToken = jwt.sign(
+      { userId, name, email },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: "20s",
+      }
+    );
+
+    const refreshToken = jwt.sign(
+      { userId, name, email },
+      process.env.REFRESH_TOKEN_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
+
+    await User.query().patchAndFetchById(userId, {
+      refresh_token: refreshToken,
     });
-  } catch (error) {
-    res.json(err);
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    return res.json({
+      data: { name: user.userName, email: user.userEmail },
+      token: accessToken,
+    });
+  } catch (err) {
+    res.status(404).json({ message: "Invalid email" });
   }
+};
+
+// Logout
+exports.logout = async (req, res) => {
+  // const refreshToken = req.cookies.refreshToken;
+  // if (!refreshToken) return res.status(204);
+
+  let { userId } = req.user;
+  const user = await User.query().findById(userId);
+
+  if (!user) return res.status(204);
+
+  await User.query().findById(userId).patch({
+    refresh_token: null,
+  });
+
+  res.clearCookie("refreshToken");
+  return res.status(200).json("logout success!");
 };

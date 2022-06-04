@@ -5,6 +5,8 @@ const fileUpload = require("express-fileupload");
 
 require("dotenv").config();
 
+const app = express();
+
 const userRouter = require("./routes/userRouter");
 const genreRouter = require("./routes/genreRouter");
 const actorRouter = require("./routes/actorRouter");
@@ -13,13 +15,10 @@ const profileRouter = require("./routes/profileRouter");
 const filmRouter = require("./routes/filmRouter");
 const directorRouter = require("./routes/directorRouter");
 
-const app = express();
-
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(fileUpload());
-
 app.use("/images", express.static("images"));
 
 app.use("/user", userRouter);

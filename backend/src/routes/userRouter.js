@@ -1,11 +1,14 @@
 const express = require("express");
 const userController = require("../controllers/userController");
 const router = express.Router();
+const { verifyToken } = require("../middleware/verifyToken");
+const { refreshToken } = require("../controllers/refreshToken");
 
-router.post("/create", userController.create);
-router.get("/user", userController.index);
-router.get("/user/:id", userController.show);
-router.put("/update/:id", userController.update);
-router.delete("/delete/:id", userController.destroy);
+router.post("/register", userController.create); // Register
+router.get("/", verifyToken, userController.index); // Index User by Their Id
+router.put("/", verifyToken, userController.update); // Update Password by Their Id
+router.post("/login", userController.login); // Login
+// router.get("/token", refreshToken);
+router.delete("/logout", verifyToken, userController.logout);
 
 module.exports = router;
