@@ -131,18 +131,31 @@ exports.login = async (req, res) => {
 
 // Logout
 exports.logout = async (req, res) => {
-  // const refreshToken = req.cookies.refreshToken;
-  // if (!refreshToken) return res.status(204);
+  try {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken)
+      return res
+        .status(404)
+        .json({ status: false, message: "You're not logged in!" });
 
-  let { userId } = req.user;
-  const user = await User.query().findById(userId);
+    // let { userId } = req.user;
+    // const user = await User.query().findById(userId);
 
-  if (!user) return res.status(204);
+    const user = await User.query().findOne("refresh_token", refreshToken);
 
-  await User.query().findById(userId).patch({
-    refresh_token: null,
-  });
+    if (!user) return res.status(204);
 
-  res.clearCookie("refreshToken");
-  return res.status(200).json("logout success!");
+    const userId = user.id;
+
+    await User.query().findById(userId).patch({
+      refresh_token: null,
+    });
+
+    res.clearCookie("refreshToken");
+    return res
+      .status(200)
+      .json({ status: "OK", message: "You're logging out!" });
+  } catch (err) {
+    res.json(err);
+  }
 };

@@ -8,7 +8,7 @@ router.post("/register", userController.create); // Register
 router.get("/", verifyToken, userController.index); // Index User by Their Id
 router.put("/", verifyToken, userController.update); // Update Password by Their Id
 router.post("/login", userController.login); // Login
-// router.get("/token", refreshToken);
-router.delete("/logout", verifyToken, userController.logout);
+router.get("/token", refreshToken);
+router.delete("/logout", userController.logout);
 
 module.exports = router;

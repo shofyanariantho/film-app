@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const port = process.env.PORT || 3000;
 const fileUpload = require("express-fileupload");
-
+const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
 const app = express();
@@ -16,6 +16,7 @@ const filmRouter = require("./routes/filmRouter");
 const directorRouter = require("./routes/directorRouter");
 
 app.use(cors({ origin: true, credentials: true }));
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(fileUpload());

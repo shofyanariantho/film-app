@@ -3,13 +3,12 @@ const jwt = require("jsonwebtoken");
 
 exports.refreshToken = async (req, res) => {
   try {
-    const { refreshToken } = req.cookies;
-    if (!refreshToken) return res.status(401);
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken)
+      return res.status(401).json({ message: "Invalid Authentication" });
 
-    const user = await User.query().where({
-      refresh_token: refreshToken,
-    });
-    if (!user[0]) return res.status(403);
+    const user = await User.query().findOne("refresh_token", refreshToken);
+    if (!user) return res.status(403);
 
     jwt.verify(
       refreshToken,
@@ -17,9 +16,10 @@ exports.refreshToken = async (req, res) => {
       (err, decoded) => {
         if (err) return res.status(403);
 
-        const userId = user[0].id;
-        const name = user[0].user_name;
-        const email = user[0].user_email;
+        const userId = user.id;
+        const name = user.user_name;
+        const email = user.user_email;
+
         const accessToken = jwt.sign(
           { userId, name, email },
           process.env.REFRESH_TOKEN_SECRET,
