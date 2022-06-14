@@ -1,0 +1,21 @@
+figcaption {
+    position: absolute;
+    bottom: 1rem;
+    color: aliceblue;
+    left: 25%;
+}
+
+.caption {
+    font-size: 2rem;
+}
+
+.icons_film {
+    font-size: 5rem;
+    margin-bottom: 6px;
+    margin-right: 4px;
+}
+
+.desc_film {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 20px;
+}
