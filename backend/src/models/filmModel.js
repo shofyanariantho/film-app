@@ -21,6 +21,7 @@ class Film extends Model {
       properties: {
         id: { type: "integer" },
         description: { type: "string", minLength: 2 },
+        film_image: { type: ["string", "null"] },
       },
     };
   }
