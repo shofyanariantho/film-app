@@ -9,11 +9,11 @@ setupDb();
 exports.create = async (req, res) => {
   try {
     // Get User Token in Cookies
-    const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken)
-      return res
-        .status(404)
-        .json({ status: false, message: "Please, login!" });
+    // const refreshToken = req.cookies.refreshToken;
+    // if (!refreshToken)
+    //   return res
+    //     .status(404)
+    //     .json({ status: false, message: "Please, login!" });
 
     let actor_name = req.body.actor_name;
     const insertData = await Actor.query().insert({
@@ -125,7 +125,7 @@ exports.upload = async (req, res) => {
     return res
       .status(404)
       .json({ status: false, message: "Please, login!" });
-      
+
   const actor = await Actor.query().findById(req.params.id);
   if (!actor) return res.status(404).json({ message: "Id not found!" });
 
