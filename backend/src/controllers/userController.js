@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/usersModel");
 const { json } = require("express/lib/response");
-const { verifiy, verifyToken } = require("../middleware/verifyToken");
+// const { verifiy, verifyToken } = require("../middleware/verifyToken");
 // const cookieParser = require("cookie-parser");
 
 // cookieParser();
