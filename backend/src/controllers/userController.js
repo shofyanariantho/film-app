@@ -38,7 +38,17 @@ exports.create = async (req, res) => {
 // Index
 exports.index = async (req, res) => {
   try {
-    const { userId } = req.user;
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken)
+      return res
+        .status(404)
+        .json({ status: false, message: "You're not logged in!" });
+
+    const user = await User.query().findOne("refresh_token", refreshToken);
+
+    if (!user) return res.status(204);
+
+    const userId = user.id;
     const dataUser = await User.query().findById(userId);
 
     return res.status(200).json({
@@ -60,16 +70,23 @@ exports.update = async (req, res) => {
       return res.status(400).json({ message: "Password does not match!" });
 
     const hashPassword = bcrypt.hashSync(user_password, 8);
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken)
+      return res
+        .status(404)
+        .json({ status: false, message: "You're not logged in!" });
 
-    let { userId } = req.user;
-    const user = await User.query().patchAndFetchById(userId, {
+    
+    const user = await User.query().findOne("refresh_token", refreshToken);
+
+    if (!user) return res.status(204);
+
+    const userId = user.id;
+
+    await User.query().patchAndFetchById(userId, {
       user_password: hashPassword,
     });
 
-    if (!user) {
-      res.status(404).json({ status: false, message: "Auth Invalid!" });
-      return;
-    }
     return res.status(200).json({
       message: "Password berhasil diubah!",
       data: user,
@@ -137,9 +154,6 @@ exports.logout = async (req, res) => {
       return res
         .status(404)
         .json({ status: false, message: "You're not logged in!" });
-
-    // let { userId } = req.user;
-    // const user = await User.query().findById(userId);
 
     const user = await User.query().findOne("refresh_token", refreshToken);
 
