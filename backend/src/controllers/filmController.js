@@ -1,11 +1,14 @@
 const setuDb = require("../db/knex");
 const Film = require("../models/filmModel");
+const path = require("path");
+const fs = require("fs");
 
 setuDb();
 
 exports.create = async (req, res) => {
   try {
     let {
+      judul_film,
       description,
       rating_film,
       user_id,
@@ -15,6 +18,7 @@ exports.create = async (req, res) => {
       director_id,
     } = req.body;
     const insertData = await Film.query().insert({
+      judul_film: judul_film,
       description: description,
       rating_film: rating_film,
       user_id: user_id,
@@ -39,7 +43,7 @@ exports.index = async (req, res) => {
     return res.status(200).json({
       data: dataFilm,
     });
-  } catch (error) {
+  } catch (err) {
     res.json(err);
   }
 };
@@ -57,7 +61,7 @@ exports.show = async (req, res) => {
       message: "success",
       data: film,
     });
-  } catch (error) {
+  } catch (err) {
     res.json(err);
   }
 };
@@ -65,6 +69,7 @@ exports.show = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     let {
+      judul_film,
       description,
       rating_film,
       user_id,
@@ -77,6 +82,7 @@ exports.update = async (req, res) => {
 
     let id = req.params.id;
     const film = await Film.query().patchAndFetchById(id, {
+      judul_film: judul_film,
       description: description,
       rating_film: rating_film,
       user_id: user_id,
@@ -94,22 +100,77 @@ exports.update = async (req, res) => {
       message: "Data diperbarui!",
       data: film,
     });
-  } catch (error) {
+  } catch (err) {
     res.json(err);
   }
 };
 
 exports.destroy = async (req, res) => {
+  const film = await Film.query().findById(req.params.id);
+  if (!film) return res.status(404).json({ message: "Id not found!" });
+
+  const { filmImage } = await Film.query().findById(req.params.id);
+
+  if (filmImage !== null) {
+    const filePath = "././images/film/" + filmImage;
+    fs.unlinkSync(filePath);
+  }
+
   try {
     let id = req.params.id;
     const film = await Film.query().deleteById(id);
-    if (!film) return res.status(404).json({ message: "Id not found!" });
 
-    return res.status(200).json({
+    return res.json({
       message: "Data berhasil dihapus!",
-      data: film,
+      deleted: { id },
     });
-  } catch (error) {
+  } catch (err) {
     res.json(err);
+  }
+};
+
+exports.upload = async (req, res) => {
+  const film = await Film.query().findById(req.params.id);
+  if (!film) return res.status(404).json({ message: "Id not found!" });
+
+  if (req.files == null) {
+    return res.status(400).json({ message: "No File Uploaded!" });
+  } else {
+    const file = req.files.film_image;
+    if (!file) return res.status(404).json({ message: "film image required" });
+
+    const fileSize = file.data.length;
+    const ext = path.extname(file.name);
+    const fileName = Date.now() + "-" + file.name;
+    const allowedType = [".png", ".jpg", ".jpeg"];
+
+    if (!allowedType.includes(ext.toLocaleLowerCase()))
+      return res.status(422).json({ message: "Invalid file!" });
+    if (fileSize > 5000000)
+      return res.status(422).json({ message: "Image must less than 5 MB!" });
+
+    const { filmImage } = await Film.query().findById(req.params.id);
+
+    if (filmImage !== null) {
+      const filePath = "././images/film/" + filmImage;
+      fs.unlinkSync(filePath);
+    }
+
+    file.mv(`././images/film/${fileName}`, async (err) => {
+      if (err) return res.status(500).json({ message: err.message });
+      try {
+        const updatedfilm = await Film.query().patchAndFetchById(
+          req.params.id,
+          {
+            film_image: fileName,
+          }
+        );
+        res
+          .status(200)
+          .json({ message: "Image Succesfully Uploaded", updatedfilm });
+      } catch (err) {
+        console.log(err);
+      }
+    });
   }
 };

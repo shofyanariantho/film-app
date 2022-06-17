@@ -3,9 +3,9 @@ const profileController = require('../controllers/profileController')
 const router = express.Router()
 
 router.post('/create', profileController.create);
-router.get("/profile", profileController.index);
-router.get("/show/:id", profileController.show);
-router.put("/update/:id", profileController.update);
-router.delete("/delete/:id", profileController.destroy);
+router.get("/", profileController.index);
+router.get("/:id", profileController.show);
+router.put("/:id", profileController.update);
+router.delete("/:id", profileController.destroy);
 
 module.exports = router

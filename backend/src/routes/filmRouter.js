@@ -3,9 +3,10 @@ const filmController = require('../controllers/filmController')
 const router = express.Router()
 
 router.post('/create', filmController.create);
-router.get("/film", filmController.index);
-router.get("/show/:id", filmController.show);
-router.put("/update/:id", filmController.update);
-router.delete("/delete/:id", filmController.destroy);
+router.get('/', filmController.index);
+router.get('/:id', filmController.show);
+router.put('/:id', filmController.update);
+router.delete('/:id', filmController.destroy);
+router.post('/image/:id', filmController.upload);
 
 module.exports = router

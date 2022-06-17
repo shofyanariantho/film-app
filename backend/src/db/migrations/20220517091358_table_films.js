@@ -5,6 +5,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable("films", (table) => {
     table.increments("id").primary();
+    table.string("judul_film");
     table.text("description");
     table.decimal("rating_film");
     table.integer("user_id").unsigned().references("id").inTable("users");
@@ -16,6 +17,7 @@ exports.up = function (knex) {
       .unsigned()
       .references("id")
       .inTable("directors");
+    table.string("film_image");
     table.timestamps(true, true);
   });
 };

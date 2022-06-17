@@ -16,11 +16,11 @@ class Review extends Model {
     static get jsonSchema() {
         return {
             type: "object",
-            required: ["commant"],
+            required: ["comment"],
     
             properties: {
                 id: { type: "integer" },
-                commant: { type: "string", minLength: 2 },
+                comment: { type: "string", minLength: 2 },
             },
         };
     }

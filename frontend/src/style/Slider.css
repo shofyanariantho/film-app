@@ -1,0 +1,22 @@
+.title_carousel {
+    font-size: 3rem;
+}
+
+.desc_carousel {
+    font-size: 1.5rem;
+}
+
+@media (max-width: 370px) {
+    .title_carousel {
+        visibility: hidden;
+    }
+}
+
+@media (max-width: 560px) {
+    .title_carousel {
+        font-size: 1rem;
+    }
+    .desc_carousel {
+        visibility: hidden;
+    }
+}

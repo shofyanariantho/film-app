@@ -15,7 +15,7 @@ exports.create = async (req, res) => {
       message: "Data berhasil disimpan",
       data: insertData,
     });
-  } catch (error) {
+  } catch (err) {
     res.json(err);
   }
 };
@@ -26,7 +26,7 @@ exports.index = async (req, res) => {
     return res.status(200).json({
       data: dataProfile,
     });
-  } catch (error) {
+  } catch (err) {
     res.json(err);
   }
 };
@@ -44,7 +44,7 @@ exports.show = async (req, res) => {
       message: "success",
       data: profile,
     });
-  } catch (error) {
+  } catch (err) {
     res.json(err);
   }
 };
@@ -68,7 +68,7 @@ exports.update = async (req, res) => {
       message: "Data diperbarui!",
       data: profile,
     });
-  } catch (error) {
+  } catch (err) {
     res.json(err);
   }
 };
@@ -83,7 +83,7 @@ exports.destroy = async (req, res) => {
       message: "Data berhasil dihapus!",
       data: profile,
     });
-  } catch (error) {
+  } catch (err) {
     res.json(err);
   }
 };
