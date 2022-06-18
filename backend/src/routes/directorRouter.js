@@ -1,8 +1,9 @@
 const express = require("express");
 const directorController = require("../controllers/directorController");
+const { verifyLogin } = require('../middleware/verifyLogin');
 const router = express.Router();
 
-router.post("/create", directorController.create); // create
+router.post("/create", verifyLogin, directorController.create); // create
 router.get("/", directorController.index); // index
 router.get("/:id", directorController.show); // show
 router.put("/:id", directorController.update); // update

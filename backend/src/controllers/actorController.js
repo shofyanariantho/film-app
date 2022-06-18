@@ -9,11 +9,11 @@ setupDb();
 exports.create = async (req, res) => {
   try {
     // Get User Token in Cookies
-    // const refreshToken = req.cookies.refreshToken;
-    // if (!refreshToken)
-    //   return res
-    //     .status(404)
-    //     .json({ status: false, message: "Please, login!" });
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken)
+      return res
+        .status(404)
+        .json({ status: false, message: "You're not logged in!" });
 
     let actor_name = req.body.actor_name;
     const insertData = await Actor.query().insert({
@@ -62,7 +62,7 @@ exports.update = async (req, res) => {
   if (!refreshToken)
     return res
       .status(404)
-      .json({ status: false, message: "Please, login!" });
+      .json({ status: false, message: "You're not logged in!" });
 
   const actor = await Actor.query().findById(req.params.id);
   if (!actor) return res.status(404).json({ message: "Id not found!" });
@@ -77,7 +77,7 @@ exports.update = async (req, res) => {
     });
 
     return res.json({
-      message: "Data diperbarui!",
+      message: "Data has change!",
       data: { actor },
     });
   } catch (err) {
@@ -92,7 +92,7 @@ exports.destroy = async (req, res) => {
   if (!refreshToken)
     return res
       .status(404)
-      .json({ status: false, message: "Please, login!" });
+      .json({ status: false, message: "You're not logged in!" });
 
   const actor = await Actor.query().findById(req.params.id);
   if (!actor) return res.status(404).json({ message: "Id not found!" });
@@ -109,7 +109,7 @@ exports.destroy = async (req, res) => {
     const actor = await Actor.query().deleteById(id);
 
     return res.json({
-      message: "Data berhasil dihapus!",
+      message: "Data deleted!",
       deleted: { id },
     });
   } catch (err) {
@@ -124,7 +124,7 @@ exports.upload = async (req, res) => {
   if (!refreshToken)
     return res
       .status(404)
-      .json({ status: false, message: "Please, login!" });
+      .json({ status: false, message: "You're not logged in!" });
 
   const actor = await Actor.query().findById(req.params.id);
   if (!actor) return res.status(404).json({ message: "Id not found!" });

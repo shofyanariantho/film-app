@@ -8,17 +8,20 @@ setupDb();
 // create
 exports.create = async (req, res) => {
   try {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken)
+      return res
+        .status(404)
+        .json({ status: false, message: "You're not logged in!" });
+
     let { director_name } = req.body;
     const insertData = await Director.query().insert({
       director_name: director_name,
     });
 
-    return res.status(201).json({
-      message: "Data berhasil disimpan",
-      data: insertData,
-    });
+    return res.json(insertData);
   } catch (err) {
-    res.json(err);
+    return res.json(err.data);
   }
 };
 
@@ -26,9 +29,7 @@ exports.create = async (req, res) => {
 exports.index = async (req, res) => {
   try {
     const dataDirector = await Director.query();
-    return res.status(200).json({
-      directors: dataDirector,
-    });
+    return res.status(200).json({ directors: dataDirector });
   } catch (err) {
     res.json(err);
   }
@@ -40,12 +41,11 @@ exports.show = async (req, res) => {
     let { id } = req.params;
     const director = await Director.query().findById(id);
     if (!director) {
-      res.status(404).send({ status: false, message: "Id not found!" });
+      res.status(404).send({ message: "Id not found!" });
       return;
     }
 
-    return res.status(200).json({
-      message: "success",
+    return res.json({
       data: director,
     });
   } catch (err) {
@@ -55,6 +55,15 @@ exports.show = async (req, res) => {
 
 // update
 exports.update = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken)
+    return res
+      .status(404)
+      .json({ status: false, message: "You're not logged in!" });
+
+  const director = await Director.query().findById(req.params.id);
+  if (!director) return res.status(404).json({ message: "Id not found!" });
+  
   try {
     let { director_name } = req.body;
     if (!director_name)
@@ -65,13 +74,9 @@ exports.update = async (req, res) => {
       director_name: director_name,
     });
 
-    if (!director) {
-      res.status(404).json({ status: false, message: "Data tidak tersedia!" });
-      return;
-    }
-    return res.status(200).json({
-      message: "Data diperbarui!",
-      data: director,
+    return res.json({
+      message: "Data has change!",
+      data: { director },
     });
   } catch (err) {
     res.json(err);
@@ -80,10 +85,17 @@ exports.update = async (req, res) => {
 
 // delete
 exports.destroy = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken)
+    return res
+      .status(404)
+      .json({ status: false, message: "You're not logged in!" });
+
   const director = await Director.query().findById(req.params.id);
   if (!director) return res.status(404).json({ message: "Id not Found!" });
 
   const { directorImage } = await Director.query().findById(req.params.id);
+  
   if (directorImage !== null) {
     const filePath = "././images/director/" + directorImage;
     fs.unlinkSync(filePath);
@@ -92,9 +104,10 @@ exports.destroy = async (req, res) => {
   try {
     let id = req.params.id;
     const director = await Director.query().deleteById(id);
-    return res.status(200).json({
-      message: "Data berhasil dihapus!",
-      id: id,
+    
+    return res.json({
+      message: "Data deleted!",
+      deleted: { id },
     });
   } catch (err) {
     res.json(err);
@@ -103,6 +116,12 @@ exports.destroy = async (req, res) => {
 
 // upload image
 exports.upload = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken)
+    return res
+      .status(404)
+      .json({ status: false, message: "You're not logged in!" });
+
   const director = await Director.query().findById(req.params.id);
   if (!director) return res.status(404).json({ message: "Id not found!" });
 
