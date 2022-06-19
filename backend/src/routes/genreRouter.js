@@ -6,7 +6,7 @@ const router = express.Router();
 router.post("/create", verifyLogin, genreController.create); // create
 router.get("/", genreController.index); // index
 router.get("/:id", genreController.show); // show
-router.put("/:id", genreController.update); // update
-router.delete("/:id", genreController.destroy); // delete
+router.put("/:id", verifyLogin, genreController.update); // update
+router.delete("/:id", verifyLogin, genreController.destroy); // delete
 
 module.exports = router;
