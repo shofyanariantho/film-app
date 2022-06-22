@@ -6,17 +6,20 @@ setuDb();
 //create
 exports.create = async (req, res) => {
   try {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken)
+      return res
+        .status(404)
+        .json({ status: false, message: "You're not logged in!" });
+
     let { genre_name } = req.body;
     const insertData = await Genre.query().insert({
       genre_name: genre_name,
     });
 
-    return res.status(201).json({
-      message: "Data berhasil disimpan",
-      data: insertData,
-    });
+    return res.json( insertData );
   } catch (err) {
-    res.json(err);
+    return res.json(err.data);
   }
 };
 
@@ -24,9 +27,7 @@ exports.create = async (req, res) => {
 exports.index = async (req, res) => {
   try {
     const dataGenre = await Genre.query();
-    return res.status(200).json({
-      data: dataGenre,
-    });
+    return res.json({ genres : dataGenre });
   } catch (err) {
     res.json(err);
   }
@@ -37,13 +38,13 @@ exports.show = async (req, res) => {
   try {
     let id = req.params.id;
     const genre = await Genre.query().findById(id);
+
     if (!genre) {
-      res.status(404).send({ status: false, message: "Data tidak tersedia!" });
+      res.status(404).send({ message: "Id not Found!" });
       return;
     }
 
-    return res.status(200).json({
-      message: "success",
+    return res.json({
       data: genre,
     });
   } catch (err) {
@@ -53,6 +54,15 @@ exports.show = async (req, res) => {
 
 // Update
 exports.update = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken)
+    return res
+      .status(404)
+      .json({ status: false, message: "You're not logged in!" });
+
+  const genre = await Genre.query().findById(req.params.id);
+  if (!genre) return res.status(404).json({ message: "Id not found!" });
+
   try {
     let { genre_name } = req.body;
     if (!genre_name) return res.json({ message: "Genre name required!" });
@@ -62,13 +72,9 @@ exports.update = async (req, res) => {
       genre_name: genre_name,
     });
 
-    if (!genre) {
-      res.status(404).json({ status: false, message: "Data tidak tersedia!" });
-      return;
-    }
-    return res.status(200).json({
-      message: "Data diperbarui!",
-      data: genre,
+    return res.json({
+      message: "Data has change!",
+      data: { genre },
     });
   } catch (err) {
     res.json(err);
@@ -77,14 +83,22 @@ exports.update = async (req, res) => {
 
 // Delete
 exports.destroy = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken)
+    return res
+      .status(404)
+      .json({ status: false, message: "You're not logged in!" });
+
+  const genre = await Genre.query().findById(req.params.id);
+  if (!genre) return res.status(404).json({ message: "Id not found!" });
+
   try {
     let id = req.params.id;
     const genre = await Genre.query().deleteById(id);
-    if (!genre) return res.status(404).json({ message: "Id not found!" });
 
-    return res.status(200).json({
-      message: "Data berhasil dihapus!",
-      data: genre,
+    return res.json({
+      message: "Data deleted!",
+      deleted: { id } 
     });
   } catch (err) {
     res.json(err);

@@ -7,6 +7,12 @@ setuDb();
 
 exports.create = async (req, res) => {
   try {
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken)
+      return res
+        .status(404)
+        .json({ status: false, message: "You're not logged in!" });
+
     let {
       judul_film,
       description,
@@ -28,21 +34,16 @@ exports.create = async (req, res) => {
       director_id: director_id,
     });
 
-    return res.status(201).json({
-      message: "Data berhasil disimpan",
-      data: insertData,
-    });
+    return res.json(insertData);
   } catch (err) {
-    res.json(err);
+    return res.json(err.data);
   }
 };
 
 exports.index = async (req, res) => {
   try {
     const dataFilm = await Film.query();
-    return res.status(200).json({
-      data: dataFilm,
-    });
+    return res.json({ films: dataFilm });
   } catch (err) {
     res.json(err);
   }
@@ -52,13 +53,13 @@ exports.show = async (req, res) => {
   try {
     let id = req.params.id;
     const film = await Film.query().findById(id);
+
     if (!film) {
-      res.status(404).send({ status: false, message: "Data tidak tersedia!" });
+      res.status(404).send({ message: "Id not Found!" });
       return;
     }
 
-    return res.status(200).json({
-      message: "success",
+    return res.json({
       data: film,
     });
   } catch (err) {
@@ -67,6 +68,15 @@ exports.show = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken)
+    return res
+      .status(404)
+      .json({ status: false, message: "You're not logged in!" });
+
+  const film = await Film.query().findById(req.params.id);
+  if (!film) return res.status(404).json({ message: "Id not found!" });
+
   try {
     let {
       judul_film,
@@ -92,13 +102,9 @@ exports.update = async (req, res) => {
       director_id: director_id,
     });
 
-    if (!film) {
-      res.status(404).json({ status: false, message: "Data tidak tersedia!" });
-      return;
-    }
-    return res.status(200).json({
-      message: "Data diperbarui!",
-      data: film,
+    return res.json({
+      message: "Data has change!",
+      data: { film },
     });
   } catch (err) {
     res.json(err);
@@ -106,6 +112,12 @@ exports.update = async (req, res) => {
 };
 
 exports.destroy = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken)
+    return res
+      .status(404)
+      .json({ status: false, message: "You're not logged in!" });
+
   const film = await Film.query().findById(req.params.id);
   if (!film) return res.status(404).json({ message: "Id not found!" });
 
@@ -121,7 +133,7 @@ exports.destroy = async (req, res) => {
     const film = await Film.query().deleteById(id);
 
     return res.json({
-      message: "Data berhasil dihapus!",
+      message: "Data deleted!",
       deleted: { id },
     });
   } catch (err) {
@@ -130,6 +142,12 @@ exports.destroy = async (req, res) => {
 };
 
 exports.upload = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken)
+    return res
+      .status(404)
+      .json({ status: false, message: "You're not logged in!" });
+
   const film = await Film.query().findById(req.params.id);
   if (!film) return res.status(404).json({ message: "Id not found!" });
 

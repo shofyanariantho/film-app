@@ -4,9 +4,9 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/usersModel");
 const { json } = require("express/lib/response");
 // const { verifiy, verifyToken } = require("../middleware/verifyToken");
-// const cookieParser = require("cookie-parser");
+const cookieParser = require("cookie-parser");
 
-// cookieParser();
+cookieParser();
 setupDb();
 
 // Register
@@ -14,10 +14,10 @@ exports.create = async (req, res) => {
   try {
     let { user_name, user_email, user_password, confirm_password } = req.body;
     if (!confirm_password)
-      return res.status(404).json({ message: "confirm_password required!" });
+      return res.status(404).json({ message: "Confirm password required!" });
 
     if (user_password !== confirm_password)
-      return res.status(400).json({ message: "Password tidak sama!" });
+      return res.status(400).json({ message: "Password does not match!" });
 
     const hashPassword = bcrypt.hashSync(user_password, 8);
     const insertData = await User.query().insert({
@@ -27,7 +27,7 @@ exports.create = async (req, res) => {
     });
 
     return res.status(201).send({
-      message: "Data berhasil disimpan",
+      message: "Data saved!",
       data: insertData,
     });
   } catch (err) {
@@ -88,7 +88,7 @@ exports.update = async (req, res) => {
     });
 
     return res.status(200).json({
-      message: "Password berhasil diubah!",
+      message: "Password has change!",
       data: user,
     });
   } catch (error) {
@@ -106,7 +106,7 @@ exports.login = async (req, res) => {
       user.userPassword
     );
 
-    if (!match) return res.status(400).json({ message: "Wrong Password!" });
+    if (!match) return res.status(400).json({ message: "Wrong password!" });
 
     const userId = user.id;
     const name = user.userName;
