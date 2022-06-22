@@ -99,7 +99,7 @@ exports.update = async (req, res) => {
 // Login
 exports.login = async (req, res) => {
   try {
-    const user = await User.query().findOne("user_email", req.body.user_email);
+    let user = await User.query().findOne("user_email", req.body.user_email);
 
     const match = await bcrypt.compare(
       req.body.user_password,
@@ -128,8 +128,8 @@ exports.login = async (req, res) => {
       }
     );
 
-    await User.query().patchAndFetchById(userId, {
-      refresh_token: refreshToken,
+    user = await User.query().patchAndFetchById(userId, {
+      refreshToken: refreshToken,
     });
 
     res.cookie("refreshToken", refreshToken, {
@@ -138,8 +138,7 @@ exports.login = async (req, res) => {
     });
 
     return res.json({
-      data: { name: user.userName, email: user.userEmail },
-      token: accessToken,
+      data: { user },
     });
   } catch (err) {
     res.status(404).json({ message: "Invalid email" });

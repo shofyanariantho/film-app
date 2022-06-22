@@ -30,7 +30,7 @@ exports.create = async (req, res) => {
 exports.index = async (req, res) => {
   try {
     const dataActor = await Actor.query();
-    return res.json({ actors: dataActor });
+    return res.json(dataActor);
   } catch (err) {
     res.json(err);
   }
@@ -47,9 +47,7 @@ exports.show = async (req, res) => {
       return;
     }
 
-    return res.json({
-      data: actor,
-    });
+    return res.json(actor);
   } catch (err) {
     res.json(err);
   }
@@ -58,11 +56,11 @@ exports.show = async (req, res) => {
 // Update
 exports.update = async (req, res) => {
   // Get User Token in Cookies
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken)
-    return res
-      .status(404)
-      .json({ status: false, message: "Please, login!" });
+  // const refreshToken = req.cookies.refreshToken;
+  // if (!refreshToken)
+  //   return res
+  //     .status(404)
+  //     .json({ status: false, message: "Please, login!" });
 
   const actor = await Actor.query().findById(req.params.id);
   if (!actor) return res.status(404).json({ message: "Id not found!" });
@@ -88,11 +86,11 @@ exports.update = async (req, res) => {
 // Delete
 exports.destroy = async (req, res) => {
   // Get User Token in Cookies
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken)
-    return res
-      .status(404)
-      .json({ status: false, message: "Please, login!" });
+  // const refreshToken = req.cookies.refreshToken;
+  // if (!refreshToken)
+  //   return res
+  //     .status(404)
+  //     .json({ status: false, message: "Please, login!" });
 
   const actor = await Actor.query().findById(req.params.id);
   if (!actor) return res.status(404).json({ message: "Id not found!" });
@@ -122,9 +120,7 @@ exports.upload = async (req, res) => {
   // Get User Token in Cookies
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken)
-    return res
-      .status(404)
-      .json({ status: false, message: "Please, login!" });
+    return res.status(404).json({ status: false, message: "Please, login!" });
 
   const actor = await Actor.query().findById(req.params.id);
   if (!actor) return res.status(404).json({ message: "Id not found!" });
