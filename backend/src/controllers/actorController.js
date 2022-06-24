@@ -8,13 +8,6 @@ setupDb();
 // Create
 exports.create = async (req, res) => {
   try {
-    // Get User Token in Cookies
-    const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken)
-      return res
-        .status(404)
-        .json({ status: false, message: "You're not logged in!" });
-
     let actor_name = req.body.actor_name;
     const insertData = await Actor.query().insert({
       actor_name: actor_name,
@@ -57,12 +50,6 @@ exports.show = async (req, res) => {
 exports.update = async (req, res) => {
   // Get User Token in Cookies
 
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken)
-    return res
-      .status(404)
-      .json({ status: false, message: "You're not logged in!" });
-
   const actor = await Actor.query().findById(req.params.id);
   if (!actor) return res.status(404).json({ message: "Id not found!" });
 
@@ -86,14 +73,6 @@ exports.update = async (req, res) => {
 
 // Delete
 exports.destroy = async (req, res) => {
-  // Get User Token in Cookies
-
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken)
-    return res
-      .status(404)
-      .json({ status: false, message: "You're not logged in!" });
-
   const actor = await Actor.query().findById(req.params.id);
   if (!actor) return res.status(404).json({ message: "Id not found!" });
 
@@ -120,12 +99,6 @@ exports.destroy = async (req, res) => {
 // Upload Image
 exports.upload = async (req, res) => {
   // Get User Token in Cookies
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken)
-    return res
-      .status(404)
-      .json({ status: false, message: "You're not logged in!" });
-
   const actor = await Actor.query().findById(req.params.id);
   if (!actor) return res.status(404).json({ message: "Id not found!" });
 
