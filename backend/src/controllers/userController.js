@@ -2,8 +2,6 @@ const setupDb = require("../db/knex");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/usersModel");
-const { json } = require("express/lib/response");
-// const { verifiy, verifyToken } = require("../middleware/verifyToken");
 const cookieParser = require("cookie-parser");
 
 cookieParser();
@@ -38,22 +36,12 @@ exports.create = async (req, res) => {
 // Index
 exports.index = async (req, res) => {
   try {
-    const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken)
-      return res
-        .status(404)
-        .json({ status: false, message: "You're not logged in!" });
+    const { userId } = req.user;
+    const userData = await User.query().findOne("id", userId);
 
-    const user = await User.query().findOne("refresh_token", refreshToken);
+    if (!userData) return res.status(404).json({ message: "Not found!" });
 
-    if (!user) return res.status(204);
-
-    const userId = user.id;
-    const dataUser = await User.query().findById(userId);
-
-    return res.status(200).json({
-      data: dataUser,
-    });
+    return res.status(200).json(userData);
   } catch (err) {
     res.json(err);
   }
@@ -76,7 +64,6 @@ exports.update = async (req, res) => {
         .status(404)
         .json({ status: false, message: "You're not logged in!" });
 
-    
     const user = await User.query().findOne("refresh_token", refreshToken);
 
     if (!user) return res.status(204);
@@ -137,9 +124,7 @@ exports.login = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    return res.json({
-      data: { user },
-    });
+    return res.json({ accessToken });
   } catch (err) {
     res.status(404).json({ message: "Invalid email" });
   }

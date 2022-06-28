@@ -48,8 +48,6 @@ exports.show = async (req, res) => {
 
 // Update
 exports.update = async (req, res) => {
-  // Get User Token in Cookies
-
   const actor = await Actor.query().findById(req.params.id);
   if (!actor) return res.status(404).json({ message: "Id not found!" });
 

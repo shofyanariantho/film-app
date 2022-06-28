@@ -10,26 +10,22 @@ exports.refreshToken = async (req, res) => {
     const user = await User.query().findOne("refresh_token", refreshToken);
     if (!user) return res.status(403);
 
-    jwt.verify(
-      refreshToken,
-      process.env.REFRESH_TOKEN_SECRET,
-      (err, decoded) => {
-        if (err) return res.status(403);
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err) => {
+      if (err) return res.status(403);
 
-        const userId = user.id;
-        const name = user.user_name;
-        const email = user.user_email;
+      const userId = user.id;
+      const name = user.userName;
+      const email = user.userEmail;
 
-        const accessToken = jwt.sign(
-          { userId, name, email },
-          process.env.REFRESH_TOKEN_SECRET,
-          {
-            expiresIn: "15s",
-          }
-        );
-        res.json({ accessToken });
-      }
-    );
+      const accessToken = jwt.sign(
+        { userId, name, email },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+          expiresIn: "20s",
+        }
+      );
+      res.json({ accessToken });
+    });
   } catch (err) {
     res.json(err);
   }
