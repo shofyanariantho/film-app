@@ -1,42 +1,97 @@
-import React from 'react'
-import { Button, Card, CardGroup, Image} from 'react-bootstrap'
-import LoginImages from "../assets/images/bg/login.jpg"
-import '../style/LoginComponent.css'
+import React, { useState } from "react";
+import axios from "axios";
+import { Form, Button, Card, CardGroup, Image } from "react-bootstrap";
+import LoginImages from "../assets/images/bg/login.jpg";
+import "../style/LoginComponent.css";
+import { useNavigate } from "react-router-dom";
 
 function LoginComponent() {
+  const [user_email, setEmail] = useState("");
+  const [user_password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const redirect = useNavigate();
+
+  const Auth = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(
+        "http://localhost:8000/user/login",
+        {
+          user_email,
+          user_password,
+        },
+        { withCredentials: true }
+      );
+      redirect("/");
+    } catch (error) {
+      if (error.response) {
+        setMessage(error.response.data.message);
+      }
+    }
+  };
+
   return (
-    <CardGroup >
-        <div >
-            <Image src={LoginImages} className="images_login" />
+    <CardGroup>
+      <div>
+        <Image src={LoginImages} className="images_login" />
+      </div>
+      <Card className="card-form">
+        <div>
+          <h4 className="fw-bold mb-5">MOVIEW.</h4>
         </div>
-        <Card className='card-form'>
-            <div>
-                <h4 className='fw-bold mb-5'>MOVIEW.</h4>
-            </div>
-            <div className=''>
-                <h5 className="login-title pb-2">Log in</h5>
-                <form action="#!" className='form-container text-black-50'>
-                    <div>
-                        <label for="email" className='d-block pb-1'>Email</label>
-                        <input type="email" name="email" id="email" placeholder="email@example.com" className='border-0 border-bottom w-100 mb-3'/>
-                    </div>
-                    <div>
-                        <label for="password" className='d-block pb-1'>Password</label>
-                        <input type="password" name="password" id="password" placeholder="enter your passsword" className='border-0 border-bottom w-100 mb-3'/>
-                    </div>
-                    <Button variant="warning" size="lg" className='w-100 text-white mb-2'>
-                        LOGIN
-                    </Button>{' '}
-                </form>
-                <Button variant="link" className='p-0 text-black'>Forgot Password?</Button>
-                <p className='mt-5'>
-                    Don't have an account?
-                    <Button variant="link" className='pt-0 ps-1 text-black text-decoration-none'>Register Here</Button>
-                </p>
-                </div>
-        </Card>
+        <div className="">
+          <h5 className="login-title pb-2">Log in</h5>
+          <Form onSubmit={Auth} className="form-container text-black-50">
+            <Form.Group>
+              <Form.Label className="d-block pb-1">Email</Form.Label>
+              <Form.Control
+                id="email"
+                type="email"
+                value={user_email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="email@example.com"
+                className="border-0 border-bottom w-100 mb-3"
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Group>
+                <Form.Label for="password" className="d-block pb-1">
+                  Password
+                </Form.Label>
+                <Form.Control
+                  type="password"
+                  value={user_password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="border-0 border-bottom w-100 mb-3"
+                  placeholder="Enter your password"
+                />
+              </Form.Group>
+            </Form.Group>
+            <Button
+              type="submit"
+              variant="warning"
+              size="lg"
+              className="w-100 text-white mb-2"
+            >
+              LOGIN
+            </Button>
+          </Form>
+          <Button variant="link" className="p-0 text-black">
+            Forgot Password?
+          </Button>
+          <p className="mt-5">
+            Don't have an account?
+            <Button
+              variant="link"
+              className="pt-0 ps-1 text-black text-decoration-none"
+            >
+              Register Here
+            </Button>
+          </p>
+        </div>
+      </Card>
     </CardGroup>
-    )
+  );
 }
 
-export default LoginComponent
+export default LoginComponent;
