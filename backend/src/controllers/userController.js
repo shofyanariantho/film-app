@@ -58,11 +58,6 @@ exports.update = async (req, res) => {
       return res.status(400).json({ message: "Password does not match!" });
 
     const hashPassword = bcrypt.hashSync(user_password, 8);
-    const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken)
-      return res
-        .status(404)
-        .json({ status: false, message: "You're not logged in!" });
 
     const user = await User.query().findOne("refresh_token", refreshToken);
 
@@ -133,12 +128,6 @@ exports.login = async (req, res) => {
 // Logout
 exports.logout = async (req, res) => {
   try {
-    const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken)
-      return res
-        .status(404)
-        .json({ status: false, message: "You're not logged in!" });
-
     const user = await User.query().findOne("refresh_token", refreshToken);
 
     if (!user) return res.status(204);

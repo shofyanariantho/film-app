@@ -1,6 +1,6 @@
 const express = require('express')
 const reviewController = require('../controllers/reviewController')
-const { verifyLogin } = require('../middleware/verifyLogin');
+const { verifyLogin } = require('../middleware/verifyLogin'); // Middleware for Auth
 const router = express.Router()
 
 router.post('/create', verifyLogin, reviewController.create);

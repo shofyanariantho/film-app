@@ -8,12 +8,6 @@ setupDb();
 // create
 exports.create = async (req, res) => {
   try {
-    const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken)
-      return res
-        .status(404)
-        .json({ status: false, message: "You're not logged in!" });
-
     let { director_name } = req.body;
     const insertData = await Director.query().insert({
       director_name: director_name,
@@ -55,12 +49,6 @@ exports.show = async (req, res) => {
 
 // update
 exports.update = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken)
-    return res
-      .status(404)
-      .json({ status: false, message: "You're not logged in!" });
-
   const director = await Director.query().findById(req.params.id);
   if (!director) return res.status(404).json({ message: "Id not found!" });
   
@@ -85,12 +73,6 @@ exports.update = async (req, res) => {
 
 // delete
 exports.destroy = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken)
-    return res
-      .status(404)
-      .json({ status: false, message: "You're not logged in!" });
-
   const director = await Director.query().findById(req.params.id);
   if (!director) return res.status(404).json({ message: "Id not Found!" });
 
@@ -116,12 +98,6 @@ exports.destroy = async (req, res) => {
 
 // upload image
 exports.upload = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken)
-    return res
-      .status(404)
-      .json({ status: false, message: "You're not logged in!" });
-
   const director = await Director.query().findById(req.params.id);
   if (!director) return res.status(404).json({ message: "Id not found!" });
 

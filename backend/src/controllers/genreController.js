@@ -6,12 +6,6 @@ setuDb();
 //create
 exports.create = async (req, res) => {
   try {
-    const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken)
-      return res
-        .status(404)
-        .json({ status: false, message: "You're not logged in!" });
-
     let { genre_name } = req.body;
     const insertData = await Genre.query().insert({
       genre_name: genre_name,
@@ -54,12 +48,6 @@ exports.show = async (req, res) => {
 
 // Update
 exports.update = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken)
-    return res
-      .status(404)
-      .json({ status: false, message: "You're not logged in!" });
-
   const genre = await Genre.query().findById(req.params.id);
   if (!genre) return res.status(404).json({ message: "Id not found!" });
 
@@ -83,12 +71,6 @@ exports.update = async (req, res) => {
 
 // Delete
 exports.destroy = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken)
-    return res
-      .status(404)
-      .json({ status: false, message: "You're not logged in!" });
-
   const genre = await Genre.query().findById(req.params.id);
   if (!genre) return res.status(404).json({ message: "Id not found!" });
 

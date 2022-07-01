@@ -7,12 +7,6 @@ setuDb();
 
 exports.create = async (req, res) => {
   try {
-    const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken)
-      return res
-        .status(404)
-        .json({ status: false, message: "You're not logged in!" });
-
     let {
       judul_film,
       description,
@@ -68,12 +62,6 @@ exports.show = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken)
-    return res
-      .status(404)
-      .json({ status: false, message: "You're not logged in!" });
-
   const film = await Film.query().findById(req.params.id);
   if (!film) return res.status(404).json({ message: "Id not found!" });
 
@@ -112,12 +100,6 @@ exports.update = async (req, res) => {
 };
 
 exports.destroy = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken)
-    return res
-      .status(404)
-      .json({ status: false, message: "You're not logged in!" });
-
   const film = await Film.query().findById(req.params.id);
   if (!film) return res.status(404).json({ message: "Id not found!" });
 
@@ -142,12 +124,6 @@ exports.destroy = async (req, res) => {
 };
 
 exports.upload = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken)
-    return res
-      .status(404)
-      .json({ status: false, message: "You're not logged in!" });
-
   const film = await Film.query().findById(req.params.id);
   if (!film) return res.status(404).json({ message: "Id not found!" });
 

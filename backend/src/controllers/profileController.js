@@ -5,12 +5,6 @@ setuDb();
 
 exports.create = async (req, res) => {
   try {
-    const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken)
-      return res
-        .status(404)
-        .json({ status: false, message: "You're not logged in!" });
-
     let { mobile, user_id } = req.body;
     const insertData = await Profile.query().insert({
       mobile: mobile,
@@ -51,12 +45,6 @@ exports.show = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken)
-    return res
-      .status(404)
-      .json({ status: false, message: "You're not logged in!" });
-
   const profile = await Profile.query().findById(req.params.id);
   if (!profile) return res.status(404).json({ message: "Id not found!" });
 
@@ -80,12 +68,6 @@ exports.update = async (req, res) => {
 };
 
 exports.destroy = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
-  if (!refreshToken)
-    return res
-      .status(404)
-      .json({ status: false, message: "You're not logged in!" });
-
   const profile = await Profile.query().findById(req.params.id);
   if (!profile) return res.status(404).json({ message: "Id not found!" });
   
