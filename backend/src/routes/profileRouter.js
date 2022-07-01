@@ -1,6 +1,6 @@
 const express = require('express')
 const profileController = require('../controllers/profileController')
-const { verifyLogin } = require('../middleware/verifyLogin');
+const { verifyLogin } = require('../middleware/verifyLogin'); // Middleware for Auth
 const router = express.Router()
 
 router.post('/create', verifyLogin, profileController.create);
