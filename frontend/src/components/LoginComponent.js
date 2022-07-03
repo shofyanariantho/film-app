@@ -22,7 +22,7 @@ function LoginComponent() {
         },
         { withCredentials: true }
       );
-      redirect("/");
+      redirect("/Dashboard");
     } catch (error) {
       if (error.response) {
         setMessage(error.response.data.message);

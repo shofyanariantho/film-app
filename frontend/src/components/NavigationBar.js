@@ -18,10 +18,10 @@ const NavigationBar = () => {
       </Nav>
       <Nav>
       <div className="d-grid gap-2 d-md-block">
-        <button className="btn btn-warning m-1 fw-bold" type="button"> 
+        <Nav.Link href="/login" className="btn btn-warning m-1 fw-bold text-black"> 
           <FaUserCircle className="text-black fs-5 me-2"/>
             Log In
-        </button>
+        </Nav.Link>
       </div>
       </Nav>
     </Navbar.Collapse>

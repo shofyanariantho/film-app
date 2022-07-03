@@ -9,6 +9,9 @@ import ActorPage from "./Pages/ActorPage";
 import DashboardPage from "./Pages/DashboardPage";
 import UploadPage from "./Pages/UploadPage";
 import PrivateRoutes from "./utils/PrivateRoutes";
+import AddGenre from "./Pages/AddGenre";
+import EditGenre from "./Pages/EditGenre";
+import GenrePages from "./Pages/GenrePages";
 
 function App() {
   return (
@@ -16,15 +19,18 @@ function App() {
       <Routes>
         <Route element={<PrivateRoutes />}>
           <Route path="/AddFilm" element={<UploadPage />} />
+          <Route path="/AddGenre" element={<AddGenre />} />
+          <Route path="/Dashboard" element={<DashboardPage />} />
         </Route>
+          <Route path="/EditGenre:id" element={<EditGenre />} />
+          <Route path="/Genre" element={<GenrePages />} />
 
+        <Route path="/Film" element={<FilmPage />} />
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/Register" element={<RegistPage />} />
-        <Route path="/Film" element={<FilmPage />} />
         <Route path="/Director" element={<DirectorPage />} />
         <Route path="/Actor" element={<ActorPage />} />
-        <Route path="/Dashboard" element={<DashboardPage />} />
       </Routes>
     </BrowserRouter>
   );
