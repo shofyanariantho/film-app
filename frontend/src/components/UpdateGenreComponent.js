@@ -21,8 +21,10 @@ const UpdateGenreComponent = () => {
         try {
             await axios.put(`http://localhost:8000/genre/${id}`, {
                 genre_name,
-            })
-            redirect('/')
+            },
+            { withCredentials: true }
+            )
+            redirect('/Genre')
         } catch (error) {
             console.log(error)
         }

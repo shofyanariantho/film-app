@@ -21,9 +21,9 @@ function App() {
           <Route path="/AddFilm" element={<UploadPage />} />
           <Route path="/AddGenre" element={<AddGenre />} />
           <Route path="/Dashboard" element={<DashboardPage />} />
-        </Route>
-          <Route path="/EditGenre:id" element={<EditGenre />} />
+          <Route path="/EditGenre/:id" element={<EditGenre />} />
           <Route path="/Genre" element={<GenrePages />} />
+        </Route>
 
         <Route path="/Film" element={<FilmPage />} />
         <Route path="/" element={<LandingPage />} />

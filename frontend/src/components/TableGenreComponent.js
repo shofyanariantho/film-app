@@ -6,12 +6,14 @@ const TableGenreComponent = () => {
     const [genres, setGenres] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:8000/genre')
-            .then(res => {
-                setGenres(res.data.genres);
-            })
-            .catch(err => console.log(err));
+        const getGenres = async () => {
+            const { data: res } = await axios.get("http://localhost:8000/genre");
+            setGenres(res.genres);
+        }
+        getGenres();
     }, [])
+
+    
 
     const deleteGenre = async (id) => {
         try {
@@ -41,16 +43,16 @@ const TableGenreComponent = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {genres.map((genre, index) => (
-                        <tr key={genre.id}>
+                    {genres.map((genres, index) => (
+                        <tr key={genres.id}>
                             <td>{index + 1}</td>
-                            <td>{genre.genreName}</td>
+                            <td>{genres.genreName}</td>
                             <td>
-                                <Button href={`/EditGenre/${genre.id}`} variant="primary" size="sm">
+                                <Button href={`/EditGenre/${genres.id}`} variant="primary" size="sm">
                                     Edit
                                 </Button>
                                 <Button 
-                                    onClick={() => deleteGenre(genre.id)}
+                                    onClick={() => deleteGenre(genres.id)}
                                     variant="danger" 
                                     size="sm"
                                 >
