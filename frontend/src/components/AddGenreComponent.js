@@ -14,7 +14,7 @@ const AddGenreComponent = () => {
             { genre_name },
             { withCredentials: true }
             )
-            redirect('/')
+            redirect('/Genre')
         } catch (error) {
             console.log(error)
         }

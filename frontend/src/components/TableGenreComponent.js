@@ -6,18 +6,17 @@ const TableGenreComponent = () => {
     const [genres, setGenres] = useState([]);
 
     useEffect(() => {
-        getGenres();
+        axios.get('http://localhost:8000/genre')
+            .then(res => {
+                setGenres(res.data.genres);
+            })
+            .catch(err => console.log(err));
     }, [])
-
-    const getGenres = async () => {
-        const { data: res } = await axios.get("http://localhost:8000/genre");
-        setGenres(res);
-    }
 
     const deleteGenre = async (id) => {
         try {
-            await axios.delete(`http://localhost:8000/genre/${id}`);
-            getGenres();
+            await axios.delete(`http://localhost:8000/genre/${id}`, { withCredentials: true });
+            setGenres(genres.filter(genre => genre.id !== id));
         } catch (error) {
             console.log(error);
         }
