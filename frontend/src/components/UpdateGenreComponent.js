@@ -30,6 +30,7 @@ const UpdateGenreComponent = () => {
         }
     }
 
+    console.log(genre_name)
     return (
     <Container>
         <h3 className='mt-4'>UPDATE GENRE </h3>
@@ -41,15 +42,22 @@ const UpdateGenreComponent = () => {
                 <Col sm={10}>
                     <Form.Control
                         type="string"
-                        value={genre_name}
+                        value={genre_name || ''}
                         onChange={(e) => setGenreName(e.target.value)}
                         placeholder="Genre"
                     />
                 </Col>
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <div ClassName='row'>
+                <div className='col-6'>
+                    <Button href='/Genre' variant='secondary' type='reset' size='md' >
+                        Cancel
+                    </Button>
+                    <Button variant='primary' type='submit' size='md' className='m-3'>
                         Update
-            </Button>
+                    </Button>
+                </div>
+            </div>
         </Form>
     </Container>
     )

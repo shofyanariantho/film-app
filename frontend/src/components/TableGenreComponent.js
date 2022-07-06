@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Table, Button, Container} from 'react-bootstrap'
+import { Table, Button, Container, Alert} from 'react-bootstrap'
+import { BsPlusLg } from 'react-icons/bs'
+import { BsTrash2 } from 'react-icons/bs'
+import { BsPencil } from 'react-icons/bs'
 import axios from 'axios'
 
 const TableGenreComponent = () => {
     const [genres, setGenres] = useState([]);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const getGenres = async () => {
@@ -13,33 +17,46 @@ const TableGenreComponent = () => {
         getGenres();
     }, [])
 
-    
-
     const deleteGenre = async (id) => {
         try {
             await axios.delete(`http://localhost:8000/genre/${id}`, { withCredentials: true });
             setGenres(genres.filter(genre => genre.id !== id));
         } catch (error) {
-            console.log(error);
+            if (error.response) {
+                setError(error.response.data.message)
+            }
         }
     }
 
     return (
         <Container>
-            <h3 className='mt-4'>GENRE TABLE </h3>
             <div className='row'>
-                <div className='col'>
+                <div className='col-md-11'>
+                    <h3 className='mt-4'>GENRE TABLE </h3>
+                </div>
+                <div className='col-md-1 mt-4'>
                     <Button href='/AddGenre' variant='primary' size='md' className='mb-2'>
-                        Add Genre
+                        <BsPlusLg size={20}/>
                     </Button>
                 </div>
             </div>
-            <Table striped bordered hover>
+            <div className='row'>
+                <div className='col-12'>
+                    {error ? (
+                        <Alert variant='danger'>
+                            {error}
+                        </Alert>
+                    ) : null
+                    }
+                </div>
+            </div>
+            <Table striped>
                 <thead>
                     <tr>
                         <th>No</th>
                         <th>Genre</th>
-                        <th>Actions</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,15 +65,17 @@ const TableGenreComponent = () => {
                             <td>{index + 1}</td>
                             <td>{genres.genreName}</td>
                             <td>
-                                <Button href={`/EditGenre/${genres.id}`} variant="primary" size="sm">
-                                    Edit
+                                <Button href={`/EditGenre/${genres.id}`} variant="warning" size="sm">
+                                    <BsPencil size={20}/>
                                 </Button>
+                            </td>
+                            <td>
                                 <Button 
                                     onClick={() => deleteGenre(genres.id)}
                                     variant="danger" 
                                     size="sm"
                                 >
-                                    Delete
+                                    <BsTrash2 size={20}/>
                                 </Button>
                             </td>
                         </tr>
