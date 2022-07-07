@@ -6,21 +6,23 @@ import { BsPencil } from 'react-icons/bs'
 import axios from 'axios'
 
 const TableGenreComponent = () => {
-    const [genres, setGenres] = useState([]);
-    const [error, setError] = useState('');
+    const [genres, setGenres] = useState([])
+    const [error, setError] = useState('')
+    const [message, setMessage] = useState('')
 
     useEffect(() => {
         const getGenres = async () => {
             const { data: res } = await axios.get("http://localhost:8000/genre");
-            setGenres(res.genres);
+            setGenres(res.genres)
         }
-        getGenres();
+        getGenres()
     }, [])
 
     const deleteGenre = async (id) => {
         try {
-            await axios.delete(`http://localhost:8000/genre/${id}`, { withCredentials: true });
-            setGenres(genres.filter(genre => genre.id !== id));
+            await axios.delete(`http://localhost:8000/genre/${id}`, { withCredentials: true })
+            setGenres(genres.filter(genre => genre.id !== id))
+            setMessage('Genre Delete successfully')
         } catch (error) {
             if (error.response) {
                 setError(error.response.data.message)
@@ -29,6 +31,7 @@ const TableGenreComponent = () => {
     }
 
     return (
+        <>
         <Container>
             <div className='row'>
                 <div className='col-md-11'>
@@ -45,6 +48,12 @@ const TableGenreComponent = () => {
                     {error ? (
                         <Alert variant='danger'>
                             {error}
+                        </Alert>
+                    ) : null
+                    }
+                    {message ? (
+                        <Alert variant='primary'>
+                            {message}
                         </Alert>
                     ) : null
                     }
@@ -71,7 +80,7 @@ const TableGenreComponent = () => {
                             </td>
                             <td>
                                 <Button 
-                                    onClick={() => deleteGenre(genres.id)}
+                                    onClick={(handleShow) => deleteGenre(genres.id)}
                                     variant="danger" 
                                     size="sm"
                                 >
@@ -83,6 +92,7 @@ const TableGenreComponent = () => {
                 </tbody>
             </Table>
         </Container>
+        </>
     )
 }
 
