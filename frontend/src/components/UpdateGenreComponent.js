@@ -10,10 +10,11 @@ const UpdateGenreComponent = () => {
     const { id } = useParams()
     const [error, setError] = useState('')
 
+    
     useEffect(() => {
         const getGenreById = async () => {
             const { data: res } = await axios.get(`http://localhost:8000/genre/${id}`, { withCredentials: true })
-            setGenreName(res.genreName)
+            setGenreName(res.data.genreName)
         }
         getGenreById()
     }, [ id ])
