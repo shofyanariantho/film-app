@@ -1,6 +1,5 @@
 import React from 'react'
 import Action from '../components/Action'
-import Footer from '../components/Footer'
 import Horror from '../components/Horror'
 import NavigationBar from '../components/NavigationBar'
 import Slider from '../components/Slider'
@@ -27,7 +26,6 @@ function LandingPage() {
       </div>
       
       <div>
-      <Footer/>
     </div>
     </div>
     )

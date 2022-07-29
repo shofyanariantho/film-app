@@ -1,6 +1,5 @@
 import React from 'react'
 import DashboardComponent from '../components/DashboardComponent'
-import Footer from '../components/Footer'
 import NavigationBarDashboard from '../components/NavigationBarDashboard'
 
 function DashboardPage() {
@@ -8,7 +7,6 @@ function DashboardPage() {
     <div>
         <NavigationBarDashboard/>
         <DashboardComponent/>
-        <Footer/>
     </div>
   )
 }

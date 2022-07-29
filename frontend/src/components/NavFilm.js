@@ -24,4 +24,4 @@ function NavFilm() {
   )
 }
 
-export default NavFilm
+export default NavFilm;

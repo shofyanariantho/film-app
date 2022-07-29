@@ -1,5 +1,4 @@
 import React from 'react'
-import Footer from '../components/Footer'
 import FormComponentUpload from '../components/FormComponentUpload'
 import NavigationBarDashboard from '../components/NavigationBarDashboard'
 
@@ -8,7 +7,6 @@ function UploadPage() {
     <div>
         <NavigationBarDashboard/>
         <FormComponentUpload/>
-        <Footer/>
     </div>
   )
 }
