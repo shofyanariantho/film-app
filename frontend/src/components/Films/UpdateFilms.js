@@ -1,23 +1,57 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Button, Col, Form, Row } from 'react-bootstrap';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from 'react-router-dom';
 
-const CreateFilm = () => {
+const UpdateFilms = () => {
     const [judul_film, setJudulFilm] = useState('');
     const [description, setDescription] = useState('');
     const [rating_film, setRatingFilm] = useState('');
-    const [user_id, setUserId] = useState([]);
+    const [user_id, setUserId] = useState('');
     const [actor_id, setActorId] = useState([]);
     const [genre_id, setGenreId] = useState([]);
     const [director_id, setDirectorId] = useState([]);
     const redirect = useNavigate();
+    const { id } = useParams();
 
     useEffect(() => {
-        getDirectors();
+        const getFilmById = async () => {
+            const { data: res } = await axios.get(
+                `http://localhost:8000/film/${id}`
+            );
+            setJudulFilm(res.data.judulFilm)
+            setDescription(res.data.description)
+            setRatingFilm(res.data.ratingFilm)
+            setUserId(res.data.userId)
+            console.log(res.data)
+        };
+        getFilmById();
         getActors();
+        getDirectors();
         getGenre();
     }, []);
+
+    const PutFilms = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.put(`http://localhost:8000/film/${id}`,
+                {
+                    judul_film,
+                    description,
+                    rating_film,
+                    user_id,
+                    actor_id,
+                    genre_id,
+                    director_id
+                },
+                { withCredentials: true }
+            );
+            redirect("/listfilm");
+            console.log("berhasil")
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const getActors = async () => {
         const { data: res } = await axios.get("http://localhost:8000/actor",
@@ -37,28 +71,8 @@ const CreateFilm = () => {
         setDirectorId(res.directors)
     };
 
-    const saveFilms = async (e) => {
-        e.preventDefault();
-        try {
-            await axios.post("http://localhost:8000/film/create",
-                {
-                    judul_film,
-                    description,
-                    rating_film,
-                    actor_id,
-                    genre_id,
-                    director_id
-                },
-                { withCredentials: true }
-            );
-            redirect("/listFilm");
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     return (
-        <Form onSubmit={saveFilms}>
+        <Form onSubmit={PutFilms}>
             <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
                 <Form.Label column sm={2}>
                     Title
@@ -167,15 +181,11 @@ const CreateFilm = () => {
                 </Col>
             </Form.Group>
 
-            <Button variant="secondary" type="submit" href='/' className='me-2'>
-                Cancel
-            </Button>
-
             <Button variant="primary" type="submit">
                 Submit
             </Button>
         </Form>
-    );
+    )
 }
 
-export default CreateFilm
+export default UpdateFilms

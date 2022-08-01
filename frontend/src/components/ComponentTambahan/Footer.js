@@ -5,7 +5,7 @@ import { AiFillGithub, AiFillFacebook, AiFillInstagram, AiFillTwitterCircle, AiF
 
 function Footer() {
     return (
-        <div className='mt-5'>
+        <footer className='mt-5'>
             <Card className="text-center bg-dark">
                 <Card.Header className='fs-4 text-white'>
                     <AiFillGithub className='me-3' />
@@ -26,7 +26,7 @@ function Footer() {
                 </Card.Body>
                 <Card.Footer className="text-muted">@2022 by Kelompok 4 Harisenin.com</Card.Footer>
             </Card>
-        </div>
+        </footer>
     )
 }
 

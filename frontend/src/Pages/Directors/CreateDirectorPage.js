@@ -7,8 +7,8 @@ const CreateDirectorPage = () => {
     return (
         <div style={{backgroundImage:`url(${bgformdirector})`}}>
             <NavbarComponent />
-            <div className="container mt-5">
-                <div className="card border">
+            <div className="container mt-5" style={{ height: '56.9vh' } }>
+                <div className="card border" >
                     {/* Page Title */}
                     <PageTitle title="Upload Director" />
 

@@ -8,15 +8,25 @@ import ActorComponent from "./Actors/ActorComponent";
 import CreateActor from "./Actors/CreateActor";
 import CreateImageActor from "./Actors/CreateImageActor";
 import UpdateActor from "./Actors/UpdateActor";
+import ActorList from "./Actors/ActorList";
 
 // directorrr
 import CreateDirector from "./Directors/CreateDirector";
 import CreateImageDirector from "./Directors/CreateImageDirector";
 import DirectorComponents from "./Directors/DirectorComponent";
 import UpdateDirector from "./Directors/UpdateDirector";
+import DirectorList from "./Directors/DirectorList";
 
 // Films
 import CreateFilm from "./Films/CreateFilm";
+import CreateImageFilm from "./Films/CreateImageFilm";
+import ListFilm from "./Films/ListFilm";
+import DashboardFilm from "./Films/DashboardFilm";
+
+// Genreee
+import AddGenreComponent from "./Genre/AddGenreComponent";
+import TableGenreComponent from "./Genre/TableGenreComponent";
+import UpdateGenreComponent from "./Genre/UpdateGenreComponent";
 
 export { 
     Footer, 
@@ -30,5 +40,13 @@ export {
     CreateImageDirector,
     DirectorComponents,
     UpdateDirector,
-    CreateFilm
+    CreateFilm,
+    CreateImageFilm,
+    ListFilm,
+    AddGenreComponent,
+    TableGenreComponent,
+    UpdateGenreComponent,
+    DashboardFilm,
+    ActorList,
+    DirectorList
 }

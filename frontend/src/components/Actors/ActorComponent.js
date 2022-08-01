@@ -31,7 +31,7 @@ const ActorComponent = () => {
         <Navbar collapseOnSelect expand="lg" className='border-bottom'>
           <Navbar.Brand href="#home" className='fs-3 text-white fw-bold'> {actorName} </Navbar.Brand>
         </Navbar>
-        <Image src={`http://localhost:8000/images/actor/${actorImage}`} className="images my-2" />
+        <Image src={`http://localhost:8000/images/actor/${actorImage}`} className="my-2" />
       </Container>
     </div>
   )

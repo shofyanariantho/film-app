@@ -29,7 +29,7 @@ const DirectorComponents = () => {
                 <Navbar collapseOnSelect expand="lg" className='border-bottom'>
                     <Navbar.Brand href="#home" className='fs-3 text-white fw-bold'> {directorName} </Navbar.Brand>
                 </Navbar>
-                <Image src={`http://localhost:8000/images/director/${directorImage}`} className="images my-2" />
+                <Image src={`http://localhost:8000/images/director/${directorImage}`} className=" my-2"  style={{ height: '70vh' } } />
             </Container>
         </div>
     )

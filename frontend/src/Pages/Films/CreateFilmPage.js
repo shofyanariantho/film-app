@@ -6,7 +6,7 @@ const CreateFilmPage = () => {
     return (
         <div style={{ backgroundImage: `url(${bgformfilms})` }}>
             <NavbarComponent />
-            <div className="container mt-5">
+            <div className="container mt-5" >
                 <div className="card border">
                     {/* Page Title */}
                     <PageTitle title="Upload Actor" />

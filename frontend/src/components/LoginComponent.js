@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Form, Button, Card, CardGroup, Image } from "react-bootstrap";
 import LoginImages from "../assets/images/bg/login.jpg";
-import "../style/LoginComponent.css";
 import { useNavigate } from "react-router-dom";
 
 function LoginComponent() {
@@ -33,9 +32,9 @@ function LoginComponent() {
   return (
     <CardGroup>
       <div>
-        <Image src={LoginImages} className="images_login" />
+        <Image src={LoginImages} style={{height: '100vh', width:'100vh'}}/>
       </div>
-      <Card className="card-form">
+      <Card className="justify-content-center p-5">
         <div>
           <h4 className="fw-bold mb-5">MOVIEW.</h4>
         </div>
@@ -81,12 +80,14 @@ function LoginComponent() {
           </Button>
           <p className="mt-5">
             Don't have an account?
-            <Button
+            <a
               variant="link"
-              className="pt-0 ps-1 text-black text-decoration-none"
+              className="pt-0 ps-1 text-info text-decoration-none"
+              href="/register"
+              hover
             >
               Register Here
-            </Button>
+            </a>
           </p>
         </div>
       </Card>

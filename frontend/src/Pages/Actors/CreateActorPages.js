@@ -6,7 +6,7 @@ const CreateActorPages = () => {
     return (
         <div style={{backgroundImage:`url(${bgformactor})`}}>
             <NavbarComponent />
-            <div className="container mt-5">
+            <div className="container mt-5" style={{ height: '52vh' }}>
                 <div className="card border">
                     {/* Page Title */}
                     <PageTitle title="Upload Actor" />

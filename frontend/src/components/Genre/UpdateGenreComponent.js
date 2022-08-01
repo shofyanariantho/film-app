@@ -83,4 +83,4 @@ const UpdateGenreComponent = () => {
     )
 }
 
-export default UpdateGenreComponent
+export default UpdateGenreComponent;
