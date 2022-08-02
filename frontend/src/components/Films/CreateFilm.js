@@ -1,181 +1,199 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const CreateFilm = () => {
-    const [judul_film, setJudulFilm] = useState('');
-    const [description, setDescription] = useState('');
-    const [rating_film, setRatingFilm] = useState('');
-    const [user_id, setUserId] = useState([]);
-    const [actor_id, setActorId] = useState([]);
-    const [genre_id, setGenreId] = useState([]);
-    const [director_id, setDirectorId] = useState([]);
-    const redirect = useNavigate();
+  //   const [judul_film, setJudulFilm] = useState("");
+  //   const [description, setDescription] = useState("");
+  //   const [rating_film, setRatingFilm] = useState("");
+  //   const [user_id, setUserId] = useState([]);
+  //   const [actor_id, setActorId] = useState("");
+  const [actorArray, setActorArray] = useState([]);
+  //   const [genre_id, setGenreId] = useState("");
+  const [genreArray, setGenreArray] = useState([]);
+  //   const [director_id, setDirectorId] = useState("");
+  const [directorArray, setDirectorArray] = useState([]);
+  const [formData, setFormData] = useState({});
+  const redirect = useNavigate();
 
-    useEffect(() => {
-        getDirectors();
-        getActors();
-        getGenre();
-    }, []);
-
+  useEffect(() => {
     const getActors = async () => {
-        const { data: res } = await axios.get("http://localhost:8000/actor",
-        )
-        setActorId(res)
+      const { data: res } = await axios.get("http://localhost:8000/actor");
+      setActorArray(res);
     };
 
     const getGenre = async () => {
-        const { data: res } = await axios.get("http://localhost:8000/genre",
-        )
-        setGenreId(res.genres)
+      const { data: res } = await axios.get("http://localhost:8000/genre");
+      setGenreArray(res.genres);
     };
 
     const getDirectors = async () => {
-        const { data: res } = await axios.get("http://localhost:8000/director",
-        )
-        setDirectorId(res.directors)
+      const { data: res } = await axios.get("http://localhost:8000/director");
+      setDirectorArray(res.directors);
     };
 
-    const saveFilms = async (e) => {
-        e.preventDefault();
-        try {
-            await axios.post("http://localhost:8000/film/create",
-                {
-                    judul_film,
-                    description,
-                    rating_film,
-                    actor_id,
-                    genre_id,
-                    director_id
-                },
-                { withCredentials: true }
-            );
-            redirect("/listFilm");
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    getDirectors();
+    getActors();
+    getGenre();
+  }, []);
 
-    return (
-        <Form onSubmit={saveFilms}>
-            <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
-                <Form.Label column sm={2}>
-                    Title
-                </Form.Label>
-                <Col sm={10}>
-                    <Form.Control
-                        type="text"
-                        placeholder="Title Film"
-                        value={judul_film}
-                        onChange={(e) => setJudulFilm(e.target.value)}
-                    />
-                </Col>
-            </Form.Group>
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setFormData((v) => ({ ...v, [name]: value }));
+  };
 
-            <Form.Group as={Row} className="mb-3" controlId="formHorizontalPassword">
-                <Form.Label column sm={2}>
-                    Description
-                </Form.Label>
-                <Col sm={10}>
-                    <Form.Control
-                        as="textarea"
-                        style={{ height: '100px' }}
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                    />
-                </Col>
-            </Form.Group>
+  const saveFilms = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:8000/film/create", {
+        ...formData,
+        actor_id: parseInt(formData.actor_id),
+        genre_id: parseInt(formData.genre_id),
+        director_id: parseInt(formData.director_id),
+      }, {
+        withCredentials: true,
+      });
+        redirect("/listFilm");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-            <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
-                <Form.Label column sm={2}>
-                    Rating
-                </Form.Label>
-                <Col sm={10}>
-                    <Form.Control
-                        type="number"
-                        placeholder="Rating Film"
-                        value={rating_film}
-                        onChange={(e) => setRatingFilm(e.target.value)}
-                    />
-                </Col>
-            </Form.Group>
+  return (
+    <Form onSubmit={saveFilms}>
+      <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+        <Form.Label column sm={2}>
+          Title
+        </Form.Label>
+        <Col sm={10}>
+          <Form.Control
+            name="judul_film"
+            type="text"
+            placeholder="Title Film"
+            value={formData.judul_film || ""}
+            onChange={handleChange}
+          />
+        </Col>
+      </Form.Group>
 
-            <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
-                <Form.Label column sm={2}>
-                    Actor
-                </Form.Label>
-                <Col sm={10}>
-                    <Form.Select aria-label="Default select example">
-                        {actor_id.map((actor, index) => {
-                            return (
-                                <option
-                                    key={index}
-                                    value={actor_id}
-                                    onChange={(e) => setActorId(e.target.value)}
-                                >
-                                    {actor.actorName}
-                                </option>
-                            )
-                        }
-                        )}
-                    </Form.Select>
-                </Col>
-            </Form.Group>
+      <Form.Group as={Row} className="mb-3" controlId="formHorizontalPassword">
+        <Form.Label column sm={2}>
+          Description
+        </Form.Label>
+        <Col sm={10}>
+          <Form.Control
+            name="description"
+            as="textarea"
+            style={{ height: "100px" }}
+            value={formData.description || ""}
+            onChange={handleChange}
+          />
+        </Col>
+      </Form.Group>
 
-            <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
-                <Form.Label column sm={2}>
-                    Genre
-                </Form.Label>
-                <Col sm={10}>
-                    <Form.Select aria-label="Default select example">
-                        {genre_id.map((genre, index) => {
-                            return (
-                                <option
-                                    key={index}
-                                    value={genre_id}
-                                    onChange={(e) => setGenreId(e.target.value)}
-                                >
-                                    {genre.genreName}
-                                </option>
-                            )
-                        }
-                        )}
-                    </Form.Select>
-                </Col>
-            </Form.Group>
+      <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+        <Form.Label column sm={2}>
+          Rating
+        </Form.Label>
+        <Col sm={10}>
+          <Form.Control
+            name="rating_film"
+            type="number"
+            placeholder="Rating Film"
+            value={formData.rating_film}
+            onChange={handleChange}
+          />
+        </Col>
+      </Form.Group>
 
-            <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
-                <Form.Label column sm={2}>
-                    Director
-                </Form.Label>
-                <Col sm={10}>
-                    <Form.Select aria-label="Default select example">
-                        {director_id.map((director, index) => {
-                            return (
-                                <option
-                                    key={index}
-                                    value={director_id}
-                                    onChange={(e) => setDirectorId(e.target.value)}
-                                >
-                                    {director.directorName}
-                                </option>
-                            )
-                        }
-                        )}
-                    </Form.Select>
-                </Col>
-            </Form.Group>
+      <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+        <Form.Label column sm={2}>
+          Actor
+        </Form.Label>
+        <Col sm={10}>
+          <Form.Select
+            name="actor_id"
+            aria-label="Default select example"
+            onChange={handleChange}
+            value={formData.actor_id || ""}
+          >
+            <option value={""} selected>
+              Pilih Aktor
+            </option>
+            {actorArray.map((v, i) => {
+              return (
+                <option key={i} value={v.id}>
+                  {v.actorName}
+                </option>
+              );
+            })}
+          </Form.Select>
+        </Col>
+      </Form.Group>
 
-            <Button variant="secondary" type="submit" href='/' className='me-2'>
-                Cancel
-            </Button>
+      <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+        <Form.Label column sm={2}>
+          Genre
+        </Form.Label>
+        <Col sm={10}>
+          <Form.Select
+            name="genre_id"
+            aria-label="Default select example"
+            onChange={handleChange}
+            value={formData.genre_id}
+          >
+            <option value={""} selected>
+              Pilih Genre
+            </option>
 
-            <Button variant="primary" type="submit">
-                Submit
-            </Button>
-        </Form>
-    );
-}
+            {genreArray.map((v, i) => {
+              return (
+                <option key={i} value={v.id}>
+                  {v.genreName}
+                </option>
+              );
+            })}
+          </Form.Select>
+        </Col>
+      </Form.Group>
 
-export default CreateFilm
+      <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+        <Form.Label column sm={2}>
+          Director
+        </Form.Label>
+        <Col sm={10}>
+          <Form.Select
+            name="director_id"
+            aria-label="Default select example"
+            onChange={handleChange}
+            value={formData.director_id}
+          >
+            <option value={""} selected>
+              Pilih Direktor
+            </option>
+
+            {directorArray.map((v, i) => {
+              return (
+                <option key={i} value={v.id}>
+                  {v.directorName}
+                </option>
+              );
+            })}
+          </Form.Select>
+        </Col>
+      </Form.Group>
+
+      <Button variant="secondary" href="/" className="me-2">
+        Cancel
+      </Button>
+
+      <Button variant="primary" type="submit">
+        Submit
+      </Button>
+    </Form>
+  );
+};
+
+export default CreateFilm;
