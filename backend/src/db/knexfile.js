@@ -1,5 +1,6 @@
 // Update with your config settings.
 const { knexSnakeCaseMappers } = require("objection");
+require('dotenv').config()
 
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
@@ -11,7 +12,7 @@ module.exports = {
       host: "127.0.0.1",
       port: 3307,
       user: "root",
-      password: "shofyan",
+      password: "gwsudahbahagia",
       database: "film_app",
     },
     migrations: {
