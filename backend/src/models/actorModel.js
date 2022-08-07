@@ -1,5 +1,5 @@
 const { Model } = require("objection"); // Objection model
-
+const Film = require("./filmModel");
 class Actor extends Model {
   static get tableName() {
     return "actors";
@@ -22,6 +22,19 @@ class Actor extends Model {
         id: { type: "integer" },
         actor_name: { type: "string", minLength: 2 },
         actor_image: { type: ["string", "null"] },
+      },
+    };
+  }
+
+  static get relationMappings() {
+    return {
+      films: {
+        relation: Model.HasManyRelation,
+        modelClass: Film,
+        join: {
+          from: "actors.id",
+          to: "films.actor_id",
+        },
       },
     };
   }
