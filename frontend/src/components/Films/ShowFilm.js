@@ -54,11 +54,11 @@ const ShowFilm = () => {
           >
             {judulFilm}
           </Navbar.Brand>
-          <div className="d-flex flex-row">
+          <div className="d-flex flex-row float-right">
             <div className="me-3">
-              <p className="mb-0 text-center">MOVIEW. RATING</p>
+              <p className="mb-0">MOVIEW. RATING</p>
               <h2 variant="body" className="w-100 fs-4 text-black">
-                <AiFillStar className="text-warning mb-1" /> {ratingFilm}/10{" "}
+                <AiFillStar className="text-warning mb-1" /> {ratingFilm}/10.00{" "}
               </h2>
             </div>
           </div>
