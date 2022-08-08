@@ -63,16 +63,34 @@ exports.index = async (req, res) => {
 exports.show = async (req, res) => {
   try {
     let id = req.params.id;
-    const film = await Film.query().findById(id);
-
+    const film = await Film.query()
+      .findById(id)
+      .select(
+        "films.id",
+        "judul_film",
+        "description",
+        "rating_film",
+        "film_image",
+        "genre_id",
+        "genres.genre_name",
+        "actor_id",
+        "actors.actor_name",
+        "director_id",
+        "directors.director_name",
+        "users.user_name as created_by",
+        "films.created_at",
+        "films.updated_at"
+      )
+      .join("genres", "films.genre_id", "genres.id")
+      .join("actors", "films.actor_id", "actors.id")
+      .join("directors", "films.director_id", "directors.id")
+      .join("users", "films.user_id", "users.id");
     if (!film) {
       res.status(404).send({ message: "Id not Found!" });
       return;
     }
 
-    return res.json({
-      data: film,
-    });
+    return res.json(film);
   } catch (err) {
     res.json(err);
   }
