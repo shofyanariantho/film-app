@@ -11,7 +11,8 @@ const CreateActor = () => {
   const saveActor = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8000/actor/create",
+      await axios.post(
+        "http://localhost:8000/actor/create",
         { actor_name },
         { withCredentials: true }
       );
@@ -22,10 +23,10 @@ const CreateActor = () => {
   };
 
   return (
-    <div >
+    <div>
       <Form onSubmit={saveActor} bg="dark" className="p-3">
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Name</Form.Label>
+          <Form.Label>Actor</Form.Label>
           <Form.Control
             type="string"
             value={actor_name}

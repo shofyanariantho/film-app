@@ -14,7 +14,7 @@ const CreateFilmPage = () => {
       <div className="container mt-5">
         <div className="card border">
           {/* Page Title */}
-          <PageTitle title="Upload Actor" />
+          <PageTitle title="Add Movie Review" />
 
           {/* Content */}
           <div className="card-body p-3">

@@ -42,20 +42,25 @@ const CreateFilm = () => {
     const name = event.target.name;
     const value = event.target.value;
     setFormData((v) => ({ ...v, [name]: value }));
+    console.log(formData);
   };
 
   const saveFilms = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8000/film/create", {
-        ...formData,
-        actor_id: parseInt(formData.actor_id),
-        genre_id: parseInt(formData.genre_id),
-        director_id: parseInt(formData.director_id),
-      }, {
-        withCredentials: true,
-      });
-        redirect("/listFilm");
+      await axios.post(
+        "http://localhost:8000/film/create",
+        {
+          ...formData,
+          // actor_id: parseInt(formData.actor_id),
+          // genre_id: parseInt(formData.genre_id),
+          // director_id: parseInt(formData.director_id),
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      redirect("/listFilm");
     } catch (error) {
       console.log(error);
     }
@@ -71,7 +76,7 @@ const CreateFilm = () => {
           <Form.Control
             name="judul_film"
             type="text"
-            placeholder="Title Film"
+            placeholder="Film Title"
             value={formData.judul_film || ""}
             onChange={handleChange}
           />
@@ -101,7 +106,7 @@ const CreateFilm = () => {
           <Form.Control
             name="rating_film"
             type="number"
-            placeholder="Rating Film"
+            placeholder="Enter Rating"
             value={formData.rating_film}
             onChange={handleChange}
           />
@@ -119,8 +124,8 @@ const CreateFilm = () => {
             onChange={handleChange}
             value={formData.actor_id || ""}
           >
-            <option value={""} selected>
-              Pilih Aktor
+            <option value={""} selected disabled>
+              Choose Actor...
             </option>
             {actorArray.map((v, i) => {
               return (
@@ -144,8 +149,8 @@ const CreateFilm = () => {
             onChange={handleChange}
             value={formData.genre_id}
           >
-            <option value={""} selected>
-              Pilih Genre
+            <option value={""} selected disabled>
+              Choose Genre...
             </option>
 
             {genreArray.map((v, i) => {
@@ -170,8 +175,8 @@ const CreateFilm = () => {
             onChange={handleChange}
             value={formData.director_id}
           >
-            <option value={""} selected>
-              Pilih Direktor
+            <option value={""} selected disabled>
+              Choose Director...
             </option>
 
             {directorArray.map((v, i) => {

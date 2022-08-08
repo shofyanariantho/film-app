@@ -2,6 +2,7 @@ const setuDb = require("../db/knex");
 const Film = require("../models/filmModel");
 const path = require("path");
 const fs = require("fs");
+const Actor = require("../models/actorModel");
 
 setuDb();
 
@@ -13,7 +14,6 @@ exports.create = async (req, res) => {
       rating_film,
       user_id,
       actor_id,
-      review_id,
       genre_id,
       director_id,
     } = req.body;
@@ -23,7 +23,6 @@ exports.create = async (req, res) => {
       rating_film: rating_film,
       user_id: user_id,
       actor_id: actor_id,
-      review_id: review_id,
       genre_id: genre_id,
       director_id: director_id,
     });
@@ -36,8 +35,26 @@ exports.create = async (req, res) => {
 
 exports.index = async (req, res) => {
   try {
-    const dataFilm = await Film.query();
-    return res.json({ films: dataFilm });
+    const dataFilm = await Film.query()
+      .select(
+        "films.id",
+        "judul_film",
+        "description",
+        "rating_film",
+        "film_image",
+        "genres.genre_name",
+        "actors.actor_name",
+        "directors.director_name",
+        "users.user_name as created_by",
+        "films.created_at",
+        "films.updated_at"
+      )
+      .join("genres", "films.genre_id", "genres.id")
+      .join("actors", "films.actor_id", "actors.id")
+      .join("directors", "films.director_id", "directors.id")
+      .join("users", "films.user_id", "users.id");
+
+    return res.json(dataFilm);
   } catch (err) {
     res.json(err);
   }
@@ -46,16 +63,34 @@ exports.index = async (req, res) => {
 exports.show = async (req, res) => {
   try {
     let id = req.params.id;
-    const film = await Film.query().findById(id);
-
+    const film = await Film.query()
+      .findById(id)
+      .select(
+        "films.id",
+        "judul_film",
+        "description",
+        "rating_film",
+        "film_image",
+        "genre_id",
+        "genres.genre_name",
+        "actor_id",
+        "actors.actor_name",
+        "director_id",
+        "directors.director_name",
+        "users.user_name as created_by",
+        "films.created_at",
+        "films.updated_at"
+      )
+      .join("genres", "films.genre_id", "genres.id")
+      .join("actors", "films.actor_id", "actors.id")
+      .join("directors", "films.director_id", "directors.id")
+      .join("users", "films.user_id", "users.id");
     if (!film) {
       res.status(404).send({ message: "Id not Found!" });
       return;
     }
 
-    return res.json({
-      data: film,
-    });
+    return res.json(film);
   } catch (err) {
     res.json(err);
   }
@@ -72,11 +107,11 @@ exports.update = async (req, res) => {
       rating_film,
       user_id,
       actor_id,
-      review_id,
       genre_id,
       director_id,
     } = req.body;
-    if (!description) return res.json({ message: "Description name required!" });
+    if (!description)
+      return res.json({ message: "Description name required!" });
 
     let id = req.params.id;
     const film = await Film.query().patchAndFetchById(id, {
@@ -85,7 +120,6 @@ exports.update = async (req, res) => {
       rating_film: rating_film,
       user_id: user_id,
       actor_id: actor_id,
-      review_id: review_id,
       genre_id: genre_id,
       director_id: director_id,
     });

@@ -7,27 +7,24 @@ import { useNavigate } from "react-router-dom";
 const ListFilm = () => {
   const [Films, setFilms] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [actorArray, setActorArray] = useState('');
-  const [id, setId] = useState('')
+  const [actorArray, setActorArray] = useState("");
+  const [id, setId] = useState("");
   const redirect = useNavigate();
 
   useEffect(() => {
-    const getActorsById = async () => {
-      const { data: res } = await axios.get(`http://localhost:8000/actor/14`);
-      setActorArray(res.actorName);
-    };
-    getActorsById();
     getFilms();
     deleteActor();
   }, []);
 
   const getFilms = async () => {
-    axios.get("http://localhost:8000/film", {
-      withCredentials: true,
-    }).then(async (response) => {
-      const { films } = response.data;
-      setFilms(films);
-    });
+    axios
+      .get("http://localhost:8000/film", {
+        withCredentials: true,
+      })
+      .then(async (response) => {
+        const films = response.data;
+        setFilms(films);
+      });
   };
 
   const deleteActor = async (id) => {
@@ -36,7 +33,7 @@ const ListFilm = () => {
         withCredentials: true,
       });
       getFilms();
-    } catch (error) { }
+    } catch (error) {}
   };
 
   return (
@@ -72,9 +69,9 @@ const ListFilm = () => {
                 <td>{film.judulFilm}</td>
                 <td>{film.description}</td>
                 <td>{film.ratingFilm}</td>
-                <td>{film.genreId}</td>
-                <td>{actorArray}</td>
-                <td>{film.directorId}</td>
+                <td>{film.genreName}</td>
+                <td>{film.actorName}</td>
+                <td>{film.directorName}</td>
                 <td>
                   <Button
                     href={`createfilmimage/${film.id}`}

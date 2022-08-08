@@ -10,7 +10,6 @@ exports.up = function (knex) {
     table.decimal("rating_film");
     table.integer("user_id").unsigned().references("id").inTable("users");
     table.integer("actor_id").unsigned().references("id").inTable("actors");
-    table.integer("review_id").unsigned().references("id").inTable("reviews");
     table.integer("genre_id").unsigned().references("id").inTable("genres");
     table
       .integer("director_id")
