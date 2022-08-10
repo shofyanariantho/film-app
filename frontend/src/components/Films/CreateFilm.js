@@ -1,4 +1,5 @@
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +17,10 @@ const CreateFilm = () => {
   const [directorArray, setDirectorArray] = useState([]);
   const [formData, setFormData] = useState({});
   const redirect = useNavigate();
+  const token = localStorage.getItem("auth");
+  const decoded = jwtDecode(token);
+
+
 
   useEffect(() => {
     const getActors = async () => {
@@ -52,9 +57,10 @@ const CreateFilm = () => {
         "http://localhost:8000/film/create",
         {
           ...formData,
-          // actor_id: parseInt(formData.actor_id),
-          // genre_id: parseInt(formData.genre_id),
-          // director_id: parseInt(formData.director_id),
+          actor_id: parseInt(formData.actor_id),
+          genre_id: parseInt(formData.genre_id),
+          director_id: parseInt(formData.director_id),
+          user_id: decoded.userId,
         },
         {
           withCredentials: true,
@@ -68,6 +74,7 @@ const CreateFilm = () => {
 
   return (
     <Form onSubmit={saveFilms}>
+
       <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
         <Form.Label column sm={2}>
           Title

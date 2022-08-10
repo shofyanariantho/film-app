@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Form, Button, Card, CardGroup, Image } from "react-bootstrap";
+import { Form, Button, Card, CardGroup, Image, Alert } from "react-bootstrap";
 import LoginImages from "../assets/images/bg/login.jpg";
 import { useNavigate } from "react-router-dom";
 
 function LoginComponent() {
   const [user_email, setEmail] = useState("");
   const [user_password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [error, setError] = useState();
   const redirect = useNavigate();
 
   const Auth = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
+      const response = await axios.post(
         "http://localhost:8000/user/login",
         {
           user_email,
@@ -21,10 +21,11 @@ function LoginComponent() {
         },
         { withCredentials: true }
       );
+      localStorage.setItem("auth", response.data.accessToken);
       redirect("/");
     } catch (error) {
       if (error.response) {
-        setMessage(error.response.data.message);
+        setError("Invalid Email or Password!");
       }
     }
   };
@@ -32,7 +33,7 @@ function LoginComponent() {
   return (
     <CardGroup>
       <div>
-        <Image src={LoginImages} style={{height: '100vh', width:'100vh'}}/>
+        <Image src={LoginImages} style={{ height: "100vh", width: "100vh" }} />
       </div>
       <Card className="justify-content-center p-5">
         <div>
@@ -40,6 +41,7 @@ function LoginComponent() {
         </div>
         <div className="">
           <h5 className="login-title pb-2">Log in</h5>
+          {error ? <Alert variant="danger">{error}</Alert> : null}
           <Form onSubmit={Auth} className="form-container text-black-50">
             <Form.Group>
               <Form.Label className="d-block pb-1">Email</Form.Label>
@@ -50,6 +52,7 @@ function LoginComponent() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="email@example.com"
                 className="border-0 border-bottom w-100 mb-3"
+                required
               />
             </Form.Group>
             <Form.Group>
@@ -63,6 +66,7 @@ function LoginComponent() {
                   onChange={(e) => setPassword(e.target.value)}
                   className="border-0 border-bottom w-100 mb-3"
                   placeholder="Enter your password"
+                  required
                 />
               </Form.Group>
             </Form.Group>
@@ -75,9 +79,11 @@ function LoginComponent() {
               LOGIN
             </Button>
           </Form>
+          {/*
           <Button variant="link" className="p-0 text-black">
             Forgot Password?
           </Button>
+          */}
           <p className="mt-5">
             Don't have an account?
             <a
