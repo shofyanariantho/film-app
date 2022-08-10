@@ -79,9 +79,11 @@ function LoginComponent() {
               LOGIN
             </Button>
           </Form>
+          {/*
           <Button variant="link" className="p-0 text-black">
             Forgot Password?
           </Button>
+          */}
           <p className="mt-5">
             Don't have an account?
             <a
