@@ -15,6 +15,7 @@ const ShowFilm = () => {
   const [actorName, setActorName] = useState("");
   const [directorId, setDirectorId] = useState("");
   const [directorName, setDirectorName] = useState("");
+  const [review, setReview] = useState("");
   const { id } = useParams();
   const redirect = useNavigate();
 
@@ -34,6 +35,7 @@ const ShowFilm = () => {
     setActorName(res.actorName);
     setDirectorId(res.directorId);
     setDirectorName(res.directorName);
+    console.log(res)
   };
 
   const handleDirector = (id) => {
@@ -66,36 +68,48 @@ const ShowFilm = () => {
       </Navbar>
 
       <Container>
-        <figure className="position-relative">
-          <Image
-            src={`http://localhost:8000/images/film/${filmImage}`}
-            style={{ height: "800px" }}
-          />
-        </figure>
-        <Button variant="outline-secondary" className="rounded-pill me-2 mb-3">
-          {genreName.toUpperCase()}
-        </Button>
-        <h5 className="text-black-50 pb-4 border-bottom">{description}</h5>
-        <h5 className="text-black pb-1 border-bottom">
-          Director
-          <Button
-            variant="link"
-            className="text-decoration-none fs-5 mb-2"
-            onClick={() => handleDirector(`${directorId}`)}
-          >
-            {directorName.toUpperCase()}
-          </Button>
-        </h5>
-        <h5 className="text-black pb-1 border-bottom">
-          Actor
-          <Button
-            variant="link"
-            className="text-decoration-none fs-5 mb-2"
-            onClick={() => handleActor(`${actorId}`)}
-          >
-            {actorName.toUpperCase()}
-          </Button>
-        </h5>
+        <div className="row">
+          <div className="col-6">
+            <figure className="position-relative">
+              <Image
+                src={`http://localhost:8000/images/film/${filmImage}`}
+                style={{ height: "800px" }}
+              />
+            </figure>
+          </div>
+          <div className="col-6">
+            <Button
+              variant="outline-secondary"
+              className="mb-3"
+            >
+              {genreName.toUpperCase()}
+            </Button>
+            <h5 className="text-black-50 pb-4 border-bottom">{description}</h5>
+            <h5 className="text-black pb-1 border-bottom">
+              Director
+              <Button
+                variant="link"
+                className="text-decoration-none fs-5"
+                onClick={() => handleDirector(`${directorId}`)}
+              >
+                {directorName.toUpperCase()}
+              </Button>
+            </h5>
+            <h5 className="text-black pb-1 border-bottom">
+              Actor
+              <Button
+                variant="link"
+                className="text-decoration-none fs-5 "
+                onClick={() => handleActor(`${actorId}`)}
+              >
+                {actorName.toUpperCase()}
+              </Button>
+            </h5>
+
+            <h5 className="text-danger">DISINI NANTI REVIEWNYA</h5>
+
+          </div>
+        </div>
       </Container>
     </div>
   );

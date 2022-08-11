@@ -1,10 +1,10 @@
 import React from 'react'
 import bgformdirector from '../../assets/images/bg/bgformdirector.jpg'
-import { Footer, NavbarComponent, PageTitle, UpdateActor } from '../../components'
+import { Footer, NavbarComponent, PageTitle, UpdateFilms } from '../../components'
 
-const UpdateActorPage = () => {
-    return (
-        <div style={{ backgroundImage: `url(${bgformdirector})` }}>
+const UpdateFilmPage = () => {
+  return (
+    <div style={{ backgroundImage: `url(${bgformdirector})` }}>
             {/* NAVBAR */}
             <NavbarComponent />
             {/* NAVBAR END */}
@@ -16,7 +16,7 @@ const UpdateActorPage = () => {
 
                     {/* Content */}
                     <div className="card-body p-0">
-                        <UpdateActor />
+                        <UpdateFilms />
                     </div>
                 </div>
             </div>
@@ -24,7 +24,7 @@ const UpdateActorPage = () => {
             <Footer />
             {/* FOOTER END */}
         </div>
-    )
+  )
 }
 
-export default UpdateActorPage
+export default UpdateFilmPage

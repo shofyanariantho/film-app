@@ -1,10 +1,10 @@
 import React from 'react'
 import { ActorList, Footer, NavbarComponent, PageTitle } from '../../components'
-import bgformactor from "../../assets/images/bg/bgformactor.jpg"
+import bgformdirector from "../../assets/images/bg/bgformdirector.jpg"
 
 const ListActorPage = () => {
     return (
-        <div style={{ backgroundImage: `url(${bgformactor})` }}>
+        <div style={{ backgroundImage: `url(${bgformdirector})` }}>
             {/* NAVBAR */}
             <NavbarComponent />
             {/* NAVBAR END */}

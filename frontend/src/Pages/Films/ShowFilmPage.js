@@ -1,11 +1,11 @@
 import React from 'react'
 import { Footer, NavbarComponent } from '../../components'
 import ShowFilm from '../../components/Films/ShowFilm'
-import bgfilm from '../../assets/images/bg/bgfilm.jpg'
+import bgformdirector from '../../assets/images/bg/bgformdirector.jpg'
 
 const ShowFilmPage = () => {
     return (
-        <div style={{backgroundImage : `url(${bgfilm})`}}>
+        <div style={{backgroundImage : `url(${bgformdirector})`}}>
             {/* NAVBAR START */}
             <NavbarComponent />
             {/* NAVBAR END */}

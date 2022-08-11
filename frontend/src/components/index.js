@@ -22,6 +22,7 @@ import CreateFilm from "./Films/CreateFilm";
 import CreateImageFilm from "./Films/CreateImageFilm";
 import ListFilm from "./Films/ListFilm";
 import DashboardFilm from "./Films/DashboardFilm";
+import UpdateFilms from "./Films/UpdateFilms";
 
 // Genreee
 import AddGenreComponent from "./Genre/AddGenreComponent";
@@ -48,5 +49,6 @@ export {
     UpdateGenreComponent,
     DashboardFilm,
     ActorList,
-    DirectorList
+    DirectorList,
+    UpdateFilms
 }

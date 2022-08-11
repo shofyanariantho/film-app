@@ -1,19 +1,18 @@
 import { Button, Form } from 'react-bootstrap';
 import React, { useState } from 'react'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const CreateImageActor = ({ img }) => {
     const [Image, setImage] = useState("");
     const [ImagePreview, setImagePreview] = useState("");
     const { id } = useParams();
+    const redirect = useNavigate();
 
     const onSubmit = () => {
-        console.log("image : ", Image)
-        console.log(ImagePreview)
 
         const Data = new FormData();
-        Data.append("image : ", Image);
+        Data.append("actor_image", Image);
 
         axios.post(`http://localhost:8000/actor/image/${id}`, Data,
             { withCredentials: true },
@@ -25,7 +24,9 @@ const CreateImageActor = ({ img }) => {
         )
             .then(res => {
                 console.log("alhamdulillah sukses ya bro", res)
-            })
+            },
+            redirect("/listactor")
+            )
             .catch(err => {
                 console.log(err)
             })

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, Col, Container, Image, Row } from "react-bootstrap";
+import { AiFillStar } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
 
 const DashboardFilm = () => {
@@ -25,7 +26,7 @@ const DashboardFilm = () => {
 
   return (
     <Container className="pb-5">
-      <h1 className=" p-2" id="Trending">
+      <h1 className="p-2" id="Trending">
         TRENDING MOVIES
       </h1>
       <Row>
@@ -45,7 +46,7 @@ const DashboardFilm = () => {
                 <div className="bg-dark">
                   <div className="p-2 m-1 text-white">
                     <Card.Title
-                      className="text-center"
+                      className="text-center fw-bold"
                       style={{ textTransform: "uppercase" }}
                     >
                       {result.judulFilm}
@@ -53,8 +54,8 @@ const DashboardFilm = () => {
                     <Card.Text className="text-left">
                       {result.description}
                     </Card.Text>
-                    <Card.Text className="text-left">
-                      {result.ratingFilm}
+                    <Card.Text className="text-left text-warning fs-5">
+                      <AiFillStar className="text-warning mb-1" /> {result.ratingFilm}/10.00{" "}
                     </Card.Text>
                   </div>
                 </div>
