@@ -20,10 +20,10 @@ import {
   ShowDirectorPage,
   ShowFilmPage,
   UpdateActorPage,
-  UpdateDirectorPage
+  UpdateDirectorPage,
+  UpdateFilmPage,
 }
   from "./Pages";
-import UpdateFilms from "./components/Films/UpdateFilms";
 
 function App() {
   return (
@@ -33,7 +33,7 @@ function App() {
           {/* ACTORRR */}
           {/* selesai */}
           <Route path="/createactor" element={<CreateActorPages />} />
-          {/* create actor image sedikit lagi cuma error login */}
+          {/* SELESAI */}
           <Route path="/createactorimage/:id" element={<CreateActorImagePage />} />
           {/* Selesai */}
           <Route path="/updateactor/:id" element={<UpdateActorPage />} />
@@ -66,10 +66,8 @@ function App() {
           <Route path="/ListFilm" element={<ListFilmPage />} />
           {/* Masih gabisa nampilin nama nya hanya bisa id nya saja */}
           <Route path="/film/:id" element={<ShowFilmPage />} />
-          {/* masih blm berdasarkan genre */}
-          <Route path="/" element={<DashboardFilmPage />} />
           {/* blm selesai */}
-          <Route path="/updateFilm/:id" element={<UpdateFilms />} />
+          <Route path="/updatefilm/:id" element={<UpdateFilmPage />} />
           {/* FILMMM END */}
 
           {/* GENRE */}
@@ -82,6 +80,8 @@ function App() {
           {/* GENRE END */}
         </Route>
 
+        {/* masih blm berdasarkan genre */}
+        <Route path="/" element={<DashboardFilmPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/Register" element={<RegistPage />} />
       </Routes>

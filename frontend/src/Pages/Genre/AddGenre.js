@@ -1,5 +1,5 @@
 import React from "react";
-import bgformgenre from "../../assets/images/bg/bgformgenre.jpg";
+import bgformdirector from "../../assets/images/bg/bgformdirector.jpg";
 import {
   AddGenreComponent,
   Footer,
@@ -9,7 +9,7 @@ import {
 
 const AddGenre = () => {
   return (
-    <div style={{ backgroundImage: `url(${bgformgenre})` }}>
+    <div style={{ backgroundImage: `url(${bgformdirector})` }}>
       <NavbarComponent />
       <div className="container mt-5">
         <div className="card border">

@@ -18,6 +18,7 @@ import CreateImageFilmPage from "./Films/CreateImageFilmPage";
 import ListFilmPage from "./Films/ListFilmPage";
 import DashboardFilmPage from "./Films/DashboardFilmPage";
 import ShowFilmPage from "./Films/ShowFilmPage";
+import UpdateFilmPage from "./Films/UpdateFilmPage";
 
 // Genre
 import AddGenre from "./Genre/AddGenre";
@@ -42,5 +43,6 @@ export {
     DashboardFilmPage,
     ShowFilmPage,
     ListActorPage,
-    ListDirectorPage
+    ListDirectorPage,
+    UpdateFilmPage
 }

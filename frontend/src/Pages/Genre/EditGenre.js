@@ -1,10 +1,10 @@
 import React from 'react'
-import bgformgenre from '../../assets/images/bg/bgformgenre.jpg'
+import bgformdirector from '../../assets/images/bg/bgformdirector.jpg'
 import { Footer, NavbarComponent, PageTitle, UpdateGenreComponent } from '../../components'
 
 const EditGenre = () => {
     return (
-        <div style={{ backgroundImage: `url(${bgformgenre})` }}>
+        <div style={{ backgroundImage: `url(${bgformdirector})` }}>
             {/* NAVBAR */}
             <NavbarComponent />
             {/* NAVBAR END */}

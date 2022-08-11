@@ -23,8 +23,6 @@ const ActorComponent = () => {
     console.log(res)
   };
 
-
-
   return (
     <div className='bg bg-dark Actor' >
       <Container className='border py-2'>

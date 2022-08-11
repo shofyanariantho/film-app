@@ -1,10 +1,10 @@
 import React from 'react'
 import { Footer, ListFilm, NavbarComponent, PageTitle } from '../../components'
-import bgformfilm from '../../assets/images/bg/bgformfilm.jpg'
+import bgformdirector from '../../assets/images/bg/bgformdirector.jpg'
 
 const ListFilmPage = () => {
     return (
-            <div style={{ backgroundImage: `url(${bgformfilm})` }}>
+            <div style={{ backgroundImage: `url(${bgformdirector})` }}>
                 <NavbarComponent />
                 <div className="container mt-5">
                     <div className="card border" style={{ height: '100vh' }}>

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, Col, Container, Image, Row } from "react-bootstrap";
+import { AiFillStar } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
 
 const DashboardFilm = () => {
@@ -24,48 +25,46 @@ const DashboardFilm = () => {
   };
 
   return (
-    <div className="min-vh-100">
-      <Container className="py-5">
-        <h1 className=" p-2" id="Trending">
-          TRENDING MOVIES
-        </h1>
-        <Row>
-          {Films.map((result, index) => {
-            return (
-              <Col md={4} className="movieWrapper" key={index}>
-                <Card
-                  className="movieImage"
-                  style={{ cursor: "pointer" }}
-                  onClick={() => handleFilm(`${result.id}`)}
-                >
-                  <Image
-                    src={`http://localhost:8000/images/film/${result.filmImage}`}
-                    alt={result.judulFilm}
-                    className="images"
-                  />
-                  <div className="bg-dark">
-                    <div className="p-2 m-1 text-white">
-                      <Card.Title
-                        className="text-center"
-                        style={{ textTransform: "uppercase" }}
-                      >
-                        {result.judulFilm}
-                      </Card.Title>
-                      <Card.Text className="text-left">
-                        {result.description}
-                      </Card.Text>
-                      <Card.Text className="text-left">
-                        {result.ratingFilm}
-                      </Card.Text>
-                    </div>
+    <Container className="pb-5">
+      <h1 className="p-2" id="Trending">
+        TRENDING MOVIES
+      </h1>
+      <Row>
+        {Films.map((result, index) => {
+          return (
+            <Col md={4} className="movieWrapper" key={index}>
+              <Card
+                className="movieImage"
+                style={{ cursor: "pointer" }}
+                onClick={() => handleFilm(`${result.id}`)}
+              >
+                <Image
+                  src={`http://localhost:8000/images/film/${result.filmImage}`}
+                  alt={result.judulFilm}
+                  className="images"
+                />
+                <div className="bg-dark">
+                  <div className="p-2 m-1 text-white">
+                    <Card.Title
+                      className="text-center fw-bold"
+                      style={{ textTransform: "uppercase" }}
+                    >
+                      {result.judulFilm}
+                    </Card.Title>
+                    <Card.Text className="text-left">
+                      {result.description}
+                    </Card.Text>
+                    <Card.Text className="text-left text-warning fs-5">
+                      <AiFillStar className="text-warning mb-1" /> {result.ratingFilm}/10.00{" "}
+                    </Card.Text>
                   </div>
-                </Card>
-              </Col>
-            );
-          })}
-        </Row>
-      </Container>
-    </div>
+                </div>
+              </Card>
+            </Col>
+          )
+        })}
+      </Row>
+    </Container>
   );
 };
 

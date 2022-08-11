@@ -1,10 +1,10 @@
 import React from 'react'
 import { Footer, NavbarComponent, PageTitle, TableGenreComponent } from '../../components'
-import bgformgenre from '../../assets/images/bg/bgformgenre.jpg'
+import bgformdirector from '../../assets/images/bg/bgformdirector.jpg'
 
 const GenrePages = () => {
   return (
-    <div style={{ backgroundImage: `url(${bgformgenre})` }}>
+    <div style={{ backgroundImage: `url(${bgformdirector})` }}>
         <NavbarComponent />
         <div className="container mt-5">
             <div className="card border" style={{ height: '52vh' }}>

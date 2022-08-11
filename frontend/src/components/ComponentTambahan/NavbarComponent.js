@@ -35,8 +35,8 @@ const NavbarComponent = () => {
               <NavDropdown.Item href="/createdirector">
                 Director
               </NavDropdown.Item>
-              <NavDropdown.Item href="/createfilm">Film</NavDropdown.Item>
               <NavDropdown.Item href="/addgenre">Genre</NavDropdown.Item>
+              <NavDropdown.Item href="/createfilm">Film</NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <Nav className="me-auto">
@@ -45,8 +45,8 @@ const NavbarComponent = () => {
               <NavDropdown.Item href="/listdirector">
                 Director
               </NavDropdown.Item>
-              <NavDropdown.Item href="/listfilm">Film</NavDropdown.Item>
               <NavDropdown.Item href="/genre">Genre</NavDropdown.Item>
+              <NavDropdown.Item href="/listfilm">Film</NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <Nav>

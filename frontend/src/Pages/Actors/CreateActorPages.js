@@ -1,5 +1,5 @@
 import React from "react";
-import bgformactor from "../../assets/images/bg/bgformactor.jpg";
+import bgformdirector from "../../assets/images/bg/bgformdirector.jpg";
 import {
   CreateActor,
   Footer,
@@ -9,7 +9,7 @@ import {
 
 const CreateActorPages = () => {
   return (
-    <div style={{ backgroundImage: `url(${bgformactor})` }}>
+    <div style={{ backgroundImage: `url(${bgformdirector})` }}>
       <NavbarComponent />
       <div className="container mt-5" style={{ height: "52vh" }}>
         <div className="card border">

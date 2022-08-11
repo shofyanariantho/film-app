@@ -197,6 +197,19 @@ const CreateFilm = () => {
         </Col>
       </Form.Group>
 
+      <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
+        <Form.Label column sm={2}>
+          Review
+        </Form.Label>
+        <Col sm={10}>
+          <Form.Control
+            as="textarea"
+            placeholder="Leave a review here"
+            style={{ height: '100px' }}
+          />
+        </Col>
+      </Form.Group>
+
       <Button variant="secondary" href="/" className="me-2">
         Cancel
       </Button>
