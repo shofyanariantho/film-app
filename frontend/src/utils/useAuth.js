@@ -57,8 +57,9 @@ export default function useAuth() {
       .then(async () => {
         await setUserContext();
       })
-      .catch((err) => {
-        setError(err.response.data);
+      .catch((error) => {
+        // setError(error.response.data.message);
+        setError("Email or Password is Invalid!");
       });
   };
 
