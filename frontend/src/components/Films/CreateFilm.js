@@ -1,26 +1,18 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../utils/UserContext";
 
 const CreateFilm = () => {
-  //   const [judul_film, setJudulFilm] = useState("");
-  //   const [description, setDescription] = useState("");
-  //   const [rating_film, setRatingFilm] = useState("");
-  //   const [user_id, setUserId] = useState([]);
-  //   const [actor_id, setActorId] = useState("");
   const [actorArray, setActorArray] = useState([]);
-  //   const [genre_id, setGenreId] = useState("");
   const [genreArray, setGenreArray] = useState([]);
-  //   const [director_id, setDirectorId] = useState("");
   const [directorArray, setDirectorArray] = useState([]);
   const [formData, setFormData] = useState({});
   const redirect = useNavigate();
-  const token = localStorage.getItem("auth");
-  const decoded = jwtDecode(token);
-
-
+  const {user} = useContext(UserContext);
+  const decoded = jwtDecode(user);
 
   useEffect(() => {
     const getActors = async () => {
@@ -74,7 +66,6 @@ const CreateFilm = () => {
 
   return (
     <Form onSubmit={saveFilms}>
-
       <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
         <Form.Label column sm={2}>
           Title
@@ -89,7 +80,6 @@ const CreateFilm = () => {
           />
         </Col>
       </Form.Group>
-
       <Form.Group as={Row} className="mb-3" controlId="formHorizontalPassword">
         <Form.Label column sm={2}>
           Description
@@ -104,7 +94,6 @@ const CreateFilm = () => {
           />
         </Col>
       </Form.Group>
-
       <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
         <Form.Label column sm={2}>
           Rating
@@ -119,7 +108,6 @@ const CreateFilm = () => {
           />
         </Col>
       </Form.Group>
-
       <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
         <Form.Label column sm={2}>
           Actor
@@ -144,7 +132,6 @@ const CreateFilm = () => {
           </Form.Select>
         </Col>
       </Form.Group>
-
       <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
         <Form.Label column sm={2}>
           Genre
@@ -170,7 +157,6 @@ const CreateFilm = () => {
           </Form.Select>
         </Col>
       </Form.Group>
-
       <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
         <Form.Label column sm={2}>
           Director
@@ -196,7 +182,7 @@ const CreateFilm = () => {
           </Form.Select>
         </Col>
       </Form.Group>
-
+      
       <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
         <Form.Label column sm={2}>
           Review
@@ -209,11 +195,11 @@ const CreateFilm = () => {
           />
         </Col>
       </Form.Group>
-
+      
+      
       <Button variant="secondary" href="/" className="me-2">
         Cancel
       </Button>
-
       <Button variant="primary" type="submit">
         Submit
       </Button>
