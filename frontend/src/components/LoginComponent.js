@@ -1,34 +1,50 @@
 import React, { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import { Form, Button, Card, CardGroup, Image, Alert } from "react-bootstrap";
 import LoginImages from "../assets/images/bg/login.jpg";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+import useForm from "../utils/useForm";
+import useAuth from "../utils/useAuth";
 
 function LoginComponent() {
-  const [user_email, setEmail] = useState("");
-  const [user_password, setPassword] = useState("");
-  const [error, setError] = useState();
-  const redirect = useNavigate();
+  // const [user_email, setEmail] = useState("");
+  // const [user_password, setPassword] = useState("");
+  // const [error, setError] = useState();
+  // const redirect = useNavigate();
 
-  const Auth = async (e) => {
+  const { values, handleChange } = useForm({
+    initialValues: {
+      user_email: "",
+      user_password: "",
+    },
+  });
+
+  const { loginUser, error } = useAuth();
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:8000/user/login",
-        {
-          user_email,
-          user_password,
-        },
-        { withCredentials: true }
-      );
-      localStorage.setItem("auth", response.data.accessToken);
-      redirect("/");
-    } catch (error) {
-      if (error.response) {
-        setError("Invalid Email or Password!");
-      }
-    }
+    await loginUser(values);
   };
+
+  // const Auth = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:8000/user/login",
+  //       {
+  //         user_email,
+  //         user_password,
+  //       },
+  //       { withCredentials: true }
+  //     );
+  //     localStorage.setItem("auth", response.data.accessToken);
+  //     redirect("/");
+  //   } catch (error) {
+  //     if (error.response) {
+  //       // setError("Invalid Email or Password!");
+  //     }
+  //   }
+  // };
 
   return (
     <CardGroup>
@@ -42,14 +58,17 @@ function LoginComponent() {
         <div className="">
           <h5 className="login-title pb-2">Log in</h5>
           {error ? <Alert variant="danger">{error}</Alert> : null}
-          <Form onSubmit={Auth} className="form-container text-black-50">
+
+          <Form onSubmit={handleLogin} className="form-container text-black-50">
             <Form.Group>
               <Form.Label className="d-block pb-1">Email</Form.Label>
               <Form.Control
                 id="email"
                 type="email"
-                value={user_email}
-                onChange={(e) => setEmail(e.target.value)}
+                name={"user_email"}
+                value={values.user_email}
+                // onChange={(e) => setEmail(e.target.value)}
+                onChange={handleChange}
                 placeholder="email@example.com"
                 className="border-0 border-bottom w-100 mb-3"
                 required
@@ -62,8 +81,10 @@ function LoginComponent() {
                 </Form.Label>
                 <Form.Control
                   type="password"
-                  value={user_password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  name="user_password"
+                  value={values.user_password}
+                  // onChange={(e) => setPassword(e.target.value)}
+                  onChange={handleChange}
                   className="border-0 border-bottom w-100 mb-3"
                   placeholder="Enter your password"
                   required
