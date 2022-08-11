@@ -16,6 +16,7 @@ exports.up = function (knex) {
       .unsigned()
       .references("id")
       .inTable("directors");
+    table.text("review");
     table.string("film_image");
     table.timestamps(true, true);
   });

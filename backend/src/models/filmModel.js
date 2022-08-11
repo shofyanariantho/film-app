@@ -16,11 +16,23 @@ class Film extends Model {
   static get jsonSchema() {
     return {
       type: "object",
-      required: ["description"],
+      required: [
+        "description",
+        "user_id",
+        "actor_id",
+        "genre_id",
+        "director_id",
+        "review",
+      ],
 
       properties: {
         id: { type: "integer" },
         description: { type: "string", minLength: 2 },
+        user_id: { type: "integer" },
+        actor_id: { type: "integer" },
+        genre_id: { type: "integer" },
+        director_id: { type: "integer" },
+        review: { type: "string", minLength: 2 },
         film_image: { type: ["string", "null"] },
       },
     };

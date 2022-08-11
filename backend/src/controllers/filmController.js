@@ -16,6 +16,7 @@ exports.create = async (req, res) => {
       actor_id,
       genre_id,
       director_id,
+      review,
     } = req.body;
     const insertData = await Film.query().insert({
       judul_film: judul_film,
@@ -25,6 +26,7 @@ exports.create = async (req, res) => {
       actor_id: actor_id,
       genre_id: genre_id,
       director_id: director_id,
+      review: review,
     });
 
     return res.json(insertData);
