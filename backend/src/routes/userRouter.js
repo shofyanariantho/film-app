@@ -10,6 +10,6 @@ router.get("/", verifyLogin, userController.index); // Index User by Their Id
 router.put("/", verifyLogin, userController.update); // Update Password by Their Id
 router.post("/login", userController.login); // Login
 router.get("/token", refreshToken); // Refresh Token
-router.delete("/logout", verifyLogin, userController.logout); // Logout
+router.delete("/logout", userController.logout); // Logout
 
 module.exports = router;

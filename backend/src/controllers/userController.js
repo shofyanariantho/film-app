@@ -128,8 +128,10 @@ exports.login = async (req, res) => {
 // Logout
 exports.logout = async (req, res) => {
   try {
-    const user = await User.query().findOne("refresh_token", refreshToken);
+    const refreshToken = req.cookies.refreshToken;
+    if (!refreshToken) return res.status(204);
 
+    const user = await User.query().findOne("refresh_token", refreshToken);
     if (!user) return res.status(204);
 
     const userId = user.id;
