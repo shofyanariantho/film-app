@@ -84,6 +84,7 @@ const ListFilm = () => {
                     href={`updatefilm/${film.id}`}
                     variant="success"
                     size="sm"
+                    className="mt-2"
                   >
                     Edit
                   </Button>{" "}
@@ -91,6 +92,7 @@ const ListFilm = () => {
                     onClick={() => deleteActor(film.id)}
                     variant="danger"
                     size="sm"
+                    className="mt-2"
                   >
                     Delete
                   </Button>{" "}
