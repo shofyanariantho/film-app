@@ -61,7 +61,7 @@ const DashboardFilm = () => {
                 </div>
               </Card>
             </Col>
-          );
+          )
         })}
       </Row>
     </Container>
