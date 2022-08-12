@@ -26,21 +26,23 @@ const CreateActor = () => {
     <div>
       <Form onSubmit={saveActor} bg="dark" className="p-3">
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Actor</Form.Label>
+          <Form.Label>Actor Name</Form.Label>
           <Form.Control
             type="string"
             value={actor_name}
             onChange={(e) => setActorName(e.target.value)}
-            placeholder="Enter name"
+            placeholder="Enter full name"
           />
         </Form.Group>
 
-        <Button variant="secondary" type="submit" className="me-2" href="/">
-          Cancel
-        </Button>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
+        <div className="d-flex justify-content-between">
+          <Button variant="secondary" type="submit" className="me-2" href="/">
+            Cancel
+          </Button>
+          <Button variant="warning" type="submit">
+            <b>Submit</b>
+          </Button>
+        </div>
       </Form>
     </div>
   );
