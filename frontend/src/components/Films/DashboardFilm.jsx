@@ -58,7 +58,11 @@ const DashboardFilm = () => {
                           <AiFillStar className="text-warning mb-1" />{" "}
                           {result.ratingFilm}{" "}
                         </div>
-                        <Badge bg="warning" text="dark">
+                        <Badge
+                          bg="secondary"
+                          text="white"
+                          style={{ textTransform: "uppercase" }}
+                        >
                           {result.genreName}
                         </Badge>{" "}
                       </div>
