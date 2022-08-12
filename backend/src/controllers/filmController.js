@@ -47,6 +47,7 @@ exports.index = async (req, res) => {
         "genres.genre_name",
         "actors.actor_name",
         "directors.director_name",
+        "review",
         "users.user_name as created_by",
         "films.created_at",
         "films.updated_at"
@@ -79,6 +80,7 @@ exports.show = async (req, res) => {
         "actors.actor_name",
         "director_id",
         "directors.director_name",
+        "review",
         "users.user_name as created_by",
         "films.created_at",
         "films.updated_at"
