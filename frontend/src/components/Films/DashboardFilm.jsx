@@ -25,22 +25,23 @@ const DashboardFilm = () => {
   };
 
   return (
-    <Container className="h-100">
-      <Row className="h-100">
-        <Col className=""></Col>
-        <h1 className="text-center">
-          <b>MOVIE REVIEW</b>{" "}
-        </h1>
-        <p className="text-center px-5">
-          <b>Moview.</b> is a social platform for sharing your taste in film.
-          Use it as a diary to record your opinion about films as you watch
-          them.
-        </p>
+    <Container className="py-5">
+      <Row>
+        <div className="mb-5">
+          <h1 className="text-center">
+            <b>MOVIE REVIEW</b>{" "}
+          </h1>
+          <p className="text-center px-5">
+            <b>Moview.</b> is a social platform for sharing your taste in film.
+            Use it as a diary to record your opinion about films as you watch
+            them.
+          </p>
+        </div>
         {Films.map((result, index) => {
           return (
-            <Col key={index}>
+            <Col lg key={index}>
               <Card
-                className="movieImage"
+                className="mb-3"
                 style={{ cursor: "pointer" }}
                 onClick={() => handleFilm(`${result.id}`)}
               >

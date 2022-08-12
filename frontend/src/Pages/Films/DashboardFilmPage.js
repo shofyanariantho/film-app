@@ -3,18 +3,20 @@ import { DashboardFilm, Footer, NavbarComponent } from "../../components";
 
 const DashboardFilmPage = () => {
   return (
-    <div className="vh-100">
+    <div className="min-vh-100">
       {/* NAVBAR START */}
       <NavbarComponent />
       {/* NAVBAR END */}
 
       {/* MAIN CONTENT START */}
-      <DashboardFilm />
-      {/* MAIN CONTENT END */}
+      <div className="main">
+        <DashboardFilm />
+        {/* MAIN CONTENT END */}
 
-      {/* FOOTER START */}
-      <Footer />
-      {/* FOOTER END */}
+        {/* FOOTER START */}
+        <Footer />
+        {/* FOOTER END */}
+      </div>
     </div>
   );
 };

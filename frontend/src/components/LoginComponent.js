@@ -25,11 +25,17 @@ function LoginComponent() {
         <Image src={LoginImages} style={{ height: "100vh", width: "100vh" }} />
       </div>
       <Card className="justify-content-center p-5">
-        <div>
-          <h4 className="fw-bold mb-5">MOVIEW.</h4>
+        <div className="mb-5">
+          <a
+            href="/"
+            className="fw-bold h4 text-dark"
+            style={{ textDecoration: "none" }}
+          >
+            MOVIEW.
+          </a>
         </div>
+
         <div className="">
-          <h5 className="login-title pb-2">Log in</h5>
           {error ? <Alert variant="danger">{error}</Alert> : null}
 
           <Form onSubmit={handleLogin} className="form-container text-black-50">
@@ -66,9 +72,9 @@ function LoginComponent() {
               type="submit"
               variant="warning"
               size="lg"
-              className="w-100 text-white mb-2"
+              className="w-100 my-4"
             >
-              LOGIN
+              <b>Login</b>
             </Button>
           </Form>
           {/*
@@ -76,7 +82,7 @@ function LoginComponent() {
             Forgot Password?
           </Button>
           */}
-          <p className="mt-5">
+          <p className="mt-0">
             Don't have an account?
             <a
               variant="link"

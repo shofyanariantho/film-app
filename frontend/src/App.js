@@ -34,7 +34,7 @@ function App() {
     <BrowserRouter>
       <UserContext.Provider value={{ user, setUser, isLoading }}>
         <Routes>
-          <Route path="/" element={<DashboardFilmPage />} />
+          {/* Private Route */}
           <Route element={<PrivateRoutes />}>
             {/* ACTORRR */}
             {/* selesai */}
@@ -49,7 +49,7 @@ function App() {
             {/* Selesai */}
             <Route path="/Actor/:id" element={<ShowActorPage />} />
             {/* selesai */}
-            <Route path="/listactor" element={<ListActorPage />} />
+
             {/* ACTORR END */}
 
             {/* DIRECTORRR */}
@@ -68,7 +68,7 @@ function App() {
               element={<UpdateDirectorPage />}
             />
             {/* selesai */}
-            <Route path="/listdirector" element={<ListDirectorPage />} />
+
             {/* DIRECTORRR END */}
 
             {/* FILMMM */}
@@ -80,7 +80,7 @@ function App() {
               element={<CreateImageFilmPage />}
             />
             {/* Gagal Pada saat menampilkan aktor, director, dan genre yang harusnya nama malah hanya Id nya saja */}
-            <Route path="/ListFilm" element={<ListFilmPage />} />
+
             {/* Masih gabisa nampilin nama nya hanya bisa id nya saja */}
             <Route path="/film/:id" element={<ShowFilmPage />} />
             {/* masih blm berdasarkan genre */}
@@ -99,6 +99,10 @@ function App() {
             {/* GENRE END */}
           </Route>
 
+          <Route path="/listdirector" element={<ListDirectorPage />} />
+          <Route path="/listactor" element={<ListActorPage />} />
+          <Route path="/ListFilm" element={<ListFilmPage />} />
+          <Route path="/" element={<DashboardFilmPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/Register" element={<RegistPage />} />
         </Routes>

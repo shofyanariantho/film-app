@@ -1,15 +1,13 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Button, Table } from "react-bootstrap";
-import { AiFillPlusCircle } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Button, Table, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { AiFillPlusCircle, AiOutlineEdit, AiFillDelete } from "react-icons/ai";
+import { UserContext } from "../../utils/UserContext";
 
 const ListFilm = () => {
   const [Films, setFilms] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [actorArray, setActorArray] = useState("");
-  const [id, setId] = useState("");
-  const redirect = useNavigate();
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     getFilms();
@@ -38,7 +36,35 @@ const ListFilm = () => {
 
   return (
     <div className="p-3">
-      <Table striped bordered hover>
+      {!user ? (
+        <Form.Control
+          className="py-1 mb-3"
+          type="string"
+          placeholder="Search..."
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      ) : (
+        <div className="row mb-3 align-items-center justify-content-between">
+          <div className="col-6 align-items-center">
+            <a href="/createfilm" className="btn btn-warning">
+              <AiFillPlusCircle className="fs-4 pb-1" />
+              <span>
+                {" "}
+                <b>Add New</b>
+              </span>
+            </a>
+          </div>
+
+          <div className="col-6">
+            <Form.Control
+              type="string"
+              placeholder="Search..."
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+        </div>
+      )}
+      <Table hover>
         <thead>
           <tr>
             <th>No</th>
@@ -48,7 +74,7 @@ const ListFilm = () => {
             <th>Genre</th>
             <th>Actor</th>
             <th>Director</th>
-            <th>Actions</th>
+            {!user ?? <th>Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -57,6 +83,12 @@ const ListFilm = () => {
               return film;
             } else if (
               film.actorName
+                .toLowerCase()
+                .includes(searchTerm.toLocaleLowerCase()) ||
+              film.judulFilm
+                .toLowerCase()
+                .includes(searchTerm.toLocaleLowerCase()) ||
+              film.directorName
                 .toLowerCase()
                 .includes(searchTerm.toLocaleLowerCase())
             ) {
@@ -72,40 +104,36 @@ const ListFilm = () => {
                 <td>{film.genreName}</td>
                 <td>{film.actorName}</td>
                 <td>{film.directorName}</td>
-                <td>
-                  <Button
-                    href={`createfilmimage/${film.id}`}
-                    variant="info"
-                    size="sm"
-                  >
-                    Upload Images
-                  </Button>{" "}
-                  <Button
-                    href={`updatefilm/${film.id}`}
-                    variant="success"
-                    size="sm"
-                    className="mt-2"
-                  >
-                    Edit
-                  </Button>{" "}
-                  <Button
-                    onClick={() => deleteActor(film.id)}
-                    variant="danger"
-                    size="sm"
-                    className="mt-2"
-                  >
-                    Delete
-                  </Button>{" "}
-                </td>
+                {!user ?? (
+                  <td className="col-md-2">
+                    <Button
+                      href={`createfilmimage/${film.id}`}
+                      variant="primary"
+                      size="sm"
+                    >
+                      Upload Image
+                    </Button>{" "}
+                    <Button
+                      href={`updatefilm/${film.id}`}
+                      variant="success"
+                      size="sm"
+                    >
+                      <AiOutlineEdit className="fs-5" />
+                    </Button>{" "}
+                    <Button
+                      onClick={() => deleteActor(film.id)}
+                      variant="danger"
+                      size="sm"
+                    >
+                      <AiFillDelete className="fs-5" />
+                    </Button>{" "}
+                  </td>
+                )}
               </tr>
             );
           })}
         </tbody>
       </Table>
-      <Button href="/createfilm">
-        <AiFillPlusCircle className="fs-4 text-wrap pb-1 pe-1" />
-        Create Film
-      </Button>
     </div>
   );
 };
