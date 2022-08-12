@@ -1,28 +1,40 @@
 import React from 'react'
 import { DirectorList, Footer, NavbarComponent, PageTitle } from '../../components'
 import bgformdirector from "../../assets/images/bg/bgformdirector.jpg"
+import { Card } from 'react-bootstrap'
+import { AiOutlineCloseCircle } from 'react-icons/ai'
 
 const ListDirectorPage = () => {
   return (
     <div style={{ backgroundImage: `url(${bgformdirector})` }}>
-            {/* NAVBAR */}
             <NavbarComponent />
-            {/* NAVBAR END */}
+            <div className="container h-100">
+                <div className="row h-100 my-5">
+                    <div className="col-12 mx-auto">
+                        <Card style={{ height: "100vh" }}>
+                            <Card.Header className="align-items-center">
+                                <div className="d-flex justify-content-between">
+                                    <Card.Title>
+                                        <b>Reviewed Directors</b>
+                                    </Card.Title>
 
-            <div className="container mt-5">
-                <div className="card border" style={{ height: '100vh' }}>
-                    {/* Page Title */}
-                    <PageTitle title="List Director" />
+                                    <a href="/" className="text-dark">
+                                        <AiOutlineCloseCircle className="fs-4" />
+                                    </a>
+                                </div>
+                            </Card.Header>
 
-                    {/* Content */}
-                    <div className="card-body p-0">
-                        <DirectorList />
+                            {/* Content */}
+                            <div className="card-body p-0">
+                                <div className="table-responsive">
+                                    <DirectorList />
+                                </div>
+                            </div>
+                        </Card>
                     </div>
                 </div>
             </div>
-            {/* FOOTER */}
             <Footer />
-            {/* FOOTER END */}
         </div>
   )
 }

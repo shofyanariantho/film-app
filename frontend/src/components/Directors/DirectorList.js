@@ -1,10 +1,13 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Form, Button, Table } from "react-bootstrap";
+import { AiFillPlusCircle, AiOutlineEdit, AiFillDelete } from "react-icons/ai";
+import { UserContext } from "../../utils/UserContext";
 
 const DirectorList = () => {
     const [Directors, setDirectors] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         getDirectors();
@@ -15,8 +18,10 @@ const DirectorList = () => {
         const { data: res } = await axios.get("http://localhost:8000/director",
             { withCredentials: true }
         )
-        console.log(res.directors)
-        setDirectors(res.directors)
+            .then(async (response) => {
+                const directors = response.data.directors;
+                setDirectors(directors)
+            });
     };
 
     const deleteDirector = async (id) => {
@@ -31,62 +36,104 @@ const DirectorList = () => {
 
 
     return (
-        <div>
-            <div className="row p-3">
-                <div className="col-4">
-                    <Form.Control
-                        type="string"
-                        placeholder="Search..."
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
+        <div className="p-3">
+            {!user ? (
+                <Form.Control
+                    className="py-1 mb-3"
+                    type="string"
+                    placeholder="Search..."
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            ) : (
+                <div className="row mb-3 align-items-center justify-content-between">
+                    <div className="col-6 align-items-center">
+                        <a href="/createdirector" className="btn btn-warning">
+                            <AiFillPlusCircle className="fs-4 pb-1" />
+                            <span>
+                                {" "}
+                                <b>Add New</b>
+                            </span>
+                        </a>
+                    </div>
+
+                    <div className="col-6">
+                        <Form.Control
+                            type="string"
+                            placeholder="Search..."
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
                 </div>
-            </div>
-            <div className="p-3">
-                <Table striped bordered hover>
-                    <thead>
+            )}
+
+            <Table hover>
+                <thead>
+                    {!user ? (
+                        <tr>
+                            <th>No</th>
+                            <th>Name</th>
+                        </tr>
+                    ) : (
                         <tr>
                             <th>No</th>
                             <th>Name</th>
                             <th>Actions</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {Directors
-                            .filter((director) => {
-                                if (searchTerm === "") {
-                                    return director;
-                                } else if (
-                                    director.directorName
-                                        .toLowerCase()
-                                        .includes(searchTerm.toLocaleLowerCase())
-                                ) {
-                                    return director;
-                                }
-                            })
-                            .map((director, index) => (
+                    )}
+                </thead>
+                <tbody>
+                    {Directors.filter((director) => {
+                        if (searchTerm === "") {
+                            return director;
+                        } else if (
+                            director.directorName
+                                .toLowerCase()
+                                .includes(searchTerm.toLocaleLowerCase())
+                        ) {
+                            return director;
+                        }
+                    }).map((director, index) => {
+                        if (!user) {
+                            return (
                                 <tr key={director.id}>
                                     <td>{index + 1}</td>
                                     <td>{director.directorName}</td>
-                                    <td>
-                                        <Button href={`createdirectorimage/${director.id}`} variant="info" size="sm">
-                                            Upload Images
-                                        </Button>{" "}
-                                        <Button href={`updatedirector/${director.id}`} variant="success" size="sm">
-                                            Edit
-                                        </Button>{" "}
-                                        <Button
-                                            onClick={() => deleteDirector(director.id)}
-                                            variant="danger"
-                                            size="sm"
-                                        >
-                                            Delete
-                                        </Button>{" "}
-                                    </td>
                                 </tr>
-                            ))}
-                    </tbody>
-                </Table>
-            </div>
+                            );
+                        }
+                        return (
+                            <tr key={director.id}>
+                                <td>{index + 1}</td>
+                                <td>{director.directorName}</td>
+
+                                <td className="col-md-2">
+                                    <Button
+                                        href={`createdirectorimage/${director.id}`}
+                                        variant="primary"
+                                        size="sm"
+                                    >
+                                        Upload Image
+                                    </Button>{" "}
+                                    <Button
+                                        href={`updatedirector/${director.id}`}
+                                        variant="success"
+                                        size="sm"
+                                    >
+                                        <AiOutlineEdit className="fs-5" />
+                                    </Button>{" "}
+                                    <Button
+                                        onClick={() => deleteDirector(director.id)}
+                                        variant="danger"
+                                        size="sm"
+                                    >
+                                        <AiFillDelete className="fs-5" />
+                                    </Button>{" "}
+                                </td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </Table>
         </div>
     )
 }

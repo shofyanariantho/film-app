@@ -24,8 +24,8 @@ import {
   ShowFilmPage,
   UpdateActorPage,
   UpdateDirectorPage,
+  UpdateFilmPage,
 } from "./Pages";
-import UpdateFilms from "./components/Films/UpdateFilms";
 
 function App() {
   const { user, setUser, isLoading } = useFindUser();
@@ -86,7 +86,7 @@ function App() {
             {/* masih blm berdasarkan genre */}
 
             {/* blm selesai */}
-            <Route path="/updateFilm/:id" element={<UpdateFilms />} />
+            <Route path="/updateFilm/:id" element={<UpdateFilmPage />} />
             {/* FILMMM END */}
 
             {/* GENRE */}
