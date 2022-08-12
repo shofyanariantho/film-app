@@ -64,18 +64,31 @@ const ListFilm = () => {
           </div>
         </div>
       )}
+
       <Table hover>
         <thead>
-          <tr>
-            <th>No</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Rating</th>
-            <th>Genre</th>
-            <th>Actor</th>
-            <th>Director</th>
-            {!user ?? <th>Actions</th>}
-          </tr>
+          {!user ? (
+            <tr>
+              <th>No</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Rating</th>
+              <th>Genre</th>
+              <th>Actor</th>
+              <th>Director</th>
+            </tr>
+          ) : (
+            <tr>
+              <th>No</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Rating</th>
+              <th>Genre</th>
+              <th>Actor</th>
+              <th>Director</th>
+              <th>Actions</th>
+            </tr>
+          )}
         </thead>
         <tbody>
           {Films.filter((film) => {
@@ -95,6 +108,19 @@ const ListFilm = () => {
               return film;
             }
           }).map((film, index) => {
+            if (!user) {
+              return (
+                <tr key={film.id}>
+                  <td>{index + 1}</td>
+                  <td>{film.judulFilm}</td>
+                  <td>{film.description}</td>
+                  <td>{film.ratingFilm}</td>
+                  <td>{film.genreName}</td>
+                  <td>{film.actorName}</td>
+                  <td>{film.directorName}</td>
+                </tr>
+              );
+            }
             return (
               <tr key={film.id}>
                 <td>{index + 1}</td>
@@ -104,31 +130,30 @@ const ListFilm = () => {
                 <td>{film.genreName}</td>
                 <td>{film.actorName}</td>
                 <td>{film.directorName}</td>
-                {!user ?? (
-                  <td className="col-md-2">
-                    <Button
-                      href={`createfilmimage/${film.id}`}
-                      variant="primary"
-                      size="sm"
-                    >
-                      Upload Image
-                    </Button>{" "}
-                    <Button
-                      href={`updatefilm/${film.id}`}
-                      variant="success"
-                      size="sm"
-                    >
-                      <AiOutlineEdit className="fs-5" />
-                    </Button>{" "}
-                    <Button
-                      onClick={() => deleteActor(film.id)}
-                      variant="danger"
-                      size="sm"
-                    >
-                      <AiFillDelete className="fs-5" />
-                    </Button>{" "}
-                  </td>
-                )}
+
+                <td className="col-md-2">
+                  <Button
+                    href={`createfilmimage/${film.id}`}
+                    variant="primary"
+                    size="sm"
+                  >
+                    Upload Image
+                  </Button>{" "}
+                  <Button
+                    href={`updatefilm/${film.id}`}
+                    variant="success"
+                    size="sm"
+                  >
+                    <AiOutlineEdit className="fs-5" />
+                  </Button>{" "}
+                  <Button
+                    onClick={() => deleteActor(film.id)}
+                    variant="danger"
+                    size="sm"
+                  >
+                    <AiFillDelete className="fs-5" />
+                  </Button>{" "}
+                </td>
               </tr>
             );
           })}
