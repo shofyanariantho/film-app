@@ -4,7 +4,7 @@ import axios from "axios";
 import { UserContext } from "./UserContext";
 
 export default function useAuth() {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
   const [error, setError] = useState(null);
 
@@ -26,19 +26,23 @@ export default function useAuth() {
   //register user
   const registerUser = async (data) => {
     console.log(data);
-    const { username, email, password, passwordConfirm } = data;
-    return axios
-      .post(`auth/register`, {
-        username,
-        email,
-        password,
-        passwordConfirm,
+    const { user_name, user_email, user_password, confirm_password } = data;
+    return await axios
+      .post(
+        "http://localhost:8000/user/register",
+        {
+          user_name,
+          user_email,
+          user_password,
+          confirm_password,
+        },
+        { withCredentials: true }
+      )
+      .then(() => {
+        navigate("/login");
       })
-      .then(async () => {
-        await setUserContext();
-      })
-      .catch((err) => {
-        return setError(err.response.data);
+      .catch((error) => {
+        setError("Please double check your input!");
       });
   };
 
