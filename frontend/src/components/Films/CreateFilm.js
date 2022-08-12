@@ -212,7 +212,7 @@ const CreateFilm = () => {
       </Form.Group>
 
       <div className="d-flex justify-content-between">
-        <Button variant="secondary" type="submit" className="me-2" href="/">
+        <Button variant="secondary" type="submit" className="me-2" href="/listfilm">
           Cancel
         </Button>
         <Button variant="warning" type="submit" className="px-5">

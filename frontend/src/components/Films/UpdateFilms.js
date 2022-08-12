@@ -19,11 +19,11 @@ const UpdateFilms = () => {
             const { data: res } = await axios.get(
                 `http://localhost:8000/film/${id}`
             );
-            setJudulFilm(res.data.judulFilm)
-            setDescription(res.data.description)
-            setRatingFilm(res.data.ratingFilm)
-            setUserId(res.data.userId)
-            console.log(res.data)
+            setJudulFilm(res.judulFilm)
+            setDescription(res.description)
+            setRatingFilm(res.ratingFilm)
+            setUserId(res.userId)
+            console.log(res)
         };
         getFilmById();
         getActors();
@@ -181,9 +181,21 @@ const UpdateFilms = () => {
                 </Col>
             </Form.Group>
 
-            <Button variant="primary" type="submit">
-                Submit
-            </Button>
+        
+
+            <div className="d-flex justify-content-between">
+                <Button
+                    variant="secondary"
+                    type="submit"
+                    className="me-2"
+                    href="/listfilm"
+                >
+                    Cancel
+                </Button>
+                <Button variant="warning" type="submit">
+                    <b>Submit</b>
+                </Button>
+            </div>
         </Form>
     )
 }

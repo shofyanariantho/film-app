@@ -17,7 +17,7 @@ const AddGenreComponent = () => {
         { genre_name },
         { withCredentials: true }
       );
-      redirect("/Genre");
+      redirect("/listgenre");
       setMessage("Genre added successfully");
     } catch (error) {
       if (error.response) {
@@ -48,7 +48,7 @@ const AddGenreComponent = () => {
             variant="secondary"
             type="submit"
             className="me-2"
-            href="/Genre"
+            href="/listgenre"
           >
             Cancel
           </Button>

@@ -25,7 +25,7 @@ const UpdateActor = () => {
                 {actor_name},
                 {withCredentials: true }
             );
-            redirect("/createactor");
+            redirect("/listactor");
         } catch (error) {
             console.log(error);
         }

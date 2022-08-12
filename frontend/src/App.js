@@ -91,11 +91,11 @@ function App() {
 
             {/* GENRE */}
             {/* Add Genre Selesai */}
-            <Route path="/AddGenre" element={<AddGenre />} />
+            <Route path="/creategenre" element={<AddGenre />} />
             {/* Edit Genre Selesai */}
-            <Route path="/EditGenre/:id" element={<EditGenre />} />
+            <Route path="/Updategenre/:id" element={<EditGenre />} />
             {/* List Genre Selesai */}
-            <Route path="/Genre" element={<GenrePages />} />
+            <Route path="/listgenre" element={<GenrePages />} />
             {/* GENRE END */}
           </Route>
 

@@ -27,7 +27,7 @@ const UpdateGenreComponent = () => {
             },
             { withCredentials: true }
             )
-            redirect('/Genre')
+            redirect('/listgenre')
             setMessage('Genre updated successfully')
         } catch (error) {
             if (error.response) {
@@ -70,7 +70,7 @@ const UpdateGenreComponent = () => {
             </Form.Group>
             <div className='row'>
                 <div className='col-6'>
-                    <Button href='/Genre' variant='secondary' type='reset' size='md' >
+                    <Button href='/listgenre' variant='secondary' type='reset' size='md' >
                         Cancel
                     </Button>
                     <Button variant='primary' type='submit' size='md' className='m-3'>

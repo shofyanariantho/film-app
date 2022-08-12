@@ -70,7 +70,7 @@ const NavbarComponent = () => {
                 <NavDropdown.Item href="/createdirector">
                   Director
                 </NavDropdown.Item>
-                <NavDropdown.Item href="/addgenre">Genre</NavDropdown.Item>
+                <NavDropdown.Item href="/creategenre">Genre</NavDropdown.Item>
                 <NavDropdown.Item href="/createfilm">Film</NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="List" id="basic-nav-dropdown">
@@ -78,7 +78,7 @@ const NavbarComponent = () => {
                 <NavDropdown.Item href="/listdirector">
                   Director
                 </NavDropdown.Item>
-                <NavDropdown.Item href="/genre">Genre</NavDropdown.Item>
+                <NavDropdown.Item href="/listgenre">Genre</NavDropdown.Item>
                 <NavDropdown.Item href="/listfilm">Film</NavDropdown.Item>
               </NavDropdown>
             </Nav>

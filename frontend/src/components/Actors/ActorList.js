@@ -111,7 +111,7 @@ const ActorList = () => {
                   <td>{actor.actorName}</td>
                   <td className="col-md-3">
                     <Button
-                      href={`createfilmimage/${actor.id}`}
+                      href={`createactorimage/${actor.id}`}
                       variant="default"
                       size="sm"
                     >
@@ -119,7 +119,7 @@ const ActorList = () => {
                       Image
                     </Button>
                     <Button
-                      href={`updatefilm/${actor.id}`}
+                      href={`updateactor/${actor.id}`}
                       variant="default"
                       size="sm"
                     >

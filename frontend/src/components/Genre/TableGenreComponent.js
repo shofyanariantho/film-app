@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect, useContext } from 'react'
 import { Table, Button, Container, Alert, Form } from 'react-bootstrap'
-import { AiFillPlusCircle, AiOutlineEdit, AiFillDelete } from "react-icons/ai";
+import { AiFillPlusCircle, AiOutlineEdit, AiFillDelete, AiOutlineDelete } from "react-icons/ai";
 import { UserContext } from "../../utils/UserContext";
 
 const TableGenreComponent = () => {
@@ -49,7 +49,7 @@ const TableGenreComponent = () => {
             ) : (
                 <div className="row mb-3 align-items-center justify-content-between">
                     <div className="col-6 align-items-center">
-                        <a href="/addgenre" className="btn btn-warning">
+                        <a href="/creategenre" className="btn btn-warning">
                             <AiFillPlusCircle className="fs-4 pb-1" />
                             <span>
                                 {" "}
@@ -108,21 +108,22 @@ const TableGenreComponent = () => {
                                 <td>{index + 1}</td>
                                 <td>{genre.genreName}</td>
 
-                                <td className="col-md-2">
+                                <td className="col-md-3">
                                     <Button
-                                        href={`editgenre/${genre.id}`}
-                                        variant="success"
+                                        href={`updategenre/${genre.id}`}
+                                        variant="default"
                                         size="sm"
                                     >
-                                        <AiOutlineEdit className="fs-5" />
-                                    </Button>{" "}
+                                        <AiOutlineEdit className="fs-5 me-2" />
+                                        Edit
+                                    </Button>
                                     <Button
                                         onClick={() => deleteGenre(genre.id)}
-                                        variant="danger"
+                                        variant=""
                                         size="sm"
                                     >
-                                        <AiFillDelete className="fs-5" />
-                                    </Button>{" "}
+                                        <AiOutlineDelete className="fs-5 me-2" />
+                                    </Button>
                                 </td>
                             </tr>
                         );

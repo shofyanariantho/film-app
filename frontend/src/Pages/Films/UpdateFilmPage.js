@@ -9,13 +9,13 @@ const UpdateFilmPage = () => {
             <NavbarComponent />
             {/* NAVBAR END */}
 
-            <div className="container mt-5" style={{ height: '52vh' }}>
-                <div className="card border">
+            <div className="container align-items-center justify-content-center my-3">
+                <div className="card border ">
                     {/* Page Title */}
-                    <PageTitle title="Update Actor Name" />
+                    <PageTitle title="Update Films" />
 
                     {/* Content */}
-                    <div className="card-body p-0">
+                    <div className="card-body p-3">
                         <UpdateFilms />
                     </div>
                 </div>

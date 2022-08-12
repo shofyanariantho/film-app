@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
 import { Form, Button, Table } from "react-bootstrap";
-import { AiFillPlusCircle, AiOutlineEdit, AiFillDelete } from "react-icons/ai";
+import { AiFillPlusCircle, AiOutlineEdit, AiOutlineDelete, AiOutlineUpload } from "react-icons/ai";
 import { UserContext } from "../../utils/UserContext";
 
 const DirectorList = () => {
@@ -106,28 +106,30 @@ const DirectorList = () => {
                                 <td>{index + 1}</td>
                                 <td>{director.directorName}</td>
 
-                                <td className="col-md-2">
+                                <td className="col-md-3">
                                     <Button
                                         href={`createdirectorimage/${director.id}`}
-                                        variant="primary"
+                                        variant="default"
                                         size="sm"
                                     >
-                                        Upload Image
-                                    </Button>{" "}
+                                        <AiOutlineUpload className="fs-5 me-2" />
+                                        Image
+                                    </Button>
                                     <Button
                                         href={`updatedirector/${director.id}`}
-                                        variant="success"
+                                        variant="default"
                                         size="sm"
                                     >
-                                        <AiOutlineEdit className="fs-5" />
-                                    </Button>{" "}
+                                        <AiOutlineEdit className="fs-5 me-2" />
+                                        Edit
+                                    </Button>
                                     <Button
                                         onClick={() => deleteDirector(director.id)}
-                                        variant="danger"
+                                        variant=""
                                         size="sm"
                                     >
-                                        <AiFillDelete className="fs-5" />
-                                    </Button>{" "}
+                                        <AiOutlineDelete className="fs-5 me-2" />
+                                    </Button>
                                 </td>
                             </tr>
                         );

@@ -25,7 +25,7 @@ const UpdateDirector = () => {
                 {director_name},
                 {withCredentials: true }
             );
-            redirect("/createdirector");
+            redirect("/listdirector");
         } catch (error) {
             console.log(error);
         }
