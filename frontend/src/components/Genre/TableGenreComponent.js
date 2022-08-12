@@ -1,23 +1,30 @@
-import React, { useState, useEffect } from 'react'
-import { Table, Button, Container, Alert} from 'react-bootstrap'
-import { BsPlusLg } from 'react-icons/bs'
-import { BsTrash2 } from 'react-icons/bs'
-import { BsPencil } from 'react-icons/bs'
-import axios from 'axios'
+import axios from 'axios';
+import React, { useState, useEffect, useContext } from 'react'
+import { Table, Button, Container, Alert, Form } from 'react-bootstrap'
+import { AiFillPlusCircle, AiOutlineEdit, AiFillDelete } from "react-icons/ai";
+import { UserContext } from "../../utils/UserContext";
 
 const TableGenreComponent = () => {
     const [genres, setGenres] = useState([])
+    const [searchTerm, setSearchTerm] = useState("");
     const [error, setError] = useState('')
     const [message, setMessage] = useState('')
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
-        const getGenres = async () => {
-            const { data: res } = await axios.get("http://localhost:8000/genre");
-            setGenres(res.genres)
-        }
-        getGenres()
-    }, [])
+        getGenres();
+        deleteGenre();
+    }, []);
 
+    const getGenres = async () => {
+        const { data: res } = await axios.get("http://localhost:8000/genre",
+            { withCredentials: true }
+        )
+            .then(async (response) => {
+                const genres = response.data.genres;
+                setGenres(genres)
+            });
+    };
     const deleteGenre = async (id) => {
         try {
             await axios.delete(`http://localhost:8000/genre/${id}`, { withCredentials: true })
@@ -31,68 +38,98 @@ const TableGenreComponent = () => {
     }
 
     return (
-        <>
-        <Container>
-            <div className='row'>
-                <div className='col-md-11'>
-                    <h3 className='mt-4'>GENRE TABLE </h3>
+        <div className="p-3">
+            {!user ? (
+                <Form.Control
+                    className="py-1 mb-3"
+                    type="string"
+                    placeholder="Search..."
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            ) : (
+                <div className="row mb-3 align-items-center justify-content-between">
+                    <div className="col-6 align-items-center">
+                        <a href="/addgenre" className="btn btn-warning">
+                            <AiFillPlusCircle className="fs-4 pb-1" />
+                            <span>
+                                {" "}
+                                <b>Add New</b>
+                            </span>
+                        </a>
+                    </div>
+
+                    <div className="col-6">
+                        <Form.Control
+                            type="string"
+                            placeholder="Search..."
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
                 </div>
-                <div className='col-md-1 mt-4'>
-                    <Button href='/AddGenre' variant='primary' size='md' className='mb-2'>
-                        <BsPlusLg size={20}/>
-                    </Button>
-                </div>
-            </div>
-            <div className='row'>
-                <div className='col-12'>
-                    {error ? (
-                        <Alert variant='danger'>
-                            {error}
-                        </Alert>
-                    ) : null
-                    }
-                    {message ? (
-                        <Alert variant='primary'>
-                            {message}
-                        </Alert>
-                    ) : null
-                    }
-                </div>
-            </div>
-            <Table striped>
+            )}
+
+            <Table hover>
                 <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Genre</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
+                    {!user ? (
+                        <tr>
+                            <th>No</th>
+                            <th>Genre</th>
+                        </tr>
+                    ) : (
+                        <tr>
+                            <th>No</th>
+                            <th>Genre</th>
+                            <th>Actions</th>
+                        </tr>
+                    )}
                 </thead>
                 <tbody>
-                    {genres.map((genres, index) => (
-                        <tr key={genres.id}>
-                            <td>{index + 1}</td>
-                            <td>{genres.genreName}</td>
-                            <td>
-                                <Button href={`/EditGenre/${genres.id}`} variant="warning" size="sm">
-                                    <BsPencil size={20}/>
-                                </Button>
-                            </td>
-                            <td>
-                                <Button 
-                                    onClick={(handleShow) => deleteGenre(genres.id)}
-                                    variant="danger" 
-                                    size="sm"
-                                >
-                                    <BsTrash2 size={20}/>
-                                </Button>
-                            </td>
-                        </tr>
-                    ))}   
+                    {genres.filter((genre) => {
+                        if (searchTerm === "") {
+                            return genre;
+                        } else if (
+                            genre.genreName
+                                .toLowerCase()
+                                .includes(searchTerm.toLocaleLowerCase())
+                        ) {
+                            return genre;
+                        }
+                    }).map((genre, index) => {
+                        if (!user) {
+                            return (
+                                <tr key={genre.id}>
+                                    <td>{index + 1}</td>
+                                    <td>{genre.genreName}</td>
+                                </tr>
+                            );
+                        }
+                        return (
+                            <tr key={genre.id}>
+                                <td>{index + 1}</td>
+                                <td>{genre.genreName}</td>
+
+                                <td className="col-md-2">
+                                    <Button
+                                        href={`editgenre/${genre.id}`}
+                                        variant="success"
+                                        size="sm"
+                                    >
+                                        <AiOutlineEdit className="fs-5" />
+                                    </Button>{" "}
+                                    <Button
+                                        onClick={() => deleteGenre(genre.id)}
+                                        variant="danger"
+                                        size="sm"
+                                    >
+                                        <AiFillDelete className="fs-5" />
+                                    </Button>{" "}
+                                </td>
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </Table>
-        </Container>
-        </>
+        </div>
     )
 }
 
