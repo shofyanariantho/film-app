@@ -1,7 +1,7 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Row, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../utils/UserContext";
 
@@ -10,8 +10,9 @@ const CreateFilm = () => {
   const [genreArray, setGenreArray] = useState([]);
   const [directorArray, setDirectorArray] = useState([]);
   const [formData, setFormData] = useState({});
+  const [error, setError] = useState(null);
   const redirect = useNavigate();
-  const {user} = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const decoded = jwtDecode(user);
 
   useEffect(() => {
@@ -61,11 +62,14 @@ const CreateFilm = () => {
       redirect("/listFilm");
     } catch (error) {
       console.log(error);
+      // setError(error.response.data);
     }
   };
 
+  console.log(error);
   return (
     <Form onSubmit={saveFilms}>
+      {error ? <Alert variant="danger">{error}</Alert> : null}
       <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
         <Form.Label column sm={2}>
           Title
@@ -77,6 +81,7 @@ const CreateFilm = () => {
             placeholder="Film Title"
             value={formData.judul_film || ""}
             onChange={handleChange}
+            required
           />
         </Col>
       </Form.Group>
@@ -91,6 +96,8 @@ const CreateFilm = () => {
             style={{ height: "100px" }}
             value={formData.description || ""}
             onChange={handleChange}
+            placeholder="Enter description"
+            required
           />
         </Col>
       </Form.Group>
@@ -105,6 +112,7 @@ const CreateFilm = () => {
             placeholder="Enter Rating"
             value={formData.rating_film}
             onChange={handleChange}
+            required
           />
         </Col>
       </Form.Group>
@@ -118,6 +126,7 @@ const CreateFilm = () => {
             aria-label="Default select example"
             onChange={handleChange}
             value={formData.actor_id || ""}
+            required
           >
             <option value={""} selected disabled>
               Choose Actor...
@@ -142,6 +151,7 @@ const CreateFilm = () => {
             aria-label="Default select example"
             onChange={handleChange}
             value={formData.genre_id}
+            required
           >
             <option value={""} selected disabled>
               Choose Genre...
@@ -167,6 +177,7 @@ const CreateFilm = () => {
             aria-label="Default select example"
             onChange={handleChange}
             value={formData.director_id}
+            required
           >
             <option value={""} selected disabled>
               Choose Director...
@@ -182,7 +193,7 @@ const CreateFilm = () => {
           </Form.Select>
         </Col>
       </Form.Group>
-      
+
       <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
         <Form.Label column sm={2}>
           Review
@@ -190,13 +201,16 @@ const CreateFilm = () => {
         <Col sm={10}>
           <Form.Control
             as="textarea"
+            name="review"
+            onChange={handleChange}
+            value={formData.review}
             placeholder="Leave a review here"
-            style={{ height: '100px' }}
+            style={{ height: "100px" }}
+            required
           />
         </Col>
       </Form.Group>
-      
-      
+
       <Button variant="secondary" href="/" className="me-2">
         Cancel
       </Button>
