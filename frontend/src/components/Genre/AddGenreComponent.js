@@ -27,14 +27,11 @@ const AddGenreComponent = () => {
   };
   return (
     <div>
-      <div className="row">
-        <div className="col-12">
-          {error ? <Alert variant="danger">{error}</Alert> : null}
-          {message ? <Alert variant="primary">{message}</Alert> : null}
-        </div>
-      </div>
-      <Form onSubmit={saveGenre} className="mb-4">
-        <Form.Group className="mt-4 mb-4">
+      {error ? <Alert variant="danger">{error}</Alert> : null}
+      {message ? <Alert variant="primary">{message}</Alert> : null}
+
+      <Form onSubmit={saveGenre} className="p-3">
+        <Form.Group className="mb-3">
           <Form.Label>Genre</Form.Label>
           {error ? <Alert variant="danger">{error}</Alert> : null}
 
@@ -46,15 +43,18 @@ const AddGenreComponent = () => {
             placeholder="Genre"
           />
         </Form.Group>
-        <div className="row">
-          <div className="col-6">
-            <Button href="/Genre" variant="secondary" type="reset" size="md">
-              Cancel
-            </Button>
-            <Button variant="primary" type="submit" size="md" className="m-3">
-              Submit
-            </Button>
-          </div>
+        <div className="d-flex justify-content-between">
+          <Button
+            variant="secondary"
+            type="submit"
+            className="me-2"
+            href="/Genre"
+          >
+            Cancel
+          </Button>
+          <Button variant="warning" type="submit">
+            <b>Submit</b>
+          </Button>
         </div>
       </Form>
     </div>

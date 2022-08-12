@@ -211,12 +211,14 @@ const CreateFilm = () => {
         </Col>
       </Form.Group>
 
-      <Button variant="secondary" href="/" className="me-2">
-        Cancel
-      </Button>
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
+      <div className="d-flex justify-content-between">
+        <Button variant="secondary" type="submit" className="me-2" href="/">
+          Cancel
+        </Button>
+        <Button variant="warning" type="submit" className="px-5">
+          <b>Submit</b>
+        </Button>
+      </div>
     </Form>
   );
 };

@@ -5,7 +5,7 @@ import {
   NavbarComponent,
   PageTitle,
 } from "../../components";
-import bgformdirector from "../../assets/images/bg/bgformdirector.jpg";
+import bgformdirector from "../../assets/images/bg/bg.jpg";
 import { Card } from "react-bootstrap";
 
 const CreateFilmPage = () => {
@@ -17,7 +17,7 @@ const CreateFilmPage = () => {
           <div className="col-12 mx-auto my-5">
             <Card>
               {/* Page Title */}
-              <PageTitle title={<b>Add Movie Review</b>} />
+              <PageTitle title="Add Movie Review" />
 
               {/* Content */}
               <div className="card-body p-3">

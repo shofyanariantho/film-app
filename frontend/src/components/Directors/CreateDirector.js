@@ -26,22 +26,28 @@ const CreateDirector = () => {
     <div>
       <Form onSubmit={saveDirectors} bg="dark" className="p-3">
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Director</Form.Label>
+          <Form.Label>Director Name</Form.Label>
           <Form.Control
             type="string"
             value={director_name}
             onChange={(e) => setDirectorName(e.target.value)}
-            placeholder="Enter name"
+            placeholder="Enter full name"
           />
         </Form.Group>
 
-        <Button variant="secondary" type="submit" href="/" className="me-2">
-          Cancel
-        </Button>
-
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
+        <div className="d-flex justify-content-between">
+          <Button
+            variant="secondary"
+            type="submit"
+            className="me-2"
+            href="/listdirector"
+          >
+            Cancel
+          </Button>
+          <Button variant="warning" type="submit">
+            <b>Submit</b>
+          </Button>
+        </div>
       </Form>
     </div>
   );
