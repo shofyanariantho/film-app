@@ -1,18 +1,23 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import jwtDecode from 'jwt-decode';
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
+import { UserContext } from "../../utils/UserContext";
 
 const UpdateFilms = () => {
     const [judul_film, setJudulFilm] = useState('');
     const [description, setDescription] = useState('');
     const [rating_film, setRatingFilm] = useState('');
+    const [review, setReview] = useState('');
     const [user_id, setUserId] = useState('');
     const [actor_id, setActorId] = useState([]);
     const [genre_id, setGenreId] = useState([]);
     const [director_id, setDirectorId] = useState([]);
     const redirect = useNavigate();
     const { id } = useParams();
+    const { user } = useContext(UserContext);
+    const decoded = jwtDecode(user);
 
     useEffect(() => {
         const getFilmById = async () => {
@@ -22,7 +27,8 @@ const UpdateFilms = () => {
             setJudulFilm(res.judulFilm)
             setDescription(res.description)
             setRatingFilm(res.ratingFilm)
-            setUserId(res.userId)
+            setReview(res.review)
+            setUserId(decoded.userId)
             console.log(res)
         };
         getFilmById();
@@ -39,10 +45,10 @@ const UpdateFilms = () => {
                     judul_film,
                     description,
                     rating_film,
-                    user_id,
                     actor_id,
                     genre_id,
-                    director_id
+                    director_id,
+                    review
                 },
                 { withCredentials: true }
             );
@@ -181,7 +187,19 @@ const UpdateFilms = () => {
                 </Col>
             </Form.Group>
 
-        
+            <Form.Group as={Row} className="mb-3" controlId="formHorizontalPassword">
+                <Form.Label column sm={2}>
+                    Review
+                </Form.Label>
+                <Col sm={10}>
+                    <Form.Control
+                        as="textarea"
+                        style={{ height: '100px' }}
+                        value={review}
+                        onChange={(e) => setReview(e.target.value)}
+                    />
+                </Col>
+            </Form.Group>
 
             <div className="d-flex justify-content-between">
                 <Button

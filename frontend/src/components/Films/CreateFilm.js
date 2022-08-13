@@ -40,7 +40,6 @@ const CreateFilm = () => {
     const name = event.target.name;
     const value = event.target.value;
     setFormData((v) => ({ ...v, [name]: value }));
-    console.log(formData);
   };
 
   const saveFilms = async (e) => {
