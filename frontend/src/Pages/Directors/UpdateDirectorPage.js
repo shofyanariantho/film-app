@@ -9,8 +9,11 @@ const UpdateDirectorPage = () => {
             <NavbarComponent />
             {/* NAVBAR END */}
 
-            <div className="container mt-5" style={{ height: '52vh' }}>
-                <div className="card border">
+            <div
+                className="container d-flex align-items-center justify-content-center"
+                style={{ height: "70vh" }}
+            >
+                <div className="card col-7">
                     {/* Page Title */}
                     <PageTitle title="Update Director Name" />
 

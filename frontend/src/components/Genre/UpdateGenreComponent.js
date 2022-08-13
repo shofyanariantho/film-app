@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import {useNavigate, useParams} from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Form, Col, Container, Row, Button, Alert } from 'react-bootstrap'
 
 const UpdateGenreComponent = () => {
@@ -10,14 +10,14 @@ const UpdateGenreComponent = () => {
     const { id } = useParams()
     const [error, setError] = useState('')
 
-    
+
     useEffect(() => {
         const getGenreById = async () => {
             const { data: res } = await axios.get(`http://localhost:8000/genre/${id}`, { withCredentials: true })
             setGenreName(res.data.genreName)
         }
         getGenreById()
-    }, [ id ])
+    }, [id])
 
     const updateGenre = async (e) => {
         e.preventDefault()
@@ -25,7 +25,7 @@ const UpdateGenreComponent = () => {
             await axios.put(`http://localhost:8000/genre/${id}`, {
                 genre_name,
             },
-            { withCredentials: true }
+                { withCredentials: true }
             )
             redirect('/listgenre')
             setMessage('Genre updated successfully')
@@ -37,25 +37,7 @@ const UpdateGenreComponent = () => {
     }
 
     return (
-    <Container>
-        <h3 className='mt-4'>UPDATE GENRE </h3>
-        <div className='row'>
-                <div className='col-12'>
-                    {error ? (
-                        <Alert variant='danger'>
-                            {error}
-                        </Alert>
-                    ) : null
-                    }
-                    {message ? (
-                        <Alert variant='primary'>
-                            {message}
-                        </Alert>
-                    ) : null
-                    }
-                </div>
-            </div>
-        <Form onSubmit={updateGenre}>
+        <Form onSubmit={updateGenre} className="p-3">
             <Form.Group as={Row} className="mb-3" controlId="formBasicEmail">
                 <Form.Label column sm={2}>
                     Genre
@@ -68,18 +50,20 @@ const UpdateGenreComponent = () => {
                     />
                 </Col>
             </Form.Group>
-            <div className='row'>
-                <div className='col-6'>
-                    <Button href='/listgenre' variant='secondary' type='reset' size='md' >
-                        Cancel
-                    </Button>
-                    <Button variant='primary' type='submit' size='md' className='m-3'>
-                        Update
-                    </Button>
-                </div>
+            <div className="d-flex justify-content-between">
+                <Button
+                    variant="secondary"
+                    type="submit"
+                    className="me-2"
+                    href="/listgenre"
+                >
+                    Cancel
+                </Button>
+                <Button variant="warning" type="submit">
+                    <b>Submit</b>
+                </Button>
             </div>
         </Form>
-    </Container>
     )
 }
 

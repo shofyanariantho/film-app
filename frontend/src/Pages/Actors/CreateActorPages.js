@@ -29,4 +29,4 @@ const CreateActorPages = () => {
     </div>
   );
 };
-export default CreateActorPages;
+export default CreateActorPages
