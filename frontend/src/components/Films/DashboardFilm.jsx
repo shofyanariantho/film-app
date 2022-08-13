@@ -39,7 +39,7 @@ const DashboardFilm = () => {
         </div>
         {Films.map((result, index) => {
           return (
-            <Col lg key={index}>
+            <Col md={4} key={index}>
               <Card
                 className="mb-3"
                 style={{ cursor: "pointer" }}

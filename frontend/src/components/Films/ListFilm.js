@@ -1,7 +1,13 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Button, Table, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { AiFillPlusCircle, AiOutlineEdit, AiFillDelete, AiOutlineDelete, AiOutlineUpload } from "react-icons/ai";
+import {
+  AiFillPlusCircle,
+  AiOutlineEdit,
+  AiFillDelete,
+  AiOutlineDelete,
+  AiOutlineUpload,
+} from "react-icons/ai";
 import { UserContext } from "../../utils/UserContext";
 
 const ListFilm = () => {
@@ -123,7 +129,14 @@ const ListFilm = () => {
             return (
               <tr key={film.id}>
                 <td>{index + 1}</td>
-                <td>{film.judulFilm}</td>
+                <td>
+                  <a
+                    href={`/film/${film.id}`}
+                    className="text-decoration-none fw-bold text-dark"
+                  >
+                    {film.judulFilm}
+                  </a>
+                </td>
                 <td>{film.description}</td>
                 <td>{film.ratingFilm}</td>
                 <td>{film.genreName}</td>
@@ -131,30 +144,30 @@ const ListFilm = () => {
                 <td>{film.directorName}</td>
 
                 <td className="col-md-3">
-                    <Button
-                      href={`createfilmimage/${film.id}`}
-                      variant="default"
-                      size="sm"
-                    >
-                      <AiOutlineUpload className="fs-5 me-2" />
-                      Image
-                    </Button>
-                    <Button
-                      href={`updatefilm/${film.id}`}
-                      variant="default"
-                      size="sm"
-                    >
-                      <AiOutlineEdit className="fs-5 me-2" />
-                      Edit
-                    </Button>
-                    <Button
-                      onClick={() => deleteFilms(film.id)}
-                      variant=""
-                      size="sm"
-                    >
-                      <AiOutlineDelete className="fs-5 me-2" />
-                    </Button>
-                  </td>
+                  <Button
+                    href={`createfilmimage/${film.id}`}
+                    variant="default"
+                    size="sm"
+                  >
+                    <AiOutlineUpload className="fs-5 me-2" />
+                    Image
+                  </Button>
+                  <Button
+                    href={`updatefilm/${film.id}`}
+                    variant="default"
+                    size="sm"
+                  >
+                    <AiOutlineEdit className="fs-5 me-2" />
+                    Edit
+                  </Button>
+                  <Button
+                    onClick={() => deleteFilms(film.id)}
+                    variant=""
+                    size="sm"
+                  >
+                    <AiOutlineDelete className="fs-5 me-2" />
+                  </Button>
+                </td>
               </tr>
             );
           })}
