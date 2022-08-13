@@ -113,6 +113,7 @@ exports.update = async (req, res) => {
       actor_id,
       genre_id,
       director_id,
+      review,
     } = req.body;
     if (!description)
       return res.json({ message: "Description name required!" });
@@ -126,6 +127,7 @@ exports.update = async (req, res) => {
       actor_id: actor_id,
       genre_id: genre_id,
       director_id: director_id,
+      review: review,
     });
 
     return res.json({
