@@ -34,6 +34,7 @@ const ActorComponent = () => {
         <Image
           src={`http://localhost:8000/images/actor/${actorImage}`}
           className="img-fluid mt-3 mb-2"
+          style={{ height: "70vh" }}
         />
       </Container>
     </div>

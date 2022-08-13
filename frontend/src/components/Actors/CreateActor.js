@@ -32,6 +32,7 @@ const CreateActor = () => {
             value={actor_name}
             onChange={(e) => setActorName(e.target.value)}
             placeholder="Enter full name"
+            required
           />
         </Form.Group>
 

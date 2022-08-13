@@ -1,10 +1,9 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Table, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Button, Table, Form, Modal } from "react-bootstrap";
 import {
   AiFillPlusCircle,
   AiOutlineEdit,
-  AiFillDelete,
   AiOutlineDelete,
   AiOutlineUpload,
 } from "react-icons/ai";
@@ -14,6 +13,10 @@ const ListFilm = () => {
   const [Films, setFilms] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const { user } = useContext(UserContext);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(() => {
     getFilms();
@@ -35,6 +38,7 @@ const ListFilm = () => {
       await axios.delete(`http://localhost:8000/film/${id}`, {
         withCredentials: true,
       });
+      handleClose();
       getFilms();
     } catch (error) {}
   };
@@ -117,7 +121,14 @@ const ListFilm = () => {
               return (
                 <tr key={film.id}>
                   <td>{index + 1}</td>
-                  <td>{film.judulFilm}</td>
+                  <td>
+                    <a
+                      href={`/film/${film.id}`}
+                      className="text-decoration-none fw-bold text-dark"
+                    >
+                      {film.judulFilm}
+                    </a>
+                  </td>
                   <td>{film.description}</td>
                   <td>{film.ratingFilm}</td>
                   <td>{film.genreName}</td>
@@ -160,13 +171,31 @@ const ListFilm = () => {
                     <AiOutlineEdit className="fs-5 me-2" />
                     Edit
                   </Button>
-                  <Button
-                    onClick={() => deleteFilms(film.id)}
-                    variant=""
-                    size="sm"
-                  >
+
+                  <Button onClick={handleShow} variant="" size="sm">
                     <AiOutlineDelete className="fs-5 me-2" />
                   </Button>
+
+                  <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                      <Modal.Title>Modal heading</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      Are you sure, you wanna delete <b>{film.judulFilm}</b>?
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={handleClose}>
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={() => deleteFilms(film.id)}
+                        variant="danger"
+                      >
+                        <AiOutlineDelete className="fs-5 me-2" />
+                        Delete
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
                 </td>
               </tr>
             );

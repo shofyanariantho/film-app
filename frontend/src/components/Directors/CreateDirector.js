@@ -32,6 +32,7 @@ const CreateDirector = () => {
             value={director_name}
             onChange={(e) => setDirectorName(e.target.value)}
             placeholder="Enter full name"
+            required
           />
         </Form.Group>
 
