@@ -47,7 +47,7 @@ function App() {
             {/* Selesai */}
             <Route path="/updateactor/:id" element={<UpdateActorPage />} />
             {/* Selesai */}
-            <Route path="/Actor/:id" element={<ShowActorPage />} />
+
             {/* selesai */}
 
             {/* ACTORR END */}
@@ -61,7 +61,7 @@ function App() {
               element={<CreateDirectorImagePage />}
             />
             {/* Show Director Selesai */}
-            <Route path="/Director/:id" element={<ShowDirectorPage />} />
+
             {/* Update Actor Selesai */}
             <Route
               path="/updateDirector/:id"
@@ -72,20 +72,14 @@ function App() {
             {/* DIRECTORRR END */}
 
             {/* FILMMM */}
-            {/* Error Blm bisa masuk datanya */}
+
             <Route path="/createfilm" element={<CreateFilmPage />} />
-            {/* create filmm image sedikit lagi cuma error login */}
+
             <Route
               path="/createfilmimage/:id"
               element={<CreateImageFilmPage />}
             />
-            {/* Gagal Pada saat menampilkan aktor, director, dan genre yang harusnya nama malah hanya Id nya saja */}
 
-            {/* Masih gabisa nampilin nama nya hanya bisa id nya saja */}
-            <Route path="/film/:id" element={<ShowFilmPage />} />
-            {/* masih blm berdasarkan genre */}
-
-            {/* blm selesai */}
             <Route path="/updateFilm/:id" element={<UpdateFilmPage />} />
             {/* FILMMM END */}
 
@@ -99,6 +93,9 @@ function App() {
             {/* GENRE END */}
           </Route>
 
+          <Route path="/Director/:id" element={<ShowDirectorPage />} />
+          <Route path="/Actor/:id" element={<ShowActorPage />} />
+          <Route path="/film/:id" element={<ShowFilmPage />} />
           <Route path="/listdirector" element={<ListDirectorPage />} />
           <Route path="/listactor" element={<ListActorPage />} />
           <Route path="/ListFilm" element={<ListFilmPage />} />
