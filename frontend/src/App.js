@@ -37,60 +37,36 @@ function App() {
           {/* Private Route */}
           <Route element={<PrivateRoutes />}>
             {/* ACTORRR */}
-            {/* selesai */}
             <Route path="/createactor" element={<CreateActorPages />} />
-            {/* create actor image sedikit lagi cuma error login */}
             <Route
               path="/createactorimage/:id"
               element={<CreateActorImagePage />}
             />
-            {/* Selesai */}
             <Route path="/updateactor/:id" element={<UpdateActorPage />} />
-            {/* Selesai */}
-
-            {/* selesai */}
-
-            {/* ACTORR END */}
 
             {/* DIRECTORRR */}
-            {/* create director sedikit masalah habis input tidak otomatis ke get namun jika direstart akan muncul */}
             <Route path="/CreateDirector" element={<CreateDirectorPage />} />
-            {/* create director image sedikit lagi cuma error login */}
             <Route
               path="/createdirectorimage/:id"
               element={<CreateDirectorImagePage />}
             />
-            {/* Show Director Selesai */}
-
-            {/* Update Actor Selesai */}
             <Route
               path="/updateDirector/:id"
               element={<UpdateDirectorPage />}
             />
-            {/* selesai */}
-
-            {/* DIRECTORRR END */}
 
             {/* FILMMM */}
-
             <Route path="/createfilm" element={<CreateFilmPage />} />
-
             <Route
               path="/createfilmimage/:id"
               element={<CreateImageFilmPage />}
             />
-
             <Route path="/updateFilm/:id" element={<UpdateFilmPage />} />
-            {/* FILMMM END */}
 
             {/* GENRE */}
-            {/* Add Genre Selesai */}
             <Route path="/creategenre" element={<AddGenre />} />
-            {/* Edit Genre Selesai */}
             <Route path="/Updategenre/:id" element={<EditGenre />} />
-            {/* List Genre Selesai */}
             <Route path="/listgenre" element={<GenrePages />} />
-            {/* GENRE END */}
           </Route>
 
           <Route path="/Director/:id" element={<ShowDirectorPage />} />
