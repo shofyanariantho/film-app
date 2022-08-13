@@ -73,7 +73,7 @@ const DashboardFilm = () => {
                       >
                         {result.judulFilm}
                       </Card.Title>
-                      <Card.Text className="text-left">
+                      <Card.Text className="text-light">
                         {result.description}
                       </Card.Text>
                     </div>

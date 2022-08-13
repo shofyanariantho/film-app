@@ -1,6 +1,6 @@
 import React from "react";
 import { Footer, ListFilm, NavbarComponent, PageTitle } from "../../components";
-import bgformdirector from "../../assets/images/bg/bgformdirector.jpg";
+import bgformdirector from "../../assets/images/bg/bg.jpg";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { Card, Col, Row, Form } from "react-bootstrap";
 
